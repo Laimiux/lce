@@ -1,0 +1,30 @@
+apply plugin: "signing"
+apply plugin: "com.vanniktech.maven.publish"
+
+if (project.hasProperty('releaseBuild')) {
+    println "configuring signing key"
+
+    Properties properties = new Properties()
+    if (project.rootProject.file('local.properties').exists()) {
+        properties.load(project.rootProject.file('local.properties').newDataInputStream())
+    }
+
+    signing {
+        def signingKeyFilename = properties.signingKey
+
+        def signingKey = "${project.rootProject.file(signingKeyFilename).newDataInputStream()}"
+        def signingPassword = properties.signingPassword
+
+        useInMemoryPgpKeys(signingKey, signingPassword)
+    }
+
+    mavenPublish {
+        targets {
+            // Modify the existing uploadArchives task
+            uploadArchives {
+                repositoryUsername = properties.SONATYPE_NEXUS_USERNAME
+                repositoryPassword = properties.SONATYPE_NEXUS_PASSWORD
+            }
+        }
+    }
+}

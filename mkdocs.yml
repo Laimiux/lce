@@ -1,0 +1,20 @@
+site_name: LCE
+
+repo_name: 'LCE'
+repo_url: 'https://github.com/laimiux/lce'
+
+theme:
+  name: 'material'
+  palette:
+    primary: 'green'
+
+extra_css:
+  - 'css/app.css'
+
+
+markdown_extensions:
+  - codehilite:
+      guess_lang: false
+
+nav:
+  - 'Overview': index.md

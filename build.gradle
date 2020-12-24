@@ -1,0 +1,68 @@
+apply from: 'dependencies.gradle'
+apply plugin: "com.github.ben-manes.versions"
+
+buildscript {
+    ext {
+        kotlinVersion = '1.4.20'
+
+        versions = [:]
+        libraries = [:]
+        constants = [
+                minSdk      : 21,
+                targetSdk   : 29,
+                compileSdk  : 29
+        ]
+    }
+
+    repositories {
+        google()
+        mavenCentral()
+        jcenter()
+        maven { url 'https://jitpack.io' }
+    }
+
+    dependencies {
+        classpath 'com.android.tools.build:gradle:4.1.1'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
+        classpath "com.vanniktech:gradle-android-junit-jacoco-plugin:0.16.0"
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
+        classpath "com.github.ben-manes:gradle-versions-plugin:0.28.0"
+        classpath "org.jetbrains.dokka:dokka-gradle-plugin:0.9.18"
+        classpath "org.jetbrains.dokka:dokka-android-gradle-plugin:0.9.18"
+        classpath "com.vanniktech:gradle-maven-publish-plugin:0.9.0"
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+        jcenter()
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
+
+apply plugin: "com.vanniktech.android.junit.jacoco"
+junitJacoco {
+    // WARNING! Don't upgrade unless https://github.com/Malinskiy/danger-jacoco/issues/10 is fixed
+    jacocoVersion = '0.8.2'
+    excludes = [
+            // Defaults
+            '**/androidx/**/*.*',
+            '**/*$$*',
+            '**/BuildConfig.*',
+            '**/Manifest*.*',
+            '**/*$Lambda$*.*', // Jacoco can not handle several "$" in class name.
+            '**/*$inlined$*.*', // Kotlin specific, Jacoco can not handle several "$" in class name.
+            '**/com/laimiux/lce/test/**/*.*'
+    ]
+    ignoreProjects = [
+            "samples/*"
+    ]
+    includeNoLocationClasses = true
+    includeInstrumentationCoverageInMergedReport = true
+}
+apply from: 'gradle/merge-reports.gradle'
