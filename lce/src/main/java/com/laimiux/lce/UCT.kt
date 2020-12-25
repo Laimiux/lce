@@ -8,7 +8,7 @@ interface UCT<out C> {
     companion object {
         fun <T> content(content: T) = Type.Content(content)
 
-        fun error(error: Throwable) = Type.ThrowableError(error)
+        fun error(error: Throwable) = Type.Error(error)
 
         fun loading() = Type.UnitLoading
     }
@@ -27,21 +27,21 @@ interface UCT<out C> {
      * Returns null when current state is loading otherwise returns [CT].
      */
     fun asCT(): CT<C>? {
-        return when (val type = asLceType()) {
-            is Type.Content -> type
-            is Type.ThrowableError -> type
-            else -> null
-        }
+        return foldTypes(
+            onLoading = { null },
+            onContent = { it },
+            onError = { it }
+        )
     }
 
     /**
      * Returns null when current state is loading otherwise returns [CE].
      */
     fun asCE(): CE<C, Throwable>? {
-        return when (val type = asLceType()) {
-            is Type.Content -> type
-            is Type.ThrowableError -> type
-            else -> null
-        }
+        return foldTypes(
+            onLoading = { null },
+            onContent = { it },
+            onError = { it }
+        )
     }
 }

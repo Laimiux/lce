@@ -8,7 +8,7 @@ interface CT<out C> {
     companion object {
         fun <T> content(content: T) = Type.Content(content)
 
-        fun error(error: Throwable) = Type.ThrowableError(error)
+        fun error(error: Throwable) = Type.Error(error)
     }
 
     fun isContent(): Boolean

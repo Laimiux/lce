@@ -17,11 +17,10 @@ inline fun <ContentT, T> UCT<ContentT>.fold(
     crossinline onError: (Throwable) -> T,
     crossinline onContent: (ContentT) -> T
 ): T {
-    val type = this.asLceType()
-    return type.fold(
+    return foldTypes(
         onLoading = { onLoading() },
-        onError = onError,
-        onContent = onContent
+        onContent = { onContent(it.value) } ,
+        onError = { onError(it.value) }
     )
 }
 

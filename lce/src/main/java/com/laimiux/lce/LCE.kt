@@ -8,7 +8,7 @@ interface LCE<out L, out C, out E> {
     companion object {
         fun <T> content(content: T) = Type.Content(content)
 
-        fun error(error: Throwable) = Type.ThrowableError(error)
+        fun error(error: Throwable) = Type.Error(error)
         fun <T> error(error: T) = Type.Error(error)
 
         fun loading() = Type.UnitLoading
