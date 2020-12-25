@@ -60,6 +60,18 @@ fun render(event: UCT<MyData>) {
 }
 ```
 
+### Map Content
+You can map from one content type to another. You can also use this to transform the content
+```kotlin
+LCE.content("Hello").mapContent {
+  "$it World!"
+}
+
+LCE.content(0).mapContent { it + 1 }
+```
+
+
+
 TODO:
 - Useful methods such as fold / mapContent / mapError
 - RxJava3 extensions

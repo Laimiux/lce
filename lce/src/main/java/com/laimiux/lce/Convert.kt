@@ -71,11 +71,3 @@ fun <ContentT> UC<ContentT>.asUCT(): UCT<ContentT> {
         onContent = { it }
     )
 }
-
-internal fun Type.Loading<Unit>.asUnitLoading(): Type.Loading.UnitType {
-    return Type.Loading.UnitType
-}
-
-internal fun Type.Error<Throwable>.asThrowableError(): Type.Error.ThrowableType {
-    return this as Type.Error.ThrowableType
-}
