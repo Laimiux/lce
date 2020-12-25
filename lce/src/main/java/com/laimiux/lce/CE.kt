@@ -20,19 +20,3 @@ interface CE<out C, out E> {
 
     fun asLceType(): Type<Any?, C, E>
 }
-
-inline fun <ContentT> CE<ContentT, Throwable>.asCT(): CT<ContentT> {
-    return when(val type = asLceType()) {
-        is Type.Content -> type
-        is Type.ThrowableError -> type
-        else -> throw IllegalStateException("this should not happen: $type")
-    }
-}
-
-inline fun <ContentT> CE<ContentT, Throwable>.asUCT(): UCT<ContentT> {
-    return when(val type = asLceType()) {
-        is Type.Content -> type
-        is Type.ThrowableError -> type
-        else -> throw IllegalStateException("this should not happen: $type")
-    }
-}

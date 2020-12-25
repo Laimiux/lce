@@ -1,5 +1,11 @@
 package com.laimiux.lce
 
+inline fun <ContentT, NewT> Type.Content<ContentT>.mapContent(
+    crossinline map: (ContentT) -> NewT
+): Type.Content<NewT> {
+    return Type.Content(map(value))
+}
+
 @Suppress("UNCHECKED_CAST")
 inline fun <LoadingT, ContentT, ErrorT, NewT> LCE<LoadingT, ContentT, ErrorT>.mapContent(
     crossinline map: (ContentT) -> NewT

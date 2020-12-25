@@ -26,13 +26,3 @@ interface LCE<out L, out C, out E> {
 
     fun asLceType(): Type<L, C, E>
 }
-
-fun <ContentT> LCE<Unit, ContentT, Throwable>.asUCT(): UCT<ContentT> {
-    return when (val type = asLceType()) {
-        is Type.Content -> type
-        is Type.ThrowableError -> type
-        is Type.UnitLoading -> type
-        else -> throw IllegalStateException("this should not happen: $type")
-    }
-}
-

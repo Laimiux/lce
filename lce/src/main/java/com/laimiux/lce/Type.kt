@@ -97,6 +97,7 @@ sealed class Type<out L, out C, out E> : LCE<L, C, E> {
         override fun asLceType(): Type<Nothing, T, Nothing> = this
     }
 
+    @Suppress("UNCHECKED_CAST")
     inline fun <T> fold(
         crossinline onLoading: (L) -> T,
         crossinline onError: (E) -> T,
@@ -110,10 +111,4 @@ sealed class Type<out L, out C, out E> : LCE<L, C, E> {
             is Content -> onContent(value)
         }
     }
-}
-
-inline fun <ContentT, NewT> Type.Content<ContentT>.mapContent(
-    crossinline map: (ContentT) -> NewT
-): Type.Content<NewT> {
-    return Type.Content(map(value))
 }
