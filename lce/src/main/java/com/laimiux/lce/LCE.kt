@@ -11,8 +11,8 @@ interface LCE<out L, out C, out E> {
         fun error(error: Throwable) = Type.Error(error)
         fun <T> error(error: T) = Type.Error(error)
 
-        fun loading() = Type.UnitLoading
-        fun loading(unit: Unit) = Type.UnitLoading
+        fun loading() = Type.Loading()
+        fun loading(unit: Unit) = Type.Loading(unit)
         fun <T> loading(loading: T) = Type.Loading(loading)
     }
 

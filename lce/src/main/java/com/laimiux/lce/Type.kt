@@ -4,28 +4,27 @@ package com.laimiux.lce
  * A sealed class that supports all of LCE types and subtypes.
  */
 sealed class Type<out L, out C, out E> : LCE<L, C, E> {
-    object UnitLoading :
-        Type<Unit, Nothing, Nothing>(),
-        LCE<Unit, Nothing, Nothing>,
-        UCT<Nothing>,
-        UC<Nothing> {
-
-        override fun isLoading(): Boolean = true
-        override fun isContent(): Boolean = false
-        override fun isError(): Boolean = false
-
-        override fun contentOrNull(): Nothing? = null
-        override fun errorOrNull(): Nothing? = null
-        override fun loadingOrNull(): Unit = Unit
-
-        override fun asLceType(): Type<Unit, Nothing, Nothing> = this
-    }
-
-    data class Loading<T> internal constructor(
-        val value: T
-    ) :
+    sealed class Loading<T>() :
         Type<T, Nothing, Nothing>(),
         LCE<T, Nothing, Nothing> {
+
+        companion object {
+            operator fun invoke() = Unit
+
+            @Suppress("UNUSED_PARAMETER")
+            operator fun invoke(unit: Unit) = Unit
+
+            @Suppress("UNCHECKED_CAST")
+            operator fun <T> invoke(type: T): Loading<T>  {
+                return if (type == kotlin.Unit) {
+                    Unit as Loading<T>
+                } else {
+                    Typed(type)
+                }
+            }
+        }
+
+        abstract val value: T
 
         override fun isLoading(): Boolean = true
         override fun isContent(): Boolean = false
@@ -36,6 +35,29 @@ sealed class Type<out L, out C, out E> : LCE<L, C, E> {
         override fun loadingOrNull(): T = value
 
         override fun asLceType(): Type<T, Nothing, Nothing> = this
+
+        object Unit : Loading<kotlin.Unit>(),
+            UCT<Nothing>,
+            UC<Nothing> {
+
+            override val value: kotlin.Unit = kotlin.Unit
+
+            override fun isLoading(): Boolean = true
+            override fun isContent(): Boolean = false
+            override fun isError(): Boolean = false
+
+            override fun contentOrNull(): Nothing? = null
+            override fun errorOrNull(): Nothing? = null
+            override fun loadingOrNull(): kotlin.Unit = kotlin.Unit
+
+            override fun asLceType(): Type<kotlin.Unit, Nothing, Nothing> = this
+        }
+
+        data class Typed<T> @PublishedApi internal constructor(
+            override val value: T
+        ) : Loading<T>() {
+
+        }
     }
 
     sealed class Error<out T>() :
@@ -46,6 +68,7 @@ sealed class Type<out L, out C, out E> : LCE<L, C, E> {
         companion object {
             operator fun invoke(throwable: Throwable) = ThrowableError(throwable)
 
+            @Suppress("UNCHECKED_CAST")
             operator fun <T> invoke(value: T): Error<T> {
                 return if (value is Throwable) {
                     ThrowableError(value) as Error<T>
@@ -167,7 +190,6 @@ sealed class Type<out L, out C, out E> : LCE<L, C, E> {
     ): T {
         return when (this) {
             is Loading -> onLoading(value)
-            is UnitLoading -> onLoading(Unit as L)
             is Error -> onError(value)
             is Content -> onContent(value)
         }

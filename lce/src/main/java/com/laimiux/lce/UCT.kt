@@ -10,7 +10,7 @@ interface UCT<out C> {
 
         fun error(error: Throwable) = Type.Error(error)
 
-        fun loading() = Type.UnitLoading
+        fun loading() = Type.Loading()
     }
 
     fun isLoading(): Boolean

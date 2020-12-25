@@ -7,7 +7,7 @@ package com.laimiux.lce
 interface UC<out C> {
     companion object {
         fun <T> content(value: T) = Type.Content(value)
-        fun loading() = Type.UnitLoading
+        fun loading() = Type.Loading()
     }
 
     fun isLoading(): Boolean
