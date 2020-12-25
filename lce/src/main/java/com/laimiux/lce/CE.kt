@@ -21,19 +21,15 @@ interface CE<out C, out E> {
     fun asLceType(): Type<Any?, C, E>
 }
 
-inline fun <ContentT, ErrorT, T> CE<ContentT, ErrorT>.fold(
-    crossinline onError: (ErrorT) -> T,
-    crossinline onContent: (ContentT) -> T
-): T {
-    val type = asLceType()
-    return type.fold(
-        onLoading = { throw IllegalStateException("unsupported: $this") },
-        onError = onError,
-        onContent = onContent
-    )
+inline fun <ContentT> CE<ContentT, Throwable>.asCT(): CT<ContentT> {
+    return when(val type = asLceType()) {
+        is Type.Content -> type
+        is Type.ThrowableError -> type
+        else -> throw IllegalStateException("this should not happen: $type")
+    }
 }
 
-inline fun <ContentT> CE<ContentT, Throwable>.asCT(): CT<ContentT> {
+inline fun <ContentT> CE<ContentT, Throwable>.asUCT(): UCT<ContentT> {
     return when(val type = asLceType()) {
         is Type.Content -> type
         is Type.ThrowableError -> type

@@ -27,17 +27,7 @@ interface LCE<out L, out C, out E> {
     fun asLceType(): Type<L, C, E>
 }
 
-inline fun <LoadingT, ContentT, ErrorT, T> LCE<LoadingT, ContentT, ErrorT>.fold(
-    crossinline onLoading: (LoadingT) -> T,
-    crossinline onError: (ErrorT) -> T,
-    crossinline onContent: (ContentT) -> T
-): T {
-    return asLceType().fold(
-        onLoading = onLoading,
-        onError = onError,
-        onContent = onContent
-    )
-}
+
 
 @Suppress("UNCHECKED_CAST")
 inline fun <LoadingT, ContentT, ErrorT, NewT> LCE<LoadingT, ContentT, ErrorT>.mapContent(

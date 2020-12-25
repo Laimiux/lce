@@ -48,19 +48,6 @@ interface UCT<out C> {
 
 fun <T> T.toUCT() = UCT.content(this)
 
-inline fun <ContentT, T> UCT<ContentT>.fold(
-    crossinline onLoading: () -> T,
-    crossinline onError: (Throwable) -> T,
-    crossinline onContent: (ContentT) -> T
-): T {
-    val type = this.asLceType()
-    return type.fold(
-        onLoading = { onLoading() },
-        onError = onError,
-        onContent = onContent
-    )
-}
-
 @Suppress("UNCHECKED_CAST")
 inline fun <ContentT, NewT> UCT<ContentT>.mapContent(
     crossinline map: (ContentT) -> NewT

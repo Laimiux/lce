@@ -19,15 +19,3 @@ interface CT<out C> {
 
     fun asLceType(): Type<Any?, C, Throwable>
 }
-
-inline fun <ContentT, T> CT<ContentT>.fold(
-    crossinline onError: (Throwable) -> T,
-    crossinline onContent: (ContentT) -> T
-): T {
-    val type = asLceType()
-    return type.fold(
-        onLoading = { throw IllegalStateException("unsupported: $this") },
-        onError = onError,
-        onContent = onContent
-    )
-}

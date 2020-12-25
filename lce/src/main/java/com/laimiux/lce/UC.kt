@@ -18,14 +18,3 @@ interface UC<out C> {
 
     fun asLceType(): Type<Any?, C, Nothing>
 }
-
-inline fun <ContentT, T> UC<ContentT>.fold(
-    crossinline onLoading: (Any?) -> T,
-    crossinline onContent: (ContentT) -> T
-): T {
-    return asLceType().fold(
-        onLoading = onLoading,
-        onError = Utils.HANDLE_NOTHING,
-        onContent = onContent
-    )
-}
