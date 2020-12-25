@@ -55,9 +55,7 @@ sealed class Type<out L, out C, out E> : LCE<L, C, E> {
 
         data class Typed<T> @PublishedApi internal constructor(
             override val value: T
-        ) : Loading<T>() {
-
-        }
+        ) : Loading<T>()
     }
 
     sealed class Error<out T>() :
@@ -96,7 +94,7 @@ sealed class Type<out L, out C, out E> : LCE<L, C, E> {
 
             inline fun mapError(
                 crossinline map: (T) -> Throwable
-            ): Type.Error.ThrowableError {
+            ): ThrowableError {
                 return ThrowableError(map(value))
             }
 
@@ -182,7 +180,6 @@ sealed class Type<out L, out C, out E> : LCE<L, C, E> {
         }
     }
 
-    @Suppress("UNCHECKED_CAST")
     inline fun <T> fold(
         crossinline onLoading: (L) -> T,
         crossinline onError: (E) -> T,

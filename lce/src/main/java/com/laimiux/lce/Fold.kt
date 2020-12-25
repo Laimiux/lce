@@ -5,10 +5,10 @@ inline fun <LoadingT, ContentT, ErrorT, T> LCE<LoadingT, ContentT, ErrorT>.fold(
     crossinline onError: (ErrorT) -> T,
     crossinline onContent: (ContentT) -> T
 ): T {
-    return asLceType().fold(
-        onLoading = onLoading,
-        onError = onError,
-        onContent = onContent
+    return foldTypes(
+        onLoading = { onLoading(it.value) },
+        onContent = { onContent(it.value) },
+        onError = { onError(it.value) }
     )
 }
 
@@ -28,11 +28,9 @@ inline fun <ContentT, ErrorT, T> CE<ContentT, ErrorT>.fold(
     crossinline onError: (ErrorT) -> T,
     crossinline onContent: (ContentT) -> T
 ): T {
-    val type = asLceType()
-    return type.fold(
-        onLoading = { throw IllegalStateException("should not happen: $this") },
-        onError = onError,
-        onContent = onContent
+    return foldTypes(
+        onContent = { onContent(it.value) },
+        onError = { onError(it.value) }
     )
 }
 
@@ -40,21 +38,18 @@ inline fun <ContentT, T> CT<ContentT>.fold(
     crossinline onError: (Throwable) -> T,
     crossinline onContent: (ContentT) -> T
 ): T {
-    val type = asLceType()
-    return type.fold(
-        onLoading = Utils.NOT_REACHABLE,
-        onError = onError,
-        onContent = onContent
+    return foldTypes(
+        onContent = { onContent(it.value) },
+        onError = { onError(it.value) }
     )
 }
 
 inline fun <ContentT, T> UC<ContentT>.fold(
-    crossinline onLoading: (Any?) -> T,
+    crossinline onLoading: () -> T,
     crossinline onContent: (ContentT) -> T
 ): T {
-    return asLceType().fold(
-        onLoading = onLoading,
-        onError = Utils.NOT_REACHABLE,
-        onContent = onContent
+    return foldTypes(
+        onLoading = { onLoading() },
+        onContent = { onContent(it.value) }
     )
 }
