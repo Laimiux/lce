@@ -63,7 +63,7 @@ class FoldTest {
     }
 
     @Test fun `fold CT error`() {
-        val value = CT.error(MyException(0))
+        val value = CT.error(TestException(0))
         val result = fold(value)
         assertThat(result).isEqualTo("error: 0")
     }
@@ -117,7 +117,4 @@ class FoldTest {
         )
     }
 
-    class MyException(val text: Any): Throwable() {
-        override fun toString(): String = text.toString()
-    }
 }
