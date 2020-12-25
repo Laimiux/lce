@@ -6,52 +6,53 @@ inline fun <ContentT, NewT> Type.Content<ContentT>.mapContent(
     return Type.Content(map(value))
 }
 
-@Suppress("UNCHECKED_CAST")
 inline fun <LoadingT, ContentT, ErrorT, NewT> LCE<LoadingT, ContentT, ErrorT>.mapContent(
     crossinline map: (ContentT) -> NewT
 ): LCE<LoadingT, NewT, ErrorT> {
-    return when (val type = asLceType()) {
-        is Type.Content -> LCE.content(map(type.value))
-        else -> this as LCE<LoadingT, NewT, ErrorT>
-    }
+    return foldTypes(
+        onLoading = { it },
+        onContent = { LCE.content(map(it.value)) },
+        onError = { it }
+    )
 }
 
 @Suppress("UNCHECKED_CAST")
 inline fun <ContentT, NewT> UCT<ContentT>.mapContent(
     crossinline map: (ContentT) -> NewT
 ): UCT<NewT> {
-    return when (val type = asLceType()) {
-        is Type.Content -> UCT.content(map(type.value))
-        else -> this as UCT<NewT>
-    }
+    return foldTypes(
+        onLoading = { it },
+        onContent = { UCT.content(map(it.value)) },
+        onError = { it }
+    )
 }
 
 @Suppress("UNCHECKED_CAST")
 inline fun <ContentT, ErrorT, NewT> CE<ContentT, ErrorT>.mapContent(
     crossinline map: (ContentT) -> NewT
 ): CE<NewT, ErrorT> {
-    return when (val type = asLceType()) {
-        is Type.Content -> CE.content(map(type.value))
-        else -> this as CE<NewT, ErrorT>
-    }
+    return foldTypes(
+        onContent = { CE.content(map(it.value)) },
+        onError = { it }
+    )
 }
 
 @Suppress("UNCHECKED_CAST")
 inline fun <ContentT, NewT> CT<ContentT>.mapContent(
     crossinline map: (ContentT) -> NewT
 ): CT<NewT> {
-    return when (val type = asLceType()) {
-        is Type.Content -> CT.content(map(type.value))
-        else -> this as CT<NewT>
-    }
+    return foldTypes(
+        onContent = { CT.content(map(it.value)) },
+        onError = { it }
+    )
 }
 
 @Suppress("UNCHECKED_CAST")
 inline fun <ContentT, NewT> UC<ContentT>.mapContent(
     crossinline map: (ContentT) -> NewT
 ): UC<NewT> {
-    return when (val type = asLceType()) {
-        is Type.Content -> UC.content(map(type.value))
-        else -> this as UC<NewT>
-    }
+    return foldTypes(
+        onLoading = { it },
+        onContent = { UC.content(map(it.value)) }
+    )
 }

@@ -5,25 +5,6 @@ import org.junit.Test
 import java.lang.RuntimeException
 
 class UCTTest {
-
-    @Test fun `fold content`() {
-        val uct = UCT.content(0)
-        val result = fold(uct)
-        assertThat(result).isEqualTo("content: 0")
-    }
-
-    @Test fun `fold error`() {
-        val uct = UCT.error(Throwable("exception"))
-        val result = fold(uct)
-        assertThat(result).isEqualTo("error: java.lang.Throwable: exception")
-    }
-
-    @Test fun `fold loading`() {
-        val uct = UCT.loading()
-        val result = fold(uct)
-        assertThat(result).isEqualTo("loading")
-    }
-
     @Test fun `mapContent content maps to new value`() {
         val result = UCT.content(0).mapContent { it + 1 }
         assertThat(result).isEqualTo(UCT.content(1))
@@ -66,13 +47,5 @@ class UCTTest {
     @Test fun `flatMapError error to loading`() {
         val result = UCT.error(Throwable()).flatMapError { UCT.loading() }
         assertThat(result).isEqualTo(UCT.loading())
-    }
-
-    private fun fold(uct: UCT<Int>): String {
-        return uct.fold(
-            onLoading = { "loading" },
-            onError = { "error: $it" },
-            onContent = { "content: $it" }
-        )
     }
 }

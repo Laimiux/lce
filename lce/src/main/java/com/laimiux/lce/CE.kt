@@ -6,10 +6,10 @@ package com.laimiux.lce
  */
 interface CE<out C, out E> {
     companion object {
-        fun <T> content(content: T) = Type.Content(content)
+        fun <T> content(content: T): CE<T, Nothing> = Type.Content(content)
 
-        fun error(error: Throwable) = Type.Error(error)
-        fun <T> error(error: T) = Type.Error(error)
+        fun error(error: Throwable): CE<Nothing, Throwable> = Type.Error(error)
+        fun <T> error(error: T): CE<Nothing, T> = Type.Error(error)
     }
 
     fun isContent(): Boolean

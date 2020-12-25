@@ -70,10 +70,11 @@ LCE.content("Hello").mapContent {
 LCE.content(0).mapContent { it + 1 }
 ```
 
-
+### Map Error
+You can also map error fr
 
 TODO:
-- Useful methods such as fold / mapContent / mapError
+- Useful methods such as mapError
 - RxJava3 extensions
 
 ## Download

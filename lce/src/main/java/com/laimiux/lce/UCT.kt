@@ -6,11 +6,11 @@ package com.laimiux.lce
  */
 interface UCT<out C> {
     companion object {
-        fun <T> content(content: T) = Type.Content(content)
+        fun loading(): UCT<Nothing> = Type.Loading()
 
-        fun error(error: Throwable) = Type.Error(error)
+        fun <T> content(content: T): UCT<T> = Type.Content(content)
 
-        fun loading() = Type.Loading()
+        fun error(error: Throwable): UCT<Nothing> = Type.Error(error)
     }
 
     fun isLoading(): Boolean

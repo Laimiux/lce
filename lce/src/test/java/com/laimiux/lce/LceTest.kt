@@ -13,4 +13,5 @@ class LceTest {
             onContent = { "content: $it" }
         )
         assertThat(result).isEqualTo("content: 0")
-    }}
+    }
+}

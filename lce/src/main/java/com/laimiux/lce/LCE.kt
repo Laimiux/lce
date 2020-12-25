@@ -6,14 +6,14 @@ package com.laimiux.lce
  */
 interface LCE<out L, out C, out E> {
     companion object {
-        fun <T> content(content: T) = Type.Content(content)
+        fun loading(): LCE<Unit, Nothing, Nothing> = Type.Loading()
+        fun loading(unit: Unit): LCE<Unit, Nothing, Nothing> = Type.Loading(unit)
+        fun <T> loading(loading: T): LCE<T, Nothing, Nothing> = Type.Loading(loading)
 
-        fun error(error: Throwable) = Type.Error(error)
-        fun <T> error(error: T) = Type.Error(error)
+        fun <T> content(content: T): LCE<Nothing, T, Nothing> = Type.Content(content)
 
-        fun loading() = Type.Loading()
-        fun loading(unit: Unit) = Type.Loading(unit)
-        fun <T> loading(loading: T) = Type.Loading(loading)
+        fun error(error: Throwable): LCE<Nothing, Nothing, Throwable> = Type.Error(error)
+        fun <T> error(error: T): LCE<Nothing, Nothing, T> = Type.Error(error)
     }
 
     fun isLoading(): Boolean

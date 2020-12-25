@@ -4,40 +4,47 @@ package com.laimiux.lce
 inline fun <LoadingT, ContentT, ErrorT, NewErrorT> LCE<LoadingT, ContentT, ErrorT>.mapError(
     crossinline map: (ErrorT) -> NewErrorT
 ): LCE<LoadingT, ContentT, NewErrorT> {
-    return when (val type = asLceType()) {
-        is Type.Error -> CE.error(map(type.value))
-        is Type.Error.ThrowableType -> CE.error(map(type.value as ErrorT))
-        else -> this as LCE<LoadingT, ContentT, NewErrorT>
-    }
+    return foldTypes(
+        onLoading = { it },
+        onContent = { it },
+        onError = { LCE.error(map(it.value)) }
+    )
 }
 
 inline fun <ContentT> UCT<ContentT>.mapError(
     crossinline map: (Throwable) -> Throwable
 ): UCT<ContentT> {
-    return when (val type = asLceType()) {
-        is Type.Error.ThrowableType -> UCT.error(map(type.value))
-        is Type.Error -> UCT.error(map(type.value))
-        else -> this
-    }
+    return foldTypes(
+        onLoading = { it },
+        onError = { UCT.error(map(it.value)) },
+        onContent = { it }
+    )
 }
 
 @Suppress("UNCHECKED_CAST")
 inline fun <ContentT, ErrorT, NewErrorT> CE<ContentT, ErrorT>.mapError(
     crossinline map: (ErrorT) -> NewErrorT
 ): CE<ContentT, NewErrorT> {
-    return when (val type = asLceType()) {
-        is Type.Error.ThrowableType -> CE.error(map(type.value as ErrorT))
-        is Type.Error -> CE.error(map(type.value))
-        else -> this as CE<ContentT, NewErrorT>
-    }
+    return foldTypes(
+        onError = { CE.error(map(it.value)) },
+        onContent = { it }
+    )
 }
 
 inline fun <ContentT> CT<ContentT>.mapError(
     crossinline map: (Throwable) -> Throwable
 ): CT<ContentT> {
-    return when (val type = asLceType()) {
-        is Type.Error.ThrowableType -> UCT.error(map(type.value))
-        is Type.Error -> UCT.error(map(type.value))
-        else -> this
-    }
+    return foldTypes(
+        onError = { CT.error(map(it.value)) },
+        onContent = { it }
+    )
+}
+
+inline fun <ContentT, ErrorT> CT<ContentT>.mapError(
+    crossinline map: (Throwable) -> ErrorT
+): CE<ContentT, ErrorT> {
+    return foldTypes(
+        onError = { CE.error(map(it.value)) },
+        onContent = { it }
+    )
 }
