@@ -38,7 +38,7 @@ sealed class Type<out L, out C, out E> : LCE<L, C, E> {
         override fun asLceType(): Type<T, Nothing, Nothing> = this
     }
 
-    data class Error<T> internal constructor(
+    data class Error<T> @PublishedApi internal constructor(
         val value: T
     ) :
         Type<Nothing, Nothing, T>(),
@@ -54,9 +54,21 @@ sealed class Type<out L, out C, out E> : LCE<L, C, E> {
         override fun loadingOrNull(): Nothing? = null
 
         override fun asLceType(): Type<Nothing, Nothing, T> = this
+
+        inline fun mapError(
+            crossinline map: (T) -> Throwable
+        ): ThrowableError {
+            return ThrowableError(map(value))
+        }
+
+        inline fun <ErrorT> mapError(
+            crossinline map: (T) -> ErrorT
+        ): Error<ErrorT> {
+            return Error(map(value))
+        }
     }
 
-    data class ThrowableError internal constructor(
+    data class ThrowableError @PublishedApi internal constructor(
         val value: Throwable
     ) :
         Type<Nothing, Nothing, Throwable>(),
@@ -74,6 +86,24 @@ sealed class Type<out L, out C, out E> : LCE<L, C, E> {
         override fun loadingOrNull(): Nothing? = null
 
         override fun asLceType(): Type<Nothing, Nothing, Throwable> = this
+
+        inline fun mapError(
+            crossinline map: (Throwable) -> Throwable
+        ): ThrowableError {
+            return ThrowableError(map(value))
+        }
+
+        inline fun <ErrorT> mapError(
+            crossinline map: (Throwable) -> ErrorT
+        ): Error<ErrorT> {
+            return Error(map(value))
+        }
+
+        inline fun <NewT> flatMapError(
+            crossinline map: (Throwable) -> NewT
+        ): NewT {
+            return map(value)
+        }
     }
 
     data class Content<out T> @PublishedApi internal constructor(
@@ -95,6 +125,26 @@ sealed class Type<out L, out C, out E> : LCE<L, C, E> {
         override fun loadingOrNull(): Nothing? = null
 
         override fun asLceType(): Type<Nothing, T, Nothing> = this
+
+        @Suppress("UNUSED_PARAMETER")
+        inline fun <ErrorT> mapError(
+            crossinline map: (Nothing) -> ErrorT
+        ): Content<T> {
+            return this
+        }
+
+        inline fun <NewT> flatMapContent(
+            crossinline transform: (T) -> NewT
+        ): NewT {
+            return transform(value)
+        }
+
+        @Suppress("UNUSED_PARAMETER")
+        inline fun <NewT> flatMapError(
+            crossinline map: (Throwable) -> NewT
+        ): Content<T> {
+            return this
+        }
     }
 
     @Suppress("UNCHECKED_CAST")

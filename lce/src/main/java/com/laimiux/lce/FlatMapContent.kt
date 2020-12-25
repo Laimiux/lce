@@ -45,3 +45,4 @@ inline fun <F, T> UC<F>.flatMapContent(
         onLoading = { this as UC<T> }
     )
 }
+
