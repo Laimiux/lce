@@ -48,25 +48,6 @@ interface UCT<out C> {
 
 fun <T> T.toUCT() = UCT.content(this)
 
-@Suppress("UNCHECKED_CAST")
-inline fun <ContentT, NewT> UCT<ContentT>.mapContent(
-    crossinline map: (ContentT) -> NewT
-): UCT<NewT> {
-    return when (val type = asLceType()) {
-        is Type.Content -> UCT.content(map(type.value))
-        else -> this as UCT<NewT>
-    }
-}
-
-inline fun <ContentT> UCT<ContentT>.mapError(
-    crossinline map: (Throwable) -> Throwable
-): UCT<ContentT> {
-    return when (val type = asLceType()) {
-        is Type.ThrowableError -> UCT.error(map(type.value))
-        is Type.Error -> UCT.error(map(type.value))
-        else -> this
-    }
-}
 
 @Suppress("UNCHECKED_CAST")
 inline fun <F, T> UCT<F>.flatMapContent(transform: (F) -> UCT<T>): UCT<T> {

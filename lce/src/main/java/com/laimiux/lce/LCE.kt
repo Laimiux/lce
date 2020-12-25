@@ -27,18 +27,6 @@ interface LCE<out L, out C, out E> {
     fun asLceType(): Type<L, C, E>
 }
 
-
-
-@Suppress("UNCHECKED_CAST")
-inline fun <LoadingT, ContentT, ErrorT, NewT> LCE<LoadingT, ContentT, ErrorT>.mapContent(
-    crossinline map: (ContentT) -> NewT
-): LCE<LoadingT, NewT, ErrorT> {
-    return when (val type = asLceType()) {
-        is Type.Content -> LCE.content(map(type.value))
-        else -> this as LCE<LoadingT, NewT, ErrorT>
-    }
-}
-
 fun <ContentT> LCE<Unit, ContentT, Throwable>.asUCT(): UCT<ContentT> {
     return when (val type = asLceType()) {
         is Type.Content -> type
