@@ -4,20 +4,20 @@ package com.laimiux.lce
  * A sealed class that supports all of LCE types and subtypes.
  */
 sealed class Type<out L, out C, out E> : LCE<L, C, E> {
-    sealed class Loading<T>() :
+    sealed class Loading<out T>() :
         Type<T, Nothing, Nothing>(),
         LCE<T, Nothing, Nothing> {
 
         companion object {
-            operator fun invoke() = Unit
+            operator fun invoke() = UnitType
 
             @Suppress("UNUSED_PARAMETER")
-            operator fun invoke(unit: Unit) = Unit
+            operator fun invoke(unit: Unit) = UnitType
 
             @Suppress("UNCHECKED_CAST")
             operator fun <T> invoke(type: T): Loading<T>  {
-                return if (type == kotlin.Unit) {
-                    Unit as Loading<T>
+                return if (type == Unit) {
+                    UnitType as Loading<T>
                 } else {
                     Typed(type)
                 }
@@ -36,11 +36,12 @@ sealed class Type<out L, out C, out E> : LCE<L, C, E> {
 
         override fun asLceType(): Type<T, Nothing, Nothing> = this
 
-        object Unit : Loading<kotlin.Unit>(),
+        object UnitType : Loading<Unit>(),
+            LCE<Unit, Nothing, Nothing>,
             UCT<Nothing>,
             UC<Nothing> {
 
-            override val value: kotlin.Unit = kotlin.Unit
+            override val value: Unit = Unit
 
             override fun isLoading(): Boolean = true
             override fun isContent(): Boolean = false
@@ -48,12 +49,12 @@ sealed class Type<out L, out C, out E> : LCE<L, C, E> {
 
             override fun contentOrNull(): Nothing? = null
             override fun errorOrNull(): Nothing? = null
-            override fun loadingOrNull(): kotlin.Unit = kotlin.Unit
+            override fun loadingOrNull(): Unit = Unit
 
-            override fun asLceType(): Type<kotlin.Unit, Nothing, Nothing> = this
+            override fun asLceType(): Type<Unit, Nothing, Nothing> = this
         }
 
-        data class Typed<T> @PublishedApi internal constructor(
+        data class Typed<out T> @PublishedApi internal constructor(
             override val value: T
         ) : Loading<T>()
     }
@@ -64,12 +65,12 @@ sealed class Type<out L, out C, out E> : LCE<L, C, E> {
         CE<Nothing, T> {
 
         companion object {
-            operator fun invoke(throwable: Throwable) = ThrowableError(throwable)
+            operator fun invoke(throwable: Throwable) = ThrowableType(throwable)
 
             @Suppress("UNCHECKED_CAST")
             operator fun <T> invoke(value: T): Error<T> {
                 return if (value is Throwable) {
-                    ThrowableError(value) as Error<T>
+                    ThrowableType(value) as Error<T>
                 } else {
                     Typed(value)
                 }
@@ -88,14 +89,14 @@ sealed class Type<out L, out C, out E> : LCE<L, C, E> {
 
         override fun asLceType(): Type<Nothing, Nothing, T> = this
 
-        data class Typed<T> @PublishedApi internal constructor(
+        data class Typed<out T> @PublishedApi internal constructor(
             override val value: T
         ) : Error<T>() {
 
             inline fun mapError(
                 crossinline map: (T) -> Throwable
-            ): ThrowableError {
-                return ThrowableError(map(value))
+            ): ThrowableType {
+                return ThrowableType(map(value))
             }
 
             inline fun <ErrorT> mapError(
@@ -111,7 +112,7 @@ sealed class Type<out L, out C, out E> : LCE<L, C, E> {
             }
         }
 
-        data class ThrowableError @PublishedApi internal constructor(
+        data class ThrowableType @PublishedApi internal constructor(
             override val value: Throwable
         ) : Error<Throwable>(),
             UCT<Nothing>,
@@ -121,8 +122,8 @@ sealed class Type<out L, out C, out E> : LCE<L, C, E> {
 
             inline fun mapError(
                 crossinline map: (Throwable) -> Throwable
-            ): ThrowableError {
-                return ThrowableError(map(value))
+            ): ThrowableType {
+                return ThrowableType(map(value))
             }
 
             inline fun <ErrorT> mapError(

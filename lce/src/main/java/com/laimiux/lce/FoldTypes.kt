@@ -13,14 +13,14 @@ inline fun <LoadingT, ContentT, ErrorT, T> LCE<LoadingT, ContentT, ErrorT>.foldT
 }
 
 inline fun <ContentT, T> UCT<ContentT>.foldTypes(
-    crossinline onLoading: (Type.Loading.Unit) -> T,
+    crossinline onLoading: (Type.Loading.UnitType) -> T,
     crossinline onContent: (Type.Content<ContentT>) -> T,
-    crossinline onError: (Type.Error.ThrowableError) -> T
+    crossinline onError: (Type.Error.ThrowableType) -> T
 ): T {
     return when (val type = asLceType()) {
-        is Type.Loading.Unit -> onLoading(type)
+        is Type.Loading.UnitType -> onLoading(type)
         is Type.Content -> onContent(type)
-        is Type.Error.ThrowableError -> onError(type)
+        is Type.Error.ThrowableType -> onError(type)
         else -> throw IllegalStateException("this should not happen: $type")
     }
 }
@@ -38,21 +38,21 @@ inline fun <ContentT, ErrorT, T> CE<ContentT, ErrorT>.foldTypes(
 
 inline fun <ContentT, T> CT<ContentT>.foldTypes(
     crossinline onContent: (Type.Content<ContentT>) -> T,
-    crossinline onError: (Type.Error.ThrowableError) -> T
+    crossinline onError: (Type.Error.ThrowableType) -> T
 ): T {
     return when (val type = asLceType()) {
         is Type.Content -> onContent(type)
-        is Type.Error.ThrowableError -> onError(type)
+        is Type.Error.ThrowableType -> onError(type)
         else -> throw IllegalStateException("this should not happen: $type")
     }
 }
 
 inline fun <ContentT, T> UC<ContentT>.foldTypes(
-    crossinline onLoading: (Type.Loading.Unit) -> T,
+    crossinline onLoading: (Type.Loading.UnitType) -> T,
     crossinline onContent: (Type.Content<ContentT>) -> T
 ): T {
     return when (val type = asLceType()) {
-        is Type.Loading.Unit -> onLoading(type)
+        is Type.Loading.UnitType -> onLoading(type)
         is Type.Content -> onContent(type)
         else -> throw IllegalStateException("this should not happen: $type")
     }
