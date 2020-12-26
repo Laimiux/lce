@@ -22,26 +22,4 @@ interface UCT<out C> {
     fun loadingOrNull(): Any?
 
     fun asLceType(): Type<Any?, C, Throwable>
-
-    /**
-     * Returns null when current state is loading otherwise returns [CT].
-     */
-    fun asCT(): CT<C>? {
-        return foldTypes(
-            onLoading = { null },
-            onContent = { it },
-            onError = { it }
-        )
-    }
-
-    /**
-     * Returns null when current state is loading otherwise returns [CE].
-     */
-    fun asCE(): CE<C, Throwable>? {
-        return foldTypes(
-            onLoading = { null },
-            onContent = { it },
-            onError = { it }
-        )
-    }
 }

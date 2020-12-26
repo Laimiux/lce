@@ -11,6 +11,21 @@ class ConvertTest {
         assertThat(result).isEqualTo(UCT.loading())
     }
 
+    @Test fun `LCE as CE returns null when loading`() {
+        val result = LCE.loading().asCE()
+        assertThat(result).isNull()
+    }
+
+    @Test fun `LCE as CE returns error when error`() {
+        val result = LCE.error("").asCE()
+        assertThat(result).isEqualTo(CE.error(""))
+    }
+
+    @Test fun `LCE as CT returns null when loading`() {
+        val result = LCE.loading().asCT()
+        assertThat(result).isNull()
+    }
+
     @Test fun `UCT as LCE`() {
         val uct: UCT<Int> = UCT.content(5)
         val lce: LCE<Unit, Int, Throwable> = uct.asLCE()

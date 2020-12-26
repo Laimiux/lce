@@ -1,6 +1,9 @@
 package com.laimiux.lce
 
-fun <ContentT> LCE<Unit, ContentT, Throwable>.asUCT(): UCT<ContentT> {
+/**
+ * Converts `LCE<Unit, C, Throwable>` to `UCT<C>`
+ */
+fun <C> LCE<Unit, C, Throwable>.asUCT(): UCT<C> {
     return foldTypes(
         onLoading = { it.asUnitLoading() },
         onError = { it.asThrowableError() },
@@ -8,6 +11,42 @@ fun <ContentT> LCE<Unit, ContentT, Throwable>.asUCT(): UCT<ContentT> {
     )
 }
 
+/**
+ * Returns null when current state is loading otherwise returns [CE].
+ */
+fun <C, E> LCE<Any?, C, E>.asCE(): CE<C, E>? {
+    return foldTypes(
+        onLoading = { null },
+        onContent = { it },
+        onError = { it }
+    )
+}
+
+/**
+ * Returns null when current state is loading otherwise returns [CT].
+ */
+fun <C> LCE<Any?, C, Throwable>.asCT(): CT<C>? {
+    return foldTypes(
+        onLoading = { null },
+        onError = { it.asThrowableError() },
+        onContent = { it }
+    )
+}
+
+/**
+ * Returns null on error, otherwise returns [UC].
+ */
+fun <C> LCE<Unit, C, Any?>.asUC(): UC<C>? {
+    return foldTypes(
+        onLoading = { it.asUnitLoading() },
+        onContent = { it },
+        onError = { null }
+    )
+}
+
+/**
+ * Converts `UCT<C>` to `LCE<Unit, C, Throwable>`
+ */
 fun <C> UCT<C>.asLCE(): LCE<Unit, C, Throwable> {
     return foldTypes(
         onLoading = { it },
@@ -16,56 +55,113 @@ fun <C> UCT<C>.asLCE(): LCE<Unit, C, Throwable> {
     )
 }
 
-fun <ContentT, ErrorT> CE<ContentT, ErrorT>.asLCE(): LCE<Nothing, ContentT, ErrorT> {
+/**
+ * Returns null when current state is loading otherwise returns [CT].
+ */
+fun <C> UCT<C>.asCT(): CT<C>? {
+    return foldTypes(
+        onLoading = { null },
+        onContent = { it },
+        onError = { it }
+    )
+}
+
+/**
+ * Returns null when current state is loading otherwise returns [CE].
+ */
+fun <C> UCT<C>.asCE(): CE<C, Throwable>? {
+    return foldTypes(
+        onLoading = { null },
+        onContent = { it },
+        onError = { it }
+    )
+}
+
+/**
+ * Returns null on error, otherwise returns [UC].
+ */
+fun <C> UCT<C>.asUC(): UC<C>? {
+    return foldTypes(
+        onLoading = { it },
+        onContent = { it },
+        onError = { null }
+    )
+}
+
+/**
+ * Converts `CE<C, E>` to `LCE<Nothing, C, E>`
+ */
+fun <C, E> CE<C, E>.asLCE(): LCE<Nothing, C, E> {
     return foldTypes(
         onContent = { it },
         onError = { it }
     )
 }
 
-fun <ContentT> CE<ContentT, Throwable>.asUCT(): UCT<ContentT> {
+/**
+ * Converts `CE<C, Throwable>` to `UCT<C>`
+ */
+fun <C> CE<C, Throwable>.asUCT(): UCT<C> {
     return foldTypes(
         onContent = { it },
         onError = { it.asThrowableError() }
     )
 }
 
-fun <ContentT> CE<ContentT, Throwable>.asCT(): CT<ContentT> {
+/**
+ * Converts `CE<C, Throwable>` to `CT<C>`
+ */
+fun <C> CE<C, Throwable>.asCT(): CT<C> {
     return foldTypes(
         onContent = { it },
         onError = { it.asThrowableError() }
     )
 }
 
-fun <ContentT> CT<ContentT>.asCE(): CE<ContentT, Throwable> {
+/**
+ * Converts `CT<C>` to `CE<C, Throwable>`
+ */
+fun <C> CT<C>.asCE(): CE<C, Throwable> {
     return foldTypes(
         onContent = { it },
         onError = { it }
     )
 }
 
-fun <ContentT> CT<ContentT>.asUCT(): UCT<ContentT> {
+/**
+ * Converts `CT<C>` to `UCT<C>`
+ */
+fun <C> CT<C>.asUCT(): UCT<C> {
     return foldTypes(
         onContent = { it },
         onError = { it }
     )
 }
 
-fun <ContentT> CT<ContentT>.asLCE(): LCE<Nothing, ContentT, Throwable> {
+/**
+ * Converts `CT<C>` to `LCE<Nothing, C, Throwable>`
+ */
+fun <C> CT<C>.asLCE(): LCE<Nothing, C, Throwable> {
     return foldTypes(
         onContent = { it },
         onError = { it }
     )
 }
 
-fun <ContentT> UC<ContentT>.asLCE(): LCE<Unit, ContentT, Nothing> {
+/**
+ * Converts `UC<C>` to `LCE<Unit, C, Nothing>`
+ */
+fun <C> UC<C>.asLCE(): LCE<Unit, C, Nothing> {
     return foldTypes(
         onLoading = { it },
         onContent = { it }
     )
 }
 
-fun <ContentT> UC<ContentT>.asUCT(): UCT<ContentT> {
+/**
+ * Converts `UC<C>` to `UCT<C>`
+ */
+fun <C> UC<C>.asUCT(): UCT<C> {
     return foldTypes(
         onLoading = { it },
         onContent = { it }
