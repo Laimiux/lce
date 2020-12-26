@@ -1,12 +1,12 @@
 package com.laimiux.lce
 
-inline fun <LoadingT, ContentT, ErrorT> LCE<LoadingT, ContentT, ErrorT>.flatMapLoading(
-    crossinline map: (LoadingT) -> LCE<LoadingT, ContentT, ErrorT>
-): LCE<LoadingT, ContentT, ErrorT> {
-    return fold(
-        onLoading = map,
-        onContent = { this },
-        onError = { this }
+inline fun <LoadingT, ContentT, ErrorT, NewLoadingT> LCE<LoadingT, ContentT, ErrorT>.flatMapLoading(
+    crossinline map: (LoadingT) -> LCE<NewLoadingT, ContentT, ErrorT>
+): LCE<NewLoadingT, ContentT, ErrorT> {
+    return foldTypes(
+        onLoading = { map(it.value) },
+        onContent = { it },
+        onError = { it }
     )
 }
 
