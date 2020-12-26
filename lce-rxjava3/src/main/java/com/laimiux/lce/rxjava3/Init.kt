@@ -1,5 +1,6 @@
 package com.laimiux.lce.rxjava3
 
+import com.laimiux.lce.CE
 import com.laimiux.lce.CT
 import com.laimiux.lce.UC
 import com.laimiux.lce.UCT
@@ -25,6 +26,33 @@ fun <T> Observable<T>.toUCT(): Observable<UCT<T>> {
         .map { UCT.content(it) as UCT<T> }
         .startWithItem(UCT.loading())
         .onErrorReturn { UCT.error(it) }
+}
+
+inline fun <C, E> Completable.toCE(
+    value: C,
+    crossinline mapError: (Throwable) -> E
+): Observable<CE<C, E>> {
+    return toSingleDefault(value).toCE(mapError)
+}
+
+inline fun <C, E> Single<C>.toCE(
+    crossinline mapError: (Throwable) -> E
+): Observable<CE<C, E>> {
+    return toObservable().toCE(mapError)
+}
+
+inline fun <C, E> Maybe<C>.toCT(
+    crossinline mapError: (Throwable) -> E
+): Observable<CE<C, E>> {
+    return toObservable().toCE(mapError)
+}
+
+inline fun <C, E> Observable<C>.toCE(
+    crossinline mapError: (Throwable) -> E
+): Observable<CE<C, E>> {
+    return this
+        .map { CE.content(it) as CE<C, E> }
+        .onErrorReturn { CE.error(mapError(it)) }
 }
 
 fun <T> Completable.toCT(value: T): Observable<CT<T>> {
