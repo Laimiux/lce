@@ -71,11 +71,20 @@ LCE.content(0).mapContent { it + 1 }
 ```
 
 ### Map Error
-You can also map error fr
+```kotlin
+val lce = LCE.error("failure").mapError { message -> RuntimeException(message) }
+```
 
-TODO:
-- Useful methods such as mapError
-- RxJava3 extensions
+### RxJava 3 Support
+Converting a `Single<T>` operation into `Observable<UCT<T>>`
+```kotlin
+fun fetchData(): Observable<UCT<MyData>> {
+    return Single.fromCallable { MyData() }.toUCT()
+}
+```
+
+
+TODO
 
 ## Download
 Add the library to your list of dependencies:
