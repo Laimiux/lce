@@ -1,12 +1,13 @@
 package com.laimiux.lce
 
-inline fun <LoadingT, ContentT, ErrorT> LCE<LoadingT, ContentT, ErrorT>.flatMapError(
-    crossinline map: (ErrorT) -> LCE<LoadingT, ContentT, ErrorT>
-): LCE<LoadingT, ContentT, ErrorT> {
-    return fold(
-        onError = map,
-        onContent = { this },
-        onLoading = { this }
+@JvmName("flatMapErrorLCE")
+inline fun <LoadingT, ContentT, ErrorT, NewErrorT> LCE<LoadingT, ContentT, ErrorT>.flatMapError(
+    crossinline map: (ErrorT) -> LCE<LoadingT, ContentT, NewErrorT>
+): LCE<LoadingT, ContentT, NewErrorT> {
+    return foldTypes(
+        onError = { map(it.value) },
+        onContent = { it },
+        onLoading = { it }
     )
 }
 
@@ -20,12 +21,12 @@ inline fun <T> UCT<T>.flatMapError(
     )
 }
 
-inline fun <ContentT, ErrorT> CE<ContentT, ErrorT>.flatMapError(
-    crossinline map: (ErrorT) -> CE<ContentT, ErrorT>
-): CE<ContentT, ErrorT> {
-    return fold(
-        onError = map,
-        onContent = { this }
+inline fun <ContentT, ErrorT, NewErrorT> CE<ContentT, ErrorT>.flatMapError(
+    crossinline map: (ErrorT) -> CE<ContentT, NewErrorT>
+): CE<ContentT, NewErrorT> {
+    return foldTypes(
+        onError = { map(it.value) },
+        onContent = { it }
     )
 }
 
