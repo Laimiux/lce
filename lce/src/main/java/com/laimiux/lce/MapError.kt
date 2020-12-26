@@ -39,12 +39,3 @@ inline fun <ContentT> CT<ContentT>.mapError(
         onContent = { it }
     )
 }
-
-inline fun <ContentT, ErrorT> CT<ContentT>.mapError(
-    crossinline map: (Throwable) -> ErrorT
-): CE<ContentT, ErrorT> {
-    return foldTypes(
-        onError = { CE.error(map(it.value)) },
-        onContent = { it }
-    )
-}
