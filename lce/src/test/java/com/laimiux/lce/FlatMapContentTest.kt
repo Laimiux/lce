@@ -12,7 +12,7 @@ class FlatMapContentTest {
 
     @Test
     fun `flatMapContent UCT content to loading`() {
-        val result = 0.toUCT().flatMapContent { UCT.loading() }
+        val result = UCT.content(0).flatMapContent { UCT.loading() }
         assertThat(result).isEqualTo(UCT.loading())
     }
 
