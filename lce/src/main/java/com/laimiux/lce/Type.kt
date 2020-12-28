@@ -4,6 +4,9 @@ package com.laimiux.lce
  * A sealed class that supports all of LCE types and subtypes.
  */
 sealed class Type<out L, out C, out E> : LCE<L, C, E> {
+    /**
+     * Loading type has two subclasses [Loading.UnitType] and [Loading.Typed].
+     */
     sealed class Loading<out T>() :
         Type<T, Nothing, Nothing>(),
         LCE<T, Nothing, Nothing> {
@@ -50,6 +53,9 @@ sealed class Type<out L, out C, out E> : LCE<L, C, E> {
         ) : Loading<T>()
     }
 
+    /**
+     * Error type has two subclasses [Error.ThrowableType] and [Error.Typed].
+     */
     sealed class Error<out T>() :
         Type<Nothing, Nothing, T>(),
         LCE<Nothing, Nothing, T>,
