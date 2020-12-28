@@ -2,6 +2,7 @@ package com.laimiux.lce
 
 import com.google.common.truth.Truth.assertThat
 import org.junit.Test
+import java.lang.RuntimeException
 
 class ConvertTest {
 
@@ -48,6 +49,12 @@ class ConvertTest {
         val ce: CE<Int, Throwable> = CE.content(0)
         val ct: CT<Int> = ce.asCT()
         assertThat(ct).isEqualTo(CT.content(0))
+    }
+
+    @Test fun `CE as CT using throwable subclass`() {
+        val ce: CE<Int, TestException> = CE.error<TestException>(TestException(""))
+        val ct = ce.asCT()
+        assertThat(ct).isEqualTo(CT.error(TestException("")))
     }
 
     @Test fun `CT as LCE`() {
