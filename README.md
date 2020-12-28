@@ -1,14 +1,14 @@
 # LCE
 Data type library that describes loading, content and error states.
 
-| Type      | Loading | Content | Error |
-| ------------ | -------- | ------- | --------- |
-| `LCE<L, C, E>` | Loading  | Content | Error     |
-| `UCE<C, E>`    | Unit     | Content | Error     |
-| `UCT<C>`       | Unit     | Content | Throwable |
-| `CE<C, E>`     | -        | Content | Error     |
-| `CT<C>`        | -        | Content | Throwable |
-| `UC<C>`        | Unit     | Content | -         |
+| Type      | Loading | Content | Error | How to pronounce the acronym |
+| ------------ | -------- | ------- | --------- | --------- |
+| `LCE<L, C, E>` | Loading  | Content | Error     | **L**oading **C**ontent **E**rror |
+| `UCE<C, E>`    | Unit     | Content | Error     | **U**nit **C**ontent **E**rror    |
+| `UCT<C>`       | Unit     | Content | Throwable | **U**nit **C**content **T**hrowable |
+| `CE<C, E>`     | -        | Content | Error     | **C**ontent **E**rror |
+| `CT<C>`        | -        | Content | Throwable | **C**content **T**hrowable |
+| `UC<C>`        | Unit     | Content | -         | **U**nit **C**ontent |
 
 
 ## Types
