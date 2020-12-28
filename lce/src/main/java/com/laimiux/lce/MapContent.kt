@@ -26,7 +26,6 @@ inline fun <ContentT, ErrorT, NewT> UCE<ContentT, ErrorT>.mapContent(
     )
 }
 
-@Suppress("UNCHECKED_CAST")
 inline fun <ContentT, NewT> UCT<ContentT>.mapContent(
     crossinline map: (ContentT) -> NewT
 ): UCT<NewT> {
@@ -37,7 +36,6 @@ inline fun <ContentT, NewT> UCT<ContentT>.mapContent(
     )
 }
 
-@Suppress("UNCHECKED_CAST")
 inline fun <ContentT, ErrorT, NewT> CE<ContentT, ErrorT>.mapContent(
     crossinline map: (ContentT) -> NewT
 ): CE<NewT, ErrorT> {
@@ -47,7 +45,6 @@ inline fun <ContentT, ErrorT, NewT> CE<ContentT, ErrorT>.mapContent(
     )
 }
 
-@Suppress("UNCHECKED_CAST")
 inline fun <ContentT, NewT> CT<ContentT>.mapContent(
     crossinline map: (ContentT) -> NewT
 ): CT<NewT> {
@@ -57,7 +54,6 @@ inline fun <ContentT, NewT> CT<ContentT>.mapContent(
     )
 }
 
-@Suppress("UNCHECKED_CAST")
 inline fun <ContentT, NewT> UC<ContentT>.mapContent(
     crossinline map: (ContentT) -> NewT
 ): UC<NewT> {
