@@ -4,6 +4,7 @@ Data type library that describes loading, content and error states.
 | Type      | Loading | Content | Error |
 | ------------ | -------- | ------- | --------- |
 | `LCE<L, C, E>` | Loading  | Content | Error     |
+| `UCE<C, E>`    | Unit     | Content | Error     |
 | `UCT<C>`       | Unit     | Content | Throwable |
 | `CE<C, E>`     | -        | Content | Error     |
 | `CT<C>`        | -        | Content | Throwable |

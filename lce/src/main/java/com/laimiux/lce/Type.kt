@@ -38,6 +38,7 @@ sealed class Type<out L, out C, out E> : LCE<L, C, E> {
 
         object UnitType : Loading<Unit>(),
             LCE<Unit, Nothing, Nothing>,
+            UCE<Nothing, Nothing>,
             UCT<Nothing>,
             UC<Nothing> {
 
@@ -62,6 +63,7 @@ sealed class Type<out L, out C, out E> : LCE<L, C, E> {
     sealed class Error<out T>() :
         Type<Nothing, Nothing, T>(),
         LCE<Nothing, Nothing, T>,
+        UCE<Nothing, T>,
         CE<Nothing, T> {
 
         companion object {
@@ -145,6 +147,7 @@ sealed class Type<out L, out C, out E> : LCE<L, C, E> {
     ) :
         Type<Nothing, T, Nothing>(),
         LCE<Nothing, T, Nothing>,
+        UCE<T, Nothing>,
         UCT<T>,
         UC<T>,
         CE<T, Nothing>,

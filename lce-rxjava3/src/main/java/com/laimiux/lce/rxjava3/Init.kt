@@ -3,11 +3,40 @@ package com.laimiux.lce.rxjava3
 import com.laimiux.lce.CE
 import com.laimiux.lce.CT
 import com.laimiux.lce.UC
+import com.laimiux.lce.UCE
 import com.laimiux.lce.UCT
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Maybe
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
+
+inline fun <C, E> Completable.toUCE(
+    value: C,
+    crossinline mapError: (Throwable) -> E
+): Observable<UCE<C, E>> {
+    return toSingleDefault(value).toUCE(mapError)
+}
+
+inline fun <C, E> Single<C>.toUCE(
+    crossinline mapError: (Throwable) -> E
+): Observable<UCE<C, E>> {
+    return toObservable().toUCE(mapError)
+}
+
+inline fun <C, E> Maybe<C>.toUCE(
+    crossinline mapError: (Throwable) -> E
+): Observable<UCE<C, E>> {
+    return toObservable().toUCE(mapError)
+}
+
+inline fun <C, E> Observable<C>.toUCE(
+    crossinline mapError: (Throwable) -> E
+): Observable<UCE<C, E>> {
+    return this
+        .map { UCE.content(it) as UCE<C, E> }
+        .startWithItem(UCE.loading())
+        .onErrorReturn { UCE.error(mapError(it)) }
+}
 
 fun <T> Completable.toUCT(value: T): Observable<UCT<T>> {
     return toSingleDefault(value).toUCT()
@@ -41,7 +70,7 @@ inline fun <C, E> Single<C>.toCE(
     return toObservable().toCE(mapError)
 }
 
-inline fun <C, E> Maybe<C>.toCT(
+inline fun <C, E> Maybe<C>.toCE(
     crossinline mapError: (Throwable) -> E
 ): Observable<CE<C, E>> {
     return toObservable().toCE(mapError)

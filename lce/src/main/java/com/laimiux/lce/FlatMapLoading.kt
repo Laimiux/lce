@@ -10,6 +10,16 @@ inline fun <LoadingT, ContentT, ErrorT, NewLoadingT> LCE<LoadingT, ContentT, Err
     )
 }
 
+inline fun <ContentT, ErrorT> UCE<ContentT, ErrorT>.flatMapLoading(
+    crossinline map: () -> UCE<ContentT, ErrorT>
+): UCE<ContentT, ErrorT> {
+    return foldTypes(
+        onLoading = { map() },
+        onContent = { it },
+        onError = { it }
+    )
+}
+
 inline fun <T> UCT<T>.flatMapLoading(
     crossinline map: () -> UCT<T>
 ): UCT<T> {

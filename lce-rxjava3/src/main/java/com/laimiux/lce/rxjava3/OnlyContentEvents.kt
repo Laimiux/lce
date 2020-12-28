@@ -2,11 +2,33 @@ package com.laimiux.lce.rxjava3
 
 import com.laimiux.lce.CT
 import com.laimiux.lce.UC
+import com.laimiux.lce.UCE
 import com.laimiux.lce.UCT
 import com.laimiux.lce.fold
 import io.reactivex.rxjava3.core.Maybe
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
+
+@JvmName("onlyContentEventsUCE")
+fun <C : Any, E> Single<UCE<C, E>>.onlyContentEvents(): Observable<C> {
+    return toObservable().onlyContentEvents()
+}
+
+@JvmName("onlyContentEventsUCE")
+fun <C : Any, E> Maybe<UCE<C, E>>.onlyContentEvents(): Observable<C> {
+    return toObservable().onlyContentEvents()
+}
+
+@JvmName("onlyContentEventsUCE")
+fun <C : Any, E> Observable<UCE<C, E>>.onlyContentEvents(): Observable<C> {
+    return flatMap {
+        it.fold(
+            onLoading = { Observable.empty() },
+            onError = { Observable.empty() },
+            onContent = { Observable.just(it) }
+        )
+    }
+}
 
 @JvmName("onlyContentEventsUCT")
 fun <T : Any> Single<UCT<T>>.onlyContentEvents(): Observable<T> {
