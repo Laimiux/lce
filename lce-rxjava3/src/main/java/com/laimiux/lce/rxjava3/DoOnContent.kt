@@ -26,27 +26,27 @@ inline fun <C, E> Observable<UCE<C, E>>.doOnContent(
 }
 
 @JvmName("doOnContentUCT")
-inline fun <T> Observable<UCT<T>>.doOnContent(
-    crossinline action: (T) -> Unit
-): Observable<UCT<T>> {
+inline fun <C> Observable<UCT<C>>.doOnContent(
+    crossinline action: (C) -> Unit
+): Observable<UCT<C>> {
     return doOnEvent(
         onContent = action
     )
 }
 
 @JvmName("doOnContentCT")
-inline fun <T> Observable<CT<T>>.doOnContent(
-    crossinline action: (T) -> Unit
-): Observable<CT<T>> {
+inline fun <C> Observable<CT<C>>.doOnContent(
+    crossinline action: (C) -> Unit
+): Observable<CT<C>> {
     return doOnEvent(
         onContent = action
     )
 }
 
 @JvmName("doOnContentUC")
-inline fun <T> Observable<UC<T>>.doOnContent(
-    crossinline action: (T) -> Unit
-): Observable<UC<T>> {
+inline fun <C> Observable<UC<C>>.doOnContent(
+    crossinline action: (C) -> Unit
+): Observable<UC<C>> {
     return doOnEvent(
         onContent = action
     )

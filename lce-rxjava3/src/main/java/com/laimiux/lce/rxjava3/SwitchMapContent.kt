@@ -11,9 +11,9 @@ import com.laimiux.lce.foldTypes
 import io.reactivex.rxjava3.core.Observable
 
 @JvmName("switchMapContentLCE")
-inline fun <L, C, E, NewContentT> Observable<LCE<L, C, E>>.switchMapContent(
-    crossinline transform: (C) -> Observable<LCE<L, NewContentT, E>>
-): Observable<LCE<L, NewContentT, E>> {
+inline fun <L, C, E, NewC> Observable<LCE<L, C, E>>.switchMapContent(
+    crossinline transform: (C) -> Observable<LCE<L, NewC, E>>
+): Observable<LCE<L, NewC, E>> {
     return switchMap {
         it.foldTypes(
             onLoading = { Observable.just(it) },
@@ -24,9 +24,9 @@ inline fun <L, C, E, NewContentT> Observable<LCE<L, C, E>>.switchMapContent(
 }
 
 @JvmName("switchMapContentUCE")
-inline fun <C, E, NewContentT> Observable<UCE<C, E>>.switchMapContent(
-    crossinline transform: (C) -> Observable<UCE<NewContentT, E>>
-): Observable<UCE<NewContentT, E>> {
+inline fun <C, E, NewC> Observable<UCE<C, E>>.switchMapContent(
+    crossinline transform: (C) -> Observable<UCE<NewC, E>>
+): Observable<UCE<NewC, E>> {
     return switchMap {
         it.foldTypes(
             onLoading = { Observable.just(it) },
@@ -37,9 +37,9 @@ inline fun <C, E, NewContentT> Observable<UCE<C, E>>.switchMapContent(
 }
 
 @JvmName("switchMapContentUCT")
-inline fun <T, V> Observable<UCT<T>>.switchMapContent(
-    crossinline transform: (T) -> Observable<UCT<V>>
-): Observable<UCT<V>> {
+inline fun <C, NewC> Observable<UCT<C>>.switchMapContent(
+    crossinline transform: (C) -> Observable<UCT<NewC>>
+): Observable<UCT<NewC>> {
     return switchMap {
         it.foldTypes(
             onLoading = { Observable.just(it) },
@@ -50,9 +50,9 @@ inline fun <T, V> Observable<UCT<T>>.switchMapContent(
 }
 
 @JvmName("switchMapContentCT")
-inline fun <T, V> Observable<CT<T>>.switchMapContent(
-    crossinline transform: (T) -> Observable<CT<V>>
-): Observable<CT<V>> {
+inline fun <C, NewC> Observable<CT<C>>.switchMapContent(
+    crossinline transform: (C) -> Observable<CT<NewC>>
+): Observable<CT<NewC>> {
     return switchMap {
         it.foldTypes(
             onContent = { transform(it.value) },
@@ -62,9 +62,9 @@ inline fun <T, V> Observable<CT<T>>.switchMapContent(
 }
 
 @JvmName("switchMapContentUC")
-inline fun <T, V> Observable<UC<T>>.switchMapContent(
-    crossinline transform: (T) -> Observable<UC<V>>
-): Observable<UC<V>> {
+inline fun <C, NewC> Observable<UC<C>>.switchMapContent(
+    crossinline transform: (C) -> Observable<UC<NewC>>
+): Observable<UC<NewC>> {
     return switchMap {
         it.foldTypes(
             onLoading = { Observable.just(it) },

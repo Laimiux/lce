@@ -8,7 +8,7 @@ import io.reactivex.rxjava3.core.Observable
 /**
  * Converts [UCT] type to [CT]. Essentially it ignores loading events.
  */
-fun <T> Observable<UCT<T>>.toCT(): Observable<CT<T>> {
+fun <C> Observable<UCT<C>>.toCT(): Observable<CT<C>> {
     return switchMap {
         val ct = it.asCT()
         if (ct != null) {

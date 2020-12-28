@@ -1,9 +1,8 @@
 package com.laimiux.lce
 
-@JvmName("flatMapErrorLCE")
-inline fun <LoadingT, ContentT, ErrorT, NewErrorT> LCE<LoadingT, ContentT, ErrorT>.flatMapError(
-    crossinline map: (ErrorT) -> LCE<LoadingT, ContentT, NewErrorT>
-): LCE<LoadingT, ContentT, NewErrorT> {
+inline fun <L, C, E, NewE> LCE<L, C, E>.flatMapError(
+    crossinline map: (E) -> LCE<L, C, NewE>
+): LCE<L, C, NewE> {
     return foldTypes(
         onError = { map(it.value) },
         onContent = { it },
@@ -11,9 +10,9 @@ inline fun <LoadingT, ContentT, ErrorT, NewErrorT> LCE<LoadingT, ContentT, Error
     )
 }
 
-inline fun <ContentT, ErrorT, NewErrorT> UCE<ContentT, ErrorT>.flatMapError(
-    crossinline map: (ErrorT) -> UCE<ContentT, NewErrorT>
-): UCE<ContentT, NewErrorT> {
+inline fun <C, E, NewE> UCE<C, E>.flatMapError(
+    crossinline map: (E) -> UCE<C, NewE>
+): UCE<C, NewE> {
     return foldTypes(
         onError = { map(it.value) },
         onContent = { it },
@@ -21,9 +20,9 @@ inline fun <ContentT, ErrorT, NewErrorT> UCE<ContentT, ErrorT>.flatMapError(
     )
 }
 
-inline fun <T> UCT<T>.flatMapError(
-    crossinline map: (Throwable) -> UCT<T>
-): UCT<T> {
+inline fun <C> UCT<C>.flatMapError(
+    crossinline map: (Throwable) -> UCT<C>
+): UCT<C> {
     return foldTypes(
         onError = { map(it.value) },
         onLoading = { it },
@@ -31,18 +30,18 @@ inline fun <T> UCT<T>.flatMapError(
     )
 }
 
-inline fun <ContentT, ErrorT, NewErrorT> CE<ContentT, ErrorT>.flatMapError(
-    crossinline map: (ErrorT) -> CE<ContentT, NewErrorT>
-): CE<ContentT, NewErrorT> {
+inline fun <C, E, NewE> CE<C, E>.flatMapError(
+    crossinline map: (E) -> CE<C, NewE>
+): CE<C, NewE> {
     return foldTypes(
         onError = { map(it.value) },
         onContent = { it }
     )
 }
 
-inline fun <T> CT<T>.flatMapError(
-    crossinline map: (Throwable) -> CT<T>
-): CT<T> {
+inline fun <C> CT<C>.flatMapError(
+    crossinline map: (Throwable) -> CT<C>
+): CT<C> {
     return foldTypes(
         onError = { map(it.value) },
         onContent = { it }

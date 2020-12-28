@@ -1,8 +1,8 @@
 package com.laimiux.lce
 
-inline fun <LoadingT, ContentT, ErrorT, NewErrorT> LCE<LoadingT, ContentT, ErrorT>.mapError(
-    crossinline map: (ErrorT) -> NewErrorT
-): LCE<LoadingT, ContentT, NewErrorT> {
+inline fun <L, C, E, NewE> LCE<L, C, E>.mapError(
+    crossinline map: (E) -> NewE
+): LCE<L, C, NewE> {
     return foldTypes(
         onLoading = { it },
         onContent = { it },
@@ -10,9 +10,9 @@ inline fun <LoadingT, ContentT, ErrorT, NewErrorT> LCE<LoadingT, ContentT, Error
     )
 }
 
-inline fun <ContentT, ErrorT, NewErrorT> UCE<ContentT, ErrorT>.mapError(
-    crossinline map: (ErrorT) -> NewErrorT
-): UCE<ContentT, NewErrorT> {
+inline fun <C, E, NewE> UCE<C, E>.mapError(
+    crossinline map: (E) -> NewE
+): UCE<C, NewE> {
     return foldTypes(
         onLoading = { it },
         onContent = { it },
@@ -20,9 +20,9 @@ inline fun <ContentT, ErrorT, NewErrorT> UCE<ContentT, ErrorT>.mapError(
     )
 }
 
-inline fun <ContentT> UCT<ContentT>.mapError(
+inline fun <C> UCT<C>.mapError(
     crossinline map: (Throwable) -> Throwable
-): UCT<ContentT> {
+): UCT<C> {
     return foldTypes(
         onLoading = { it },
         onError = { UCT.error(map(it.value)) },
@@ -30,18 +30,18 @@ inline fun <ContentT> UCT<ContentT>.mapError(
     )
 }
 
-inline fun <ContentT, ErrorT, NewErrorT> CE<ContentT, ErrorT>.mapError(
-    crossinline map: (ErrorT) -> NewErrorT
-): CE<ContentT, NewErrorT> {
+inline fun <C, E, NewE> CE<C, E>.mapError(
+    crossinline map: (E) -> NewE
+): CE<C, NewE> {
     return foldTypes(
         onError = { CE.error(map(it.value)) },
         onContent = { it }
     )
 }
 
-inline fun <ContentT> CT<ContentT>.mapError(
+inline fun <C> CT<C>.mapError(
     crossinline map: (Throwable) -> Throwable
-): CT<ContentT> {
+): CT<C> {
     return foldTypes(
         onError = { CT.error(map(it.value)) },
         onContent = { it }
