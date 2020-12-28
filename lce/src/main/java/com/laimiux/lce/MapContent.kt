@@ -16,6 +16,16 @@ inline fun <LoadingT, ContentT, ErrorT, NewT> LCE<LoadingT, ContentT, ErrorT>.ma
     )
 }
 
+inline fun <ContentT, ErrorT, NewT> UCE<ContentT, ErrorT>.mapContent(
+    crossinline map: (ContentT) -> NewT
+): UCE<NewT, ErrorT> {
+    return foldTypes(
+        onLoading = { it },
+        onContent = { UCE.content(map(it.value)) },
+        onError = { it }
+    )
+}
+
 @Suppress("UNCHECKED_CAST")
 inline fun <ContentT, NewT> UCT<ContentT>.mapContent(
     crossinline map: (ContentT) -> NewT

@@ -3,6 +3,7 @@ package com.laimiux.lce.rxjava3
 import com.laimiux.lce.CE
 import com.laimiux.lce.CT
 import com.laimiux.lce.LCE
+import com.laimiux.lce.UCE
 import com.laimiux.lce.UCT
 import com.laimiux.lce.mapContent
 import io.reactivex.rxjava3.core.Observable
@@ -11,6 +12,13 @@ import io.reactivex.rxjava3.core.Observable
 inline fun <LoadingT, ContentT, ErrorT, V> Observable<LCE<LoadingT, ContentT, ErrorT>>.mapContent(
     crossinline transform: (ContentT) -> V
 ): Observable<LCE<LoadingT, V, ErrorT>> {
+    return map { it.mapContent(transform) }
+}
+
+@JvmName("mapContentUCE")
+inline fun <ContentT, ErrorT, V> Observable<UCE<ContentT, ErrorT>>.mapContent(
+    crossinline transform: (ContentT) -> V
+): Observable<UCE<V, ErrorT>> {
     return map { it.mapContent(transform) }
 }
 

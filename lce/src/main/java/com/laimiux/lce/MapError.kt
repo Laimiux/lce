@@ -1,6 +1,5 @@
 package com.laimiux.lce
 
-@Suppress("UNCHECKED_CAST")
 inline fun <LoadingT, ContentT, ErrorT, NewErrorT> LCE<LoadingT, ContentT, ErrorT>.mapError(
     crossinline map: (ErrorT) -> NewErrorT
 ): LCE<LoadingT, ContentT, NewErrorT> {
@@ -8,6 +7,16 @@ inline fun <LoadingT, ContentT, ErrorT, NewErrorT> LCE<LoadingT, ContentT, Error
         onLoading = { it },
         onContent = { it },
         onError = { LCE.error(map(it.value)) }
+    )
+}
+
+inline fun <ContentT, ErrorT, NewErrorT> UCE<ContentT, ErrorT>.mapError(
+    crossinline map: (ErrorT) -> NewErrorT
+): UCE<ContentT, NewErrorT> {
+    return foldTypes(
+        onLoading = { it },
+        onContent = { it },
+        onError = { UCE.error(map(it.value)) }
     )
 }
 
@@ -21,7 +30,6 @@ inline fun <ContentT> UCT<ContentT>.mapError(
     )
 }
 
-@Suppress("UNCHECKED_CAST")
 inline fun <ContentT, ErrorT, NewErrorT> CE<ContentT, ErrorT>.mapError(
     crossinline map: (ErrorT) -> NewErrorT
 ): CE<ContentT, NewErrorT> {

@@ -23,6 +23,24 @@ class FoldTest {
         assertThat(result).isEqualTo("error: 0")
     }
 
+    @Test fun `fold UCE loading`() {
+        val value = UCE.loading()
+        val result = fold(value)
+        assertThat(result).isEqualTo("loading")
+    }
+
+    @Test fun `fold UCE content`() {
+        val value = UCE.content(0)
+        val result = fold(value)
+        assertThat(result).isEqualTo("content: 0")
+    }
+
+    @Test fun `fold UCE error`() {
+        val value = UCE.error(0)
+        val result = fold(value)
+        assertThat(result).isEqualTo("error: 0")
+    }
+
     @Test
     fun `fold UCT loading`() {
         val value = UCT.loading()
@@ -91,6 +109,14 @@ class FoldTest {
     private fun fold(value: LCE<Any, Int, Any>): String {
         return value.fold(
             onLoading = { "loading: $it" },
+            onError = { "error: $it" },
+            onContent = { "content: $it" }
+        )
+    }
+
+    private fun fold(value: UCE<Int, Any>): String {
+        return value.fold(
+            onLoading = { "loading" },
             onError = { "error: $it" },
             onContent = { "content: $it" }
         )
