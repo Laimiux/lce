@@ -76,6 +76,17 @@ LCE.content(0).mapContent { it + 1 }
 val lce = LCE.error("failure").mapError { message -> RuntimeException(message) }
 ```
 
+### Type Interop
+You can easily convert from one data type to another without incurring any memory allocation.
+
+```kotlin
+val uct = LCE.content("Hello World").asUCT()
+val lce = uct.asLCE()
+
+// When we go from LCE to CT/CE type, we treat loading state as null
+val ct: CT<String>? = lce.asCT()
+```
+
 ### RxJava 3 Support
 Converting a `Single<T>` operation into `Observable<UCT<T>>`
 ```kotlin
@@ -83,9 +94,6 @@ fun fetchData(): Observable<UCT<MyData>> {
     return Single.fromCallable { MyData() }.toUCT()
 }
 ```
-
-
-TODO
 
 ## Download
 Add the library to your list of dependencies:
@@ -103,7 +111,6 @@ To run tests
 ./gradlew :lce:test
 ./gradlew :lce-rxjava3:test
 ```
-
 
 # License
 

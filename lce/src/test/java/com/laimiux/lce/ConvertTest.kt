@@ -6,7 +6,7 @@ import org.junit.Test
 class ConvertTest {
 
     @Test fun `LCE as UCT`() {
-        val lce: LCE<Unit, Int, Throwable> = LCE.loading()
+        val lce = LCE.loading()
         val result: UCT<Int> = lce.asUCT()
         assertThat(result).isEqualTo(UCT.loading())
     }
