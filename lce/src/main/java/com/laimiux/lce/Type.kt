@@ -43,16 +43,6 @@ sealed class Type<out L, out C, out E> : LCE<L, C, E> {
             UC<Nothing> {
 
             override val value: Unit = Unit
-
-            override fun isLoading(): Boolean = true
-            override fun isContent(): Boolean = false
-            override fun isError(): Boolean = false
-
-            override fun contentOrNull(): Nothing? = null
-            override fun errorOrNull(): Nothing? = null
-            override fun loadingOrNull(): Unit = Unit
-
-            override fun asLceType(): Type<Unit, Nothing, Nothing> = this
         }
 
         data class Typed<out T> @PublishedApi internal constructor(
@@ -93,26 +83,7 @@ sealed class Type<out L, out C, out E> : LCE<L, C, E> {
 
         data class Typed<out T> @PublishedApi internal constructor(
             override val value: T
-        ) : Error<T>() {
-
-            inline fun mapError(
-                crossinline map: (T) -> Throwable
-            ): ThrowableType {
-                return ThrowableType(map(value))
-            }
-
-            inline fun <ErrorT> mapError(
-                crossinline map: (T) -> ErrorT
-            ): Error<ErrorT> {
-                return Error(map(value))
-            }
-
-            inline fun <NewT> flatMapError(
-                crossinline map: (T) -> NewT
-            ): NewT {
-                return map(value)
-            }
-        }
+        ) : Error<T>()
 
         data class ThrowableType @PublishedApi internal constructor(
             override val value: Throwable
@@ -121,24 +92,6 @@ sealed class Type<out L, out C, out E> : LCE<L, C, E> {
             CT<Nothing> {
 
             override fun errorOrNull(): Throwable = value
-
-            inline fun mapError(
-                crossinline map: (Throwable) -> Throwable
-            ): ThrowableType {
-                return ThrowableType(map(value))
-            }
-
-            inline fun <ErrorT> mapError(
-                crossinline map: (Throwable) -> ErrorT
-            ): Error<ErrorT> {
-                return Error(map(value))
-            }
-
-            inline fun <NewT> flatMapError(
-                crossinline map: (Throwable) -> NewT
-            ): NewT {
-                return map(value)
-            }
         }
     }
 
@@ -162,37 +115,5 @@ sealed class Type<out L, out C, out E> : LCE<L, C, E> {
         override fun loadingOrNull(): Nothing? = null
 
         override fun asLceType(): Type<Nothing, T, Nothing> = this
-
-        @Suppress("UNUSED_PARAMETER")
-        inline fun <ErrorT> mapError(
-            crossinline map: (Nothing) -> ErrorT
-        ): Content<T> {
-            return this
-        }
-
-        inline fun <NewT> flatMapContent(
-            crossinline transform: (T) -> NewT
-        ): NewT {
-            return transform(value)
-        }
-
-        @Suppress("UNUSED_PARAMETER")
-        inline fun <NewT> flatMapError(
-            crossinline map: (Throwable) -> NewT
-        ): Content<T> {
-            return this
-        }
-    }
-
-    inline fun <T> fold(
-        crossinline onLoading: (L) -> T,
-        crossinline onError: (E) -> T,
-        crossinline onContent: (C) -> T
-    ): T {
-        return when (this) {
-            is Loading -> onLoading(value)
-            is Error -> onError(value)
-            is Content -> onContent(value)
-        }
     }
 }

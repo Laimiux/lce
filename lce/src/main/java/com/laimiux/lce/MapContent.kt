@@ -1,11 +1,5 @@
 package com.laimiux.lce
 
-inline fun <C, NewC> Type.Content<C>.mapContent(
-    crossinline map: (C) -> NewC
-): Type.Content<NewC> {
-    return Type.Content(map(value))
-}
-
 /**
  * Maps the content value of type [C] to another value of type [NewC].
  * ```
