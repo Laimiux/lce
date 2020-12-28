@@ -12,38 +12,40 @@ Data type library that describes loading, content and error states.
 
 
 ## Types
-`LCE<LoadingT, ContentT, ErrorT>` is the most flexible type. It allows you to
-specify the generic parameter for each state.
+`LCE<L, C, E>` is the most flexible type. It allows you to specify the generic parameter for each state.
 ```kotlin
 val loading = LCE.loading("We are loading")
 val content = LCE.content("Hello world")
 val error = LCE.error(RuntimeException("boo"))
 ```
 
-In most cases, we don't need a generic parameter for loading state and we use `Throwable` for
-the error type. To support this use case, we have `UCT<C>` which stands for Unit / Content / Throwable.
+When we don't need a value for loading state, we can use `UCE<C, E>` type which stands for Unit / Content / Throwable.
+```kotlin
+val loading = UCE.loading()
+val content = UCE.content("Hello world")
+val error = UCE.error("Something went wrong.")
+```
+
+When we use `Throwable` for errors, we can use `UCT<C>` which stands for Unit / Content / Throwable.
 ```kotlin
 val loading = UCT.loading()
 val content = UCT.content("Hello world")
 val error = UCT.error(RuntimeException("boo"))
 ```
 
-In some scenarios, we don't care about loading and want to represent only content and error states.
-There are two types to support this use case. If you represent your error as Throwable, use
-the `CT<C>` type which stands for Content / Throwable.
-```kotlin
-val content = CT.content("Hello world")
-val error = CT.error(RuntimeException("boo"))
-```
-
-If you want to have a custom type for error, use the `CE` type which stands for Content / Error.
+When we only care about content and error states, we can use `CE<C, E>` type.
 ```kotlin
 val content = CE.content("Hello world")
 val error = CE.error("My custom error message")
 ```
 
-If you want to support loading and content states without an error type, use `UC` type which
-stands for Unit / Content.
+When we use `Throwable` for errors, we can use `CT<C>` type.
+```kotlin
+val content = CT.content("Hello world")
+val error = CT.error(RuntimeException("boo"))
+```
+
+When we only care about loading and content states, we can use `UC<C>` which stands for Unit / Content.
 ```kotlin
 val loading = UC.loading()
 val content = UC.content("Hello world")
