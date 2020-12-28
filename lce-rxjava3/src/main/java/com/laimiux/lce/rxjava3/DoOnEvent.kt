@@ -39,11 +39,11 @@ inline fun <C, E> Observable<UCE<C, E>>.doOnEvent(
 }
 
 @JvmName("doOnEventUCT")
-inline fun <T> Observable<UCT<T>>.doOnEvent(
+inline fun <C> Observable<UCT<C>>.doOnEvent(
     crossinline onLoading: () -> Unit = {},
     crossinline onError: (Throwable) -> Unit = {},
-    crossinline onContent: (T) -> Unit = {}
-): Observable<UCT<T>> {
+    crossinline onContent: (C) -> Unit = {}
+): Observable<UCT<C>> {
     return doOnNext {
         it.fold(
             onLoading = onLoading,
@@ -54,10 +54,10 @@ inline fun <T> Observable<UCT<T>>.doOnEvent(
 }
 
 @JvmName("doOnEventCT")
-inline fun <T> Observable<CT<T>>.doOnEvent(
+inline fun <C> Observable<CT<C>>.doOnEvent(
     crossinline onError: (Throwable) -> Unit = {},
-    crossinline onContent: (T) -> Unit = {}
-): Observable<CT<T>> {
+    crossinline onContent: (C) -> Unit = {}
+): Observable<CT<C>> {
     return doOnNext {
         it.fold(
             onContent = onContent,
@@ -67,10 +67,10 @@ inline fun <T> Observable<CT<T>>.doOnEvent(
 }
 
 @JvmName("doOnEventUC")
-inline fun <T> Observable<UC<T>>.doOnEvent(
+inline fun <C> Observable<UC<C>>.doOnEvent(
     crossinline onLoading: () -> Unit = {},
-    crossinline onContent: (T) -> Unit = {}
-): Observable<UC<T>> {
+    crossinline onContent: (C) -> Unit = {}
+): Observable<UC<C>> {
     return doOnNext {
         it.fold(
             onLoading = onLoading,

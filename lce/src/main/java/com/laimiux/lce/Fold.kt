@@ -1,9 +1,13 @@
 package com.laimiux.lce
 
-inline fun <LoadingT, ContentT, ErrorT, T> LCE<LoadingT, ContentT, ErrorT>.fold(
-    crossinline onLoading: (LoadingT) -> T,
-    crossinline onError: (ErrorT) -> T,
-    crossinline onContent: (ContentT) -> T
+/**
+ * Converts LCE into a value of type [T] by mapping each possible
+ * variant [onLoading], [onError] and [onContent].
+ */
+inline fun <L, C, E, T> LCE<L, C, E>.fold(
+    crossinline onLoading: (L) -> T,
+    crossinline onError: (E) -> T,
+    crossinline onContent: (C) -> T
 ): T {
     return foldTypes(
         onLoading = { onLoading(it.value) },
@@ -12,10 +16,14 @@ inline fun <LoadingT, ContentT, ErrorT, T> LCE<LoadingT, ContentT, ErrorT>.fold(
     )
 }
 
-inline fun <ContentT, ErrorT, T> UCE<ContentT, ErrorT>.fold(
+/**
+ * Converts UCE into a value of type [T] by mapping each possible
+ * variant [onLoading], [onError] and [onContent].
+ */
+inline fun <C, E, T> UCE<C, E>.fold(
     crossinline onLoading: () -> T,
-    crossinline onError: (ErrorT) -> T,
-    crossinline onContent: (ContentT) -> T
+    crossinline onError: (E) -> T,
+    crossinline onContent: (C) -> T
 ): T {
     return foldTypes(
         onLoading = { onLoading() },
@@ -24,10 +32,14 @@ inline fun <ContentT, ErrorT, T> UCE<ContentT, ErrorT>.fold(
     )
 }
 
-inline fun <ContentT, T> UCT<ContentT>.fold(
+/**
+ * Converts UCT into a value of type [T] by mapping each possible
+ * variant [onLoading], [onError] and [onContent].
+ */
+inline fun <C, T> UCT<C>.fold(
     crossinline onLoading: () -> T,
     crossinline onError: (Throwable) -> T,
-    crossinline onContent: (ContentT) -> T
+    crossinline onContent: (C) -> T
 ): T {
     return foldTypes(
         onLoading = { onLoading() },
@@ -36,9 +48,13 @@ inline fun <ContentT, T> UCT<ContentT>.fold(
     )
 }
 
-inline fun <ContentT, ErrorT, T> CE<ContentT, ErrorT>.fold(
-    crossinline onError: (ErrorT) -> T,
-    crossinline onContent: (ContentT) -> T
+/**
+ * Converts CE into a value of type [T] by mapping each possible
+ * variant [onError] and [onContent].
+ */
+inline fun <C, E, T> CE<C, E>.fold(
+    crossinline onError: (E) -> T,
+    crossinline onContent: (C) -> T
 ): T {
     return foldTypes(
         onContent = { onContent(it.value) },
@@ -46,9 +62,13 @@ inline fun <ContentT, ErrorT, T> CE<ContentT, ErrorT>.fold(
     )
 }
 
-inline fun <ContentT, T> CT<ContentT>.fold(
+/**
+ * Converts CT into a value of type [T] by mapping each possible
+ * variant [onError] and [onContent].
+ */
+inline fun <C, T> CT<C>.fold(
     crossinline onError: (Throwable) -> T,
-    crossinline onContent: (ContentT) -> T
+    crossinline onContent: (C) -> T
 ): T {
     return foldTypes(
         onContent = { onContent(it.value) },
@@ -56,9 +76,13 @@ inline fun <ContentT, T> CT<ContentT>.fold(
     )
 }
 
-inline fun <ContentT, T> UC<ContentT>.fold(
+/**
+ * Converts UC into a value of type [T] by mapping each possible
+ * variant [onLoading] and [onContent].
+ */
+inline fun <C, T> UC<C>.fold(
     crossinline onLoading: () -> T,
-    crossinline onContent: (ContentT) -> T
+    crossinline onContent: (C) -> T
 ): T {
     return foldTypes(
         onLoading = { onLoading() },

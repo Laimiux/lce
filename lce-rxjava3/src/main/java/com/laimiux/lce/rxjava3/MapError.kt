@@ -7,22 +7,22 @@ import com.laimiux.lce.mapError
 import io.reactivex.rxjava3.core.Observable
 
 @JvmName("mapErrorLCE")
-inline fun <L, C, E, NewError> Observable<LCE<L, C, E>>.mapError(
-    crossinline transform: (E) -> NewError
-): Observable<LCE<L, C, NewError>> {
+inline fun <L, C, E, NewE> Observable<LCE<L, C, E>>.mapError(
+    crossinline transform: (E) -> NewE
+): Observable<LCE<L, C, NewE>> {
     return map { it.mapError(transform) }
 }
 
 @JvmName("mapErrorUCE")
-inline fun <C, E, NewError> Observable<UCE<C, E>>.mapError(
-    crossinline transform: (E) -> NewError
-): Observable<UCE<C, NewError>> {
+inline fun <C, E, NewE> Observable<UCE<C, E>>.mapError(
+    crossinline transform: (E) -> NewE
+): Observable<UCE<C, NewE>> {
     return map { it.mapError(transform) }
 }
 
 @JvmName("mapErrorUCT")
-inline fun <T> Observable<UCT<T>>.mapError(
+inline fun <C> Observable<UCT<C>>.mapError(
     crossinline transform: (Throwable) -> Throwable
-): Observable<UCT<T>> {
+): Observable<UCT<C>> {
     return map { it.mapError(transform) }
 }

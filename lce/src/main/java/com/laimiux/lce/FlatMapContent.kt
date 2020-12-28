@@ -1,8 +1,21 @@
 package com.laimiux.lce
 
-inline fun <LoadingT, ContentT, ErrorT, NewContentT> LCE<LoadingT, ContentT, ErrorT>.flatMapContent(
-    crossinline transform: (ContentT) -> LCE<LoadingT, NewContentT, ErrorT>
-): LCE<LoadingT, NewContentT, ErrorT> {
+/**
+ * Maps content value to a new LCE value.
+ * ```
+ * val event: LCE<String?> = LCE.content(null)
+ * val result: LCE<String> = event.flatMapContent { value ->
+ *   if (value == null) {
+ *     LCE.loading()
+ *   } else {
+ *     LCE.content(value)
+ *   }
+ * }
+ * ```
+ */
+inline fun <L, C, E, NewC> LCE<L, C, E>.flatMapContent(
+    crossinline transform: (C) -> LCE<L, NewC, E>
+): LCE<L, NewC, E> {
     return foldTypes(
         onLoading = { it },
         onContent = { transform(it.value) },
@@ -10,9 +23,9 @@ inline fun <LoadingT, ContentT, ErrorT, NewContentT> LCE<LoadingT, ContentT, Err
     )
 }
 
-inline fun <ContentT, ErrorT, NewContentT> UCE<ContentT, ErrorT>.flatMapContent(
-    crossinline transform: (ContentT) -> UCE<NewContentT, ErrorT>
-): UCE<NewContentT, ErrorT> {
+inline fun <C, E, NewC> UCE<C, E>.flatMapContent(
+    crossinline transform: (C) -> UCE<NewC, E>
+): UCE<NewC, E> {
     return foldTypes(
         onLoading = { it },
         onContent = { transform(it.value) },
@@ -20,9 +33,9 @@ inline fun <ContentT, ErrorT, NewContentT> UCE<ContentT, ErrorT>.flatMapContent(
     )
 }
 
-inline fun <F, T> UCT<F>.flatMapContent(
-   crossinline transform: (F) -> UCT<T>
-): UCT<T> {
+inline fun <C, NewC> UCT<C>.flatMapContent(
+   crossinline transform: (C) -> UCT<NewC>
+): UCT<NewC> {
     return foldTypes(
         onLoading = { it },
         onContent = { transform(it.value) },
@@ -30,27 +43,27 @@ inline fun <F, T> UCT<F>.flatMapContent(
     )
 }
 
-inline fun <ContentT, ErrorT, NewContentT> CE<ContentT, ErrorT>.flatMapContent(
-    crossinline transform: (ContentT) -> CE<NewContentT, ErrorT>
-): CE<NewContentT, ErrorT> {
+inline fun <C, E, NewC> CE<C, E>.flatMapContent(
+    crossinline transform: (C) -> CE<NewC, E>
+): CE<NewC, E> {
     return foldTypes(
         onContent = { transform(it.value) },
         onError = { it }
     )
 }
 
-inline fun <F, T> CT<F>.flatMapContent(
-    crossinline transform: (F) -> CT<T>
-): CT<T> {
+inline fun <C, NewC> CT<C>.flatMapContent(
+    crossinline transform: (C) -> CT<NewC>
+): CT<NewC> {
     return foldTypes(
         onContent = { transform(it.value) },
         onError = { it }
     )
 }
 
-inline fun <F, T> UC<F>.flatMapContent(
-    crossinline transform: (F) -> UC<T>
-): UC<T> {
+inline fun <C, NewC> UC<C>.flatMapContent(
+    crossinline transform: (C) -> UC<NewC>
+): UC<NewC> {
     return foldTypes(
         onLoading = { it },
         onContent = { transform(it.value) }

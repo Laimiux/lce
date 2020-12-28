@@ -1,14 +1,25 @@
 package com.laimiux.lce
 
-inline fun <ContentT, NewT> Type.Content<ContentT>.mapContent(
-    crossinline map: (ContentT) -> NewT
-): Type.Content<NewT> {
+inline fun <C, NewC> Type.Content<C>.mapContent(
+    crossinline map: (C) -> NewC
+): Type.Content<NewC> {
     return Type.Content(map(value))
 }
 
-inline fun <LoadingT, ContentT, ErrorT, NewT> LCE<LoadingT, ContentT, ErrorT>.mapContent(
-    crossinline map: (ContentT) -> NewT
-): LCE<LoadingT, NewT, ErrorT> {
+/**
+ * Maps the content value of type [C] to another value of type [NewC].
+ * ```
+ * val result = LCE.content(0).mapContent { "Value is: $it" }
+ * ```
+ *
+ * If you are only mapping value, but not type, the [NewC] can be equal to [C].
+ * ```
+ * val result = LCE.content(0).mapContent { it + 1 }
+ * ```
+ */
+inline fun <L, C, E, NewC> LCE<L, C, E>.mapContent(
+    crossinline map: (C) -> NewC
+): LCE<L, NewC, E> {
     return foldTypes(
         onLoading = { it },
         onContent = { LCE.content(map(it.value)) },
@@ -16,9 +27,9 @@ inline fun <LoadingT, ContentT, ErrorT, NewT> LCE<LoadingT, ContentT, ErrorT>.ma
     )
 }
 
-inline fun <ContentT, ErrorT, NewT> UCE<ContentT, ErrorT>.mapContent(
-    crossinline map: (ContentT) -> NewT
-): UCE<NewT, ErrorT> {
+inline fun <C, E, NewC> UCE<C, E>.mapContent(
+    crossinline map: (C) -> NewC
+): UCE<NewC, E> {
     return foldTypes(
         onLoading = { it },
         onContent = { UCE.content(map(it.value)) },
@@ -26,9 +37,9 @@ inline fun <ContentT, ErrorT, NewT> UCE<ContentT, ErrorT>.mapContent(
     )
 }
 
-inline fun <ContentT, NewT> UCT<ContentT>.mapContent(
-    crossinline map: (ContentT) -> NewT
-): UCT<NewT> {
+inline fun <C, NewC> UCT<C>.mapContent(
+    crossinline map: (C) -> NewC
+): UCT<NewC> {
     return foldTypes(
         onLoading = { it },
         onContent = { UCT.content(map(it.value)) },
@@ -36,27 +47,27 @@ inline fun <ContentT, NewT> UCT<ContentT>.mapContent(
     )
 }
 
-inline fun <ContentT, ErrorT, NewT> CE<ContentT, ErrorT>.mapContent(
-    crossinline map: (ContentT) -> NewT
-): CE<NewT, ErrorT> {
+inline fun <C, E, NewC> CE<C, E>.mapContent(
+    crossinline map: (C) -> NewC
+): CE<NewC, E> {
     return foldTypes(
         onContent = { CE.content(map(it.value)) },
         onError = { it }
     )
 }
 
-inline fun <ContentT, NewT> CT<ContentT>.mapContent(
-    crossinline map: (ContentT) -> NewT
-): CT<NewT> {
+inline fun <C, NewC> CT<C>.mapContent(
+    crossinline map: (C) -> NewC
+): CT<NewC> {
     return foldTypes(
         onContent = { CT.content(map(it.value)) },
         onError = { it }
     )
 }
 
-inline fun <ContentT, NewT> UC<ContentT>.mapContent(
-    crossinline map: (ContentT) -> NewT
-): UC<NewT> {
+inline fun <C, NewC> UC<C>.mapContent(
+    crossinline map: (C) -> NewC
+): UC<NewC> {
     return foldTypes(
         onLoading = { it },
         onContent = { UC.content(map(it.value)) }

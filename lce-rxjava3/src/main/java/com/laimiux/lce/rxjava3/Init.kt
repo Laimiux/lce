@@ -38,45 +38,45 @@ inline fun <C, E> Observable<C>.toUCE(
         .onErrorReturn { UCE.error(mapError(it)) }
 }
 
-fun <T> Completable.toUCT(value: T): Observable<UCT<T>> {
+fun <C : Any> Completable.toUCT(value: C): Observable<UCT<C>> {
     return toSingleDefault(value).toUCT()
 }
 
-fun <T> Single<T>.toUCT(): Observable<UCT<T>> {
+fun <C : Any> Single<C>.toUCT(): Observable<UCT<C>> {
     return toObservable().toUCT()
 }
 
-fun <T> Maybe<T>.toUCT(): Observable<UCT<T>> {
+fun <C : Any> Maybe<C>.toUCT(): Observable<UCT<C>> {
     return toObservable().toUCT()
 }
 
-fun <T> Observable<T>.toUCT(): Observable<UCT<T>> {
+fun <C : Any> Observable<C>.toUCT(): Observable<UCT<C>> {
     return this
-        .map { UCT.content(it) as UCT<T> }
+        .map { UCT.content(it) as UCT<C> }
         .startWithItem(UCT.loading())
         .onErrorReturn { UCT.error(it) }
 }
 
-inline fun <C, E> Completable.toCE(
+inline fun <C : Any, E> Completable.toCE(
     value: C,
     crossinline mapError: (Throwable) -> E
 ): Observable<CE<C, E>> {
     return toSingleDefault(value).toCE(mapError)
 }
 
-inline fun <C, E> Single<C>.toCE(
+inline fun <C : Any, E> Single<C>.toCE(
     crossinline mapError: (Throwable) -> E
 ): Observable<CE<C, E>> {
     return toObservable().toCE(mapError)
 }
 
-inline fun <C, E> Maybe<C>.toCE(
+inline fun <C : Any, E> Maybe<C>.toCE(
     crossinline mapError: (Throwable) -> E
 ): Observable<CE<C, E>> {
     return toObservable().toCE(mapError)
 }
 
-inline fun <C, E> Observable<C>.toCE(
+inline fun <C : Any, E> Observable<C>.toCE(
     crossinline mapError: (Throwable) -> E
 ): Observable<CE<C, E>> {
     return this
@@ -84,38 +84,38 @@ inline fun <C, E> Observable<C>.toCE(
         .onErrorReturn { CE.error(mapError(it)) }
 }
 
-fun <T> Completable.toCT(value: T): Observable<CT<T>> {
+fun <C : Any> Completable.toCT(value: C): Observable<CT<C>> {
     return toSingleDefault(value).toCT()
 }
 
-fun <T> Single<T>.toCT(): Observable<CT<T>> {
+fun <C : Any> Single<C>.toCT(): Observable<CT<C>> {
     return toObservable().toCT()
 }
 
-fun <T> Maybe<T>.toCT(): Observable<CT<T>> {
+fun <C : Any> Maybe<C>.toCT(): Observable<CT<C>> {
     return toObservable().toCT()
 }
 
-fun <T> Observable<T>.toCT(): Observable<CT<T>> {
+fun <C : Any> Observable<C>.toCT(): Observable<CT<C>> {
     return this
-        .map { CT.content(it) as CT<T> }
+        .map { CT.content(it) as CT<C> }
         .onErrorReturn { CT.error(it) }
 }
 
-fun <T> Completable.toUC(value: T): Observable<UC<T>> {
+fun <C : Any> Completable.toUC(value: C): Observable<UC<C>> {
     return toSingleDefault(value).toUC()
 }
 
-fun <T> Single<T>.toUC(): Observable<UC<T>> {
+fun <C : Any> Single<C>.toUC(): Observable<UC<C>> {
     return toObservable().toUC()
 }
 
-fun <T> Maybe<T>.toUC(): Observable<UC<T>> {
+fun <C : Any> Maybe<C>.toUC(): Observable<UC<C>> {
     return toObservable().toUC()
 }
 
-fun <T> Observable<T>.toUC(): Observable<UC<T>> {
+fun <C : Any> Observable<C>.toUC(): Observable<UC<C>> {
     return this
-        .map { UC.content(it) as UC<T> }
+        .map { UC.content(it) as UC<C> }
         .startWithItem(UC.loading())
 }

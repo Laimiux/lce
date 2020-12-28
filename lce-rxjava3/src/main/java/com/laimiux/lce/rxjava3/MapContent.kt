@@ -9,36 +9,36 @@ import com.laimiux.lce.mapContent
 import io.reactivex.rxjava3.core.Observable
 
 @JvmName("mapContentLCE")
-inline fun <LoadingT, ContentT, ErrorT, V> Observable<LCE<LoadingT, ContentT, ErrorT>>.mapContent(
-    crossinline transform: (ContentT) -> V
-): Observable<LCE<LoadingT, V, ErrorT>> {
+inline fun <L, C, E, NewC> Observable<LCE<L, C, E>>.mapContent(
+    crossinline transform: (C) -> NewC
+): Observable<LCE<L, NewC, E>> {
     return map { it.mapContent(transform) }
 }
 
 @JvmName("mapContentUCE")
-inline fun <ContentT, ErrorT, V> Observable<UCE<ContentT, ErrorT>>.mapContent(
-    crossinline transform: (ContentT) -> V
-): Observable<UCE<V, ErrorT>> {
+inline fun <C, E, NewC> Observable<UCE<C, E>>.mapContent(
+    crossinline transform: (C) -> NewC
+): Observable<UCE<NewC, E>> {
     return map { it.mapContent(transform) }
 }
 
 @JvmName("mapContentUCT")
-inline fun <T, V> Observable<UCT<T>>.mapContent(
-    crossinline transform: (T) -> V
-): Observable<UCT<V>> {
+inline fun <C, NewC> Observable<UCT<C>>.mapContent(
+    crossinline transform: (C) -> NewC
+): Observable<UCT<NewC>> {
     return map { it.mapContent(transform) }
 }
 
 @JvmName("mapContentCE")
-inline fun <T, ErrorT, V> Observable<CE<T, ErrorT>>.mapContent(
-    crossinline transform: (T) -> V
-): Observable<CE<V, ErrorT>> {
+inline fun <C, E, NewC> Observable<CE<C, E>>.mapContent(
+    crossinline transform: (C) -> NewC
+): Observable<CE<NewC, E>> {
     return map { it.mapContent(transform) }
 }
 
 @JvmName("mapContentCT")
-inline fun <T, V> Observable<CT<T>>.mapContent(
-    crossinline transform: (T) -> V
-): Observable<CT<V>> {
+inline fun <C, NewC> Observable<CT<C>>.mapContent(
+    crossinline transform: (C) -> NewC
+): Observable<CT<NewC>> {
     return map { it.mapContent(transform) }
 }

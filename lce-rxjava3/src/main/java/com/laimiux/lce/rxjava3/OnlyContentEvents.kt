@@ -31,17 +31,17 @@ fun <C : Any, E> Observable<UCE<C, E>>.onlyContentEvents(): Observable<C> {
 }
 
 @JvmName("onlyContentEventsUCT")
-fun <T : Any> Single<UCT<T>>.onlyContentEvents(): Observable<T> {
+fun <C : Any> Single<UCT<C>>.onlyContentEvents(): Observable<C> {
     return toObservable().onlyContentEvents()
 }
 
 @JvmName("onlyContentEventsUCT")
-fun <T : Any> Maybe<UCT<T>>.onlyContentEvents(): Observable<T> {
+fun <C : Any> Maybe<UCT<C>>.onlyContentEvents(): Observable<C> {
     return toObservable().onlyContentEvents()
 }
 
 @JvmName("onlyContentEventsUCT")
-fun <T : Any> Observable<UCT<T>>.onlyContentEvents(): Observable<T> {
+fun <C : Any> Observable<UCT<C>>.onlyContentEvents(): Observable<C> {
     return flatMap {
         it.fold(
             onLoading = { Observable.empty() },
@@ -52,17 +52,17 @@ fun <T : Any> Observable<UCT<T>>.onlyContentEvents(): Observable<T> {
 }
 
 @JvmName("onlyContentEventsCT")
-fun <T : Any> Single<CT<T>>.onlyContentEvents(): Observable<T> {
+fun <C : Any> Single<CT<C>>.onlyContentEvents(): Observable<C> {
     return toObservable().onlyContentEvents()
 }
 
 @JvmName("onlyContentEventsCT")
-fun <T : Any> Maybe<CT<T>>.onlyContentEvents(): Observable<T> {
+fun <C : Any> Maybe<CT<C>>.onlyContentEvents(): Observable<C> {
     return toObservable().onlyContentEvents()
 }
 
 @JvmName("onlyContentEventsCT")
-fun <T : Any> Observable<CT<T>>.onlyContentEvents(): Observable<T> {
+fun <C : Any> Observable<CT<C>>.onlyContentEvents(): Observable<C> {
     return flatMap {
         it.fold(
             onError = { Observable.empty() },
@@ -72,17 +72,17 @@ fun <T : Any> Observable<CT<T>>.onlyContentEvents(): Observable<T> {
 }
 
 @JvmName("onlyContentEventsUC")
-fun <T : Any> Single<UC<T>>.onlyContentEvents(): Observable<T> {
+fun <C : Any> Single<UC<C>>.onlyContentEvents(): Observable<C> {
     return toObservable().onlyContentEvents()
 }
 
 @JvmName("onlyContentEventsUC")
-fun <T : Any> Maybe<UC<T>>.onlyContentEvents(): Observable<T> {
+fun <C : Any> Maybe<UC<C>>.onlyContentEvents(): Observable<C> {
     return toObservable().onlyContentEvents()
 }
 
 @JvmName("onlyContentEventsUC")
-fun <T : Any> Observable<UC<T>>.onlyContentEvents(): Observable<T> {
+fun <C : Any> Observable<UC<C>>.onlyContentEvents(): Observable<C> {
     return flatMap {
         it.fold(
             onLoading = { Observable.empty() },
