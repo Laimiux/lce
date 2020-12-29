@@ -52,14 +52,25 @@ val content = UC.content("Hello world")
 ```
 
 ### Fold
-Fold unwraps the type by forcing you to handle all of its cases. Its useful when we want to update
-the UI based on the current state.
+Each type has a fold extension method which allows us to unwrap the data type and handle all of the cases.
+
+For example, this is useful when we want to update the UI based on the current state.
 ```kotlin
 fun render(event: UCT<MyData>) {
   event.fold(
     onLoading = { view.showLoading() },
     onError   = { exception -> view.showError(exception) },
     onContent = { data -> view.showData(data) }
+}
+```
+
+This is also useful when we want to map to another type.
+```kotlin
+fun toMessage(event: CT<String>): String {
+    return event.fold(
+        onContent = { message -> message },
+        onError   = { error -> "Something went wrong" }
+    )
 }
 ```
 
