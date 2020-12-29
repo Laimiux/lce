@@ -19,7 +19,7 @@ val content = LCE.content("Hello world")
 val error = LCE.error(RuntimeException("boo"))
 ```
 
-When we don't need a value for loading state, we can use `UCE<C, E>` type which stands for Unit / Content / Throwable.
+When we don't need a value for loading state, we can use `UCE<C, E>` type which stands for Unit / Content / Error.
 ```kotlin
 val loading = UCE.loading()
 val content = UCE.content("Hello world")
