@@ -1,5 +1,6 @@
 # LCE
-Data type library that describes loading, content and error states.
+Data type library that describes loading, content and error states. To better understand the
+concept, read the following [blog post](https://tech.instacart.com/lce-modeling-data-loading-in-rxjava-b798ac98d80).
 
 | Type      | Loading | Content | Error |
 | ------------ | -------- | ------- | --------- |
