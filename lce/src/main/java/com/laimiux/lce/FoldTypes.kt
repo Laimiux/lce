@@ -60,6 +60,17 @@ inline fun <C, T> CT<C>.foldTypes(
     }
 }
 
+inline fun <L, C, T> LC<L, C>.foldTypes(
+    crossinline onLoading: (Type.Loading<L>) -> T,
+    crossinline onContent: (Type.Content<C>) -> T
+): T {
+    return when (val type = asLceType()) {
+        is Type.Loading -> onLoading(type)
+        is Type.Content -> onContent(type)
+        else -> throw IllegalStateException("this should not happen: $type")
+    }
+}
+
 inline fun <C, T> UC<C>.foldTypes(
     crossinline onLoading: (Type.Loading.UnitType) -> T,
     crossinline onContent: (Type.Content<C>) -> T

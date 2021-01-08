@@ -1,5 +1,6 @@
 # Changelog
 ## [0.1.2] - TBD
+- Added LC type.
 
 ## [0.1.1] - January 5, 2021
 - Added UCE type.

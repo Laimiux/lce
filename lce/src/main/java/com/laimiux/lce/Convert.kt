@@ -45,6 +45,17 @@ fun <C> LCE<Any?, C, Throwable>.asCT(): CT<C>? {
 }
 
 /**
+ * Returns null on error, otherwise returns [LC].
+ */
+fun <L, C> LCE<L, C, Any?>.asLC(): LC<L, C>? {
+    return foldTypes(
+        onLoading = { it },
+        onContent = { it },
+        onError = { null }
+    )
+}
+
+/**
  * Returns null on error, otherwise returns [UC].
  */
 fun <C> LCE<Unit, C, Any?>.asUC(): UC<C>? {
@@ -89,6 +100,17 @@ fun <C, E> UCE<C, E>.asCE(): CE<C, E>? {
 }
 
 /**
+ * Returns null on error, otherwise returns [LC].
+ */
+fun <C, E> UCE<C, E>.asLC(): LC<Unit, C>? {
+    return foldTypes(
+        onLoading = { it },
+        onContent = { it },
+        onError = { null }
+    )
+}
+
+/**
  * Returns null on error, otherwise returns [UC].
  */
 fun <C, E> UCE<C, E>.asUC(): UC<C>? {
@@ -98,8 +120,6 @@ fun <C, E> UCE<C, E>.asUC(): UC<C>? {
         onError = { null }
     )
 }
-
-
 
 /**
  * Converts `UCT<C>` to `LCE<Unit, C, Throwable>`
@@ -142,6 +162,17 @@ fun <C> UCT<C>.asCE(): CE<C, Throwable>? {
         onLoading = { null },
         onContent = { it },
         onError = { it }
+    )
+}
+
+/**
+ * Returns null on error, otherwise returns [LC].
+ */
+fun <C> UCT<C>.asLC(): LC<Unit, C>? {
+    return foldTypes(
+        onLoading = { it },
+        onContent = { it },
+        onError = { null }
     )
 }
 
@@ -237,6 +268,46 @@ fun <C> CT<C>.asCE(): CE<C, Throwable> {
 }
 
 /**
+ * Converts `LC<L, C>` to `LCE<L, C, Nothing>`
+ */
+fun <L, C> LC<L, C>.asLCE(): LCE<L, C, Nothing> {
+    return foldTypes(
+        onLoading = { it },
+        onContent = { it }
+    )
+}
+
+/**
+ * Converts `LC<Unit, C>` to `UCE<C, Nothing>`
+ */
+fun <C> LC<Unit, C>.asUCE(): UCE<C, Nothing> {
+    return foldTypes(
+        onLoading = { it.asUnitLoading() },
+        onContent = { it }
+    )
+}
+
+/**
+ * Converts `LC<Unit, C>` to `UCT<C>`
+ */
+fun <C> LC<Unit, C>.asUCT(): UCT<C> {
+    return foldTypes(
+        onLoading = { it.asUnitLoading() },
+        onContent = { it }
+    )
+}
+
+/**
+ * Converts `LC<Unit, C>` to `UC<C>`
+ */
+fun <C> LC<Unit, C>.asUC(): UC<C> {
+    return foldTypes(
+        onLoading = { it.asUnitLoading() },
+        onContent = { it }
+    )
+}
+
+/**
  * Converts `UC<C>` to `LCE<Unit, C, Nothing>`
  */
 fun <C> UC<C>.asLCE(): LCE<Unit, C, Nothing> {
@@ -260,6 +331,16 @@ fun <C> UC<C>.asUCE(): UCE<C, Nothing> {
  * Converts `UC<C>` to `UCT<C>`
  */
 fun <C> UC<C>.asUCT(): UCT<C> {
+    return foldTypes(
+        onLoading = { it },
+        onContent = { it }
+    )
+}
+
+/**
+ * Converts `UC<C>` to `LC<Unit, C>`
+ */
+fun <C> UC<C>.asLC(): LC<Unit, C> {
     return foldTypes(
         onLoading = { it },
         onContent = { it }

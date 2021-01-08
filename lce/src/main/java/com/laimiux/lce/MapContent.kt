@@ -59,6 +59,15 @@ inline fun <C, NewC> CT<C>.mapContent(
     )
 }
 
+inline fun <L, C, NewC> LC<L, C>.mapContent(
+    crossinline map: (C) -> NewC
+): LC<L, NewC> {
+    return foldTypes(
+        onLoading = { it },
+        onContent = { LC.content(map(it.value)) }
+    )
+}
+
 inline fun <C, NewC> UC<C>.mapContent(
     crossinline map: (C) -> NewC
 ): UC<NewC> {

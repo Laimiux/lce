@@ -2,6 +2,7 @@ package com.laimiux.lce.rxjava3
 
 import com.laimiux.lce.CE
 import com.laimiux.lce.CT
+import com.laimiux.lce.LC
 import com.laimiux.lce.UC
 import com.laimiux.lce.UCE
 import com.laimiux.lce.UCT
@@ -100,6 +101,24 @@ fun <C : Any> Observable<C>.toCT(): Observable<CT<C>> {
     return this
         .map { CT.content(it) as CT<C> }
         .onErrorReturn { CT.error(it) }
+}
+
+fun <C : Any> Completable.toLC(value: C): Observable<LC<Unit, C>> {
+    return toSingleDefault(value).toLC()
+}
+
+fun <C : Any> Single<C>.toLC(): Observable<LC<Unit, C>> {
+    return toObservable().toLC()
+}
+
+fun <C : Any> Maybe<C>.toLC(): Observable<LC<Unit, C>> {
+    return toObservable().toLC()
+}
+
+fun <C : Any> Observable<C>.toLC(): Observable<LC<Unit, C>> {
+    return this
+        .map { LC.content(it) as LC<Unit, C> }
+        .startWithItem(LC.loading())
 }
 
 fun <C : Any> Completable.toUC(value: C): Observable<UC<C>> {

@@ -75,6 +75,18 @@ class ConvertTest {
         assertThat(ce).isEqualTo(CE.content(0))
     }
 
+    @Test fun `LC as LCE`() {
+        val initial: LC<String, String> = LC.loading("")
+        val result: LCE<String, String, Nothing> = initial.asLCE()
+        assertThat(result).isEqualTo(LCE.loading(""))
+    }
+
+    @Test fun `LC as UCT`() {
+        val initial: LC<Unit, String> = LC.loading()
+        val result: UCT<String> = initial.asUCT()
+        assertThat(result).isEqualTo(UCT.loading())
+    }
+
     @Test fun `UC as LCE`() {
         val uc: UC<Int> = UC.content(0)
         val lce: LCE<Unit, Int, String> = uc.asLCE()
