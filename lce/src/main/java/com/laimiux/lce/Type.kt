@@ -9,7 +9,8 @@ sealed class Type<out L, out C, out E> : LCE<L, C, E> {
      */
     sealed class Loading<out T>() :
         Type<T, Nothing, Nothing>(),
-        LCE<T, Nothing, Nothing> {
+        LCE<T, Nothing, Nothing>,
+        LC<T, Nothing> {
 
         companion object {
             operator fun invoke() = UnitType
@@ -108,6 +109,7 @@ sealed class Type<out L, out C, out E> : LCE<L, C, E> {
         LCE<Nothing, T, Nothing>,
         UCE<T, Nothing>,
         UCT<T>,
+        LC<Nothing, T>,
         UC<T>,
         CE<T, Nothing>,
         CT<T> {

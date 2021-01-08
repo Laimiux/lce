@@ -61,6 +61,15 @@ inline fun <C, NewC> CT<C>.flatMapContent(
     )
 }
 
+inline fun <L, C, NewC> LC<L, C>.flatMapContent(
+    crossinline transform: (C) -> LC<L, NewC>
+): LC<L, NewC> {
+    return foldTypes(
+        onLoading = { it },
+        onContent = { transform(it.value) }
+    )
+}
+
 inline fun <C, NewC> UC<C>.flatMapContent(
     crossinline transform: (C) -> UC<NewC>
 ): UC<NewC> {

@@ -1,6 +1,7 @@
 package com.laimiux.lce.rxjava3
 
 import com.laimiux.lce.CT
+import com.laimiux.lce.LC
 import com.laimiux.lce.UC
 import com.laimiux.lce.UCE
 import com.laimiux.lce.UCT
@@ -66,6 +67,26 @@ fun <C : Any> Observable<CT<C>>.onlyContentEvents(): Observable<C> {
     return flatMap {
         it.fold(
             onError = { Observable.empty() },
+            onContent = { Observable.just(it) }
+        )
+    }
+}
+
+@JvmName("onlyContentEventsLC")
+fun <L, C : Any> Single<LC<L, C>>.onlyContentEvents(): Observable<C> {
+    return toObservable().onlyContentEvents()
+}
+
+@JvmName("onlyContentEventsLC")
+fun <L, C : Any> Maybe<LC<L, C>>.onlyContentEvents(): Observable<C> {
+    return toObservable().onlyContentEvents()
+}
+
+@JvmName("onlyContentEventsLC")
+fun <L, C : Any> Observable<LC<L, C>>.onlyContentEvents(): Observable<C> {
+    return flatMap {
+        it.fold(
+            onLoading = { Observable.empty() },
             onContent = { Observable.just(it) }
         )
     }

@@ -1,6 +1,7 @@
 package com.laimiux.lce.rxjava3
 
 import com.laimiux.lce.CT
+import com.laimiux.lce.LC
 import com.laimiux.lce.LCE
 import com.laimiux.lce.Type
 import com.laimiux.lce.UC
@@ -57,6 +58,18 @@ inline fun <C, NewC> Observable<CT<C>>.switchMapContent(
         it.foldTypes(
             onContent = { transform(it.value) },
             onError = { Observable.just(it) }
+        )
+    }
+}
+
+@JvmName("switchMapContentLC")
+inline fun <L, C, NewC> Observable<LC<L, C>>.switchMapContent(
+    crossinline transform: (C) -> Observable<LC<L, NewC>>
+): Observable<LC<L, NewC>> {
+    return switchMap {
+        it.foldTypes(
+            onLoading = { Observable.just(it) },
+            onContent = { transform(it.value) }
         )
     }
 }

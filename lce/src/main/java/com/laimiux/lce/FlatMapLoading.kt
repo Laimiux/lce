@@ -30,6 +30,15 @@ inline fun <C> UCT<C>.flatMapLoading(
     )
 }
 
+inline fun <L, C, NewL> LC<L, C>.flatMapLoading(
+    crossinline map: () -> LC<NewL, C>
+): LC<NewL, C> {
+    return foldTypes(
+        onLoading = { map() },
+        onContent = { it }
+    )
+}
+
 inline fun <C> UC<C>.flatMapLoading(
     crossinline map: () -> UC<C>
 ): UC<C> {

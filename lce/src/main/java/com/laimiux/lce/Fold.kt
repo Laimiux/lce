@@ -77,6 +77,20 @@ inline fun <C, T> CT<C>.fold(
 }
 
 /**
+ * Converts LC into a value of type [T] by mapping each possible
+ * variant [onLoading] and [onContent].
+ */
+inline fun <L, C, T> LC<L, C>.fold(
+    crossinline onLoading: (L) -> T,
+    crossinline onContent: (C) -> T
+): T {
+    return foldTypes(
+        onLoading = { onLoading(it.value) },
+        onContent = { onContent(it.value) }
+    )
+}
+
+/**
  * Converts UC into a value of type [T] by mapping each possible
  * variant [onLoading] and [onContent].
  */
