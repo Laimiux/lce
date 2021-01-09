@@ -2,6 +2,27 @@ package com.laimiux.lce
 
 
 /**
+ * Merges two [UCT] objects into one.
+ */
+inline fun <C, C2, T> UCT<C>.merge(
+    other: UCT<C2>,
+    crossinline merge: (C, C2) -> T
+): UCT<T> {
+    return takeFirstError(other) { first, second ->
+        first.merge(second, merge).asUCT()
+    }
+}
+
+/**
+ * Merges two [UCT] objects into one.
+ */
+fun <C, C2> UCT<C>.merge(other: UCT<C2>): UCT<Pair<C, C2>> {
+    return merge(other) { first, second ->
+        Pair(first, second)
+    }
+}
+
+/**
  * Merges two [LC] objects into one.
  */
 fun <L, C, C2> LC<L, C>.merge(other: LC<L, C2>): LC<L, Pair<C, C2>> {
