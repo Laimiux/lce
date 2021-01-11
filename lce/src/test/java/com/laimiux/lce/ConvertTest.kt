@@ -2,7 +2,6 @@ package com.laimiux.lce
 
 import com.google.common.truth.Truth.assertThat
 import org.junit.Test
-import java.lang.RuntimeException
 
 class ConvertTest {
 
@@ -20,6 +19,11 @@ class ConvertTest {
     @Test fun `LCE as CE returns error when error`() {
         val result = LCE.error("").asCE()
         assertThat(result).isEqualTo(CE.error(""))
+    }
+
+    @Test fun `LCE as CE where we map loading to content`() {
+        val result = LCE.loading().asCE { CE.content(0) }
+        assertThat(result).isEqualTo(CE.content(0))
     }
 
     @Test fun `LCE as CT returns null when loading`() {
