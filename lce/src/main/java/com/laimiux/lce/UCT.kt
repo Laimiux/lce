@@ -11,6 +11,17 @@ interface UCT<out C> {
         fun <T> content(content: T): UCT<T> = Type.Content(content)
 
         fun error(error: Throwable): UCT<Nothing> = Type.Error(error)
+
+        /**
+         * Returns [UCT.loading] if [content] is null, otherwise returns [UCT.content].
+         */
+        fun <C : Any> fromNullable(content: C?): UCT<C> {
+            return if (content == null) {
+                loading()
+            } else {
+                content(content)
+            }
+        }
     }
 
     fun isLoading(): Boolean

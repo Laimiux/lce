@@ -10,6 +10,17 @@ interface UCE<out C, out E> {
         fun <T> content(value: T): UCE<T, Nothing> = Type.Content(value)
         fun error(error: Throwable): UCE<Nothing, Throwable> = Type.Error.ThrowableType(error)
         fun <T> error(error: T): UCE<Nothing, T> = Type.Error(error)
+
+        /**
+         * Returns [UCE.loading] if [content] is null, otherwise returns [UCE.content].
+         */
+        fun <C : Any> fromNullable(content: C?): UCE<C, Nothing> {
+            return if (content == null) {
+                loading()
+            } else {
+                content(content)
+            }
+        }
     }
 
     fun isLoading(): Boolean

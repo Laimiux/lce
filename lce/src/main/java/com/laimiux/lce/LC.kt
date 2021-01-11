@@ -11,6 +11,17 @@ interface LC<out L, out C> {
         fun <T> loading(loading: T): LC<T, Nothing> = Type.Loading(loading)
 
         fun <T> content(content: T): LC<Nothing, T> = Type.Content(content)
+
+        /**
+         * Returns [LC.loading] if [content] is null, otherwise returns [LC.content].
+         */
+        fun <C : Any> fromNullable(content: C?): LC<Unit, C> {
+            return if (content == null) {
+                loading()
+            } else {
+                content(content)
+            }
+        }
     }
 
     fun isLoading(): Boolean
