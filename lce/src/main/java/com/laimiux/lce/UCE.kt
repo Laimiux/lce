@@ -15,8 +15,18 @@ interface UCE<out C, out E> {
          * Returns [UCE.loading] if [content] is null, otherwise returns [UCE.content].
          */
         fun <C : Any> fromNullable(content: C?): UCE<C, Nothing> {
+            return fromNullable(content) { loading() }
+        }
+
+        /**
+         * Returns [onNull] if [content] is null, otherwise returns [UCE.content].
+         */
+        inline fun <C : Any, E> fromNullable(
+            content: C?,
+            crossinline onNull: () -> UCE<C, E>
+        ): UCE<C, E> {
             return if (content == null) {
-                loading()
+                onNull()
             } else {
                 content(content)
             }

@@ -13,8 +13,18 @@ interface UC<out C> {
          * Returns [UC.loading] if [content] is null, otherwise returns [UC.content].
          */
         fun <C : Any> fromNullable(content: C?): UC<C> {
+            return fromNullable(content) { loading() }
+        }
+
+        /**
+         * Returns [onNull] if [content] is null, otherwise returns [UC.content].
+         */
+        inline fun <C : Any> fromNullable(
+            content: C?,
+            crossinline onNull: () -> UC<C>
+        ): UC<C> {
             return if (content == null) {
-                loading()
+                onNull()
             } else {
                 content(content)
             }
