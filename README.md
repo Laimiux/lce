@@ -63,6 +63,7 @@ fun render(event: UCT<MyData>) {
     onLoading = { view.showLoading() },
     onError   = { exception -> view.showError(exception) },
     onContent = { data -> view.showData(data) }
+  )
 }
 ```
 
