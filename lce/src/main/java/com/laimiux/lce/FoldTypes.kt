@@ -24,6 +24,18 @@ inline fun <L, C, E, T> LCE<L, C, E>.foldTypes(
     )
 }
 
+@JvmName("foldContentType")
+inline fun <L, C, E, T> LCE<L, C, E>.foldTypes(
+    crossinline onContent: (Type.Content<C>) -> T,
+    crossinline onOther: () -> T
+): T {
+    return foldTypes(
+        onLoading = { onOther() },
+        onContent = onContent,
+        onError = { onOther() }
+    )
+}
+
 @JvmName("foldErrorType")
 inline fun <L, C, E, T> LCE<L, C, E>.foldTypes(
     crossinline onError: (Type.Error<E>) -> T,
@@ -61,6 +73,18 @@ inline fun <C, E, T> UCE<C, E>.foldTypes(
     )
 }
 
+@JvmName("foldContentType")
+inline fun <C, E, T> UCE<C, E>.foldTypes(
+    crossinline onContent: (Type.Content<C>) -> T,
+    crossinline onOther: () -> T
+): T {
+    return foldTypes(
+        onLoading = { onOther() },
+        onContent = onContent,
+        onError = { onOther() }
+    )
+}
+
 @JvmName("foldErrorType")
 inline fun <C, E, T> UCE<C, E>.foldTypes(
     crossinline onError: (Type.Error<E>) -> T,
@@ -95,6 +119,18 @@ inline fun <C, T> UCT<C>.foldTypes(
         onLoading = onLoading,
         onContent = onOther,
         onError = onOther
+    )
+}
+
+@JvmName("foldContentType")
+inline fun <C, T> UCT<C>.foldTypes(
+    crossinline onContent: (Type.Content<C>) -> T,
+    crossinline onOther: () -> T
+): T {
+    return foldTypes(
+        onLoading = { onOther() },
+        onContent = onContent,
+        onError = { onOther() }
     )
 }
 
