@@ -16,8 +16,18 @@ interface UCT<out C> {
          * Returns [UCT.loading] if [content] is null, otherwise returns [UCT.content].
          */
         fun <C : Any> fromNullable(content: C?): UCT<C> {
+            return fromNullable(content) { loading() }
+        }
+
+        /**
+         * Returns [onNull] if [content] is null, otherwise returns [UCT.content].
+         */
+        inline fun <C : Any> fromNullable(
+            content: C?,
+            crossinline onNull: () -> UCT<C>
+        ): UCT<C> {
             return if (content == null) {
-                loading()
+                onNull()
             } else {
                 content(content)
             }

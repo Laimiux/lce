@@ -10,6 +10,20 @@ interface CE<out C, out E> {
 
         fun error(error: Throwable): CE<Nothing, Throwable> = Type.Error(error)
         fun <T> error(error: T): CE<Nothing, T> = Type.Error(error)
+
+        /**
+         * Returns [onNull] if [content] is null, otherwise returns [CE.content].
+         */
+        inline fun <C : Any, E> fromNullable(
+            content: C?,
+            crossinline onNull: () -> CE<C, E>
+        ): CE<C, E> {
+            return if (content == null) {
+                onNull()
+            } else {
+                content(content)
+            }
+        }
     }
 
     fun isContent(): Boolean

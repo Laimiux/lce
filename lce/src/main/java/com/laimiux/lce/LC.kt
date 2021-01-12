@@ -16,8 +16,18 @@ interface LC<out L, out C> {
          * Returns [LC.loading] if [content] is null, otherwise returns [LC.content].
          */
         fun <C : Any> fromNullable(content: C?): LC<Unit, C> {
+            return fromNullable(content) { loading() }
+        }
+
+        /**
+         * Returns [onNull] if [content] is null, otherwise returns [LC.content].
+         */
+        inline fun <L, C : Any> fromNullable(
+            content: C?,
+            crossinline onNull: () -> LC<L, C>
+        ): LC<L, C> {
             return if (content == null) {
-                loading()
+                onNull()
             } else {
                 content(content)
             }

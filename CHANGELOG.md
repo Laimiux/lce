@@ -4,6 +4,7 @@
 - Added `foldLoading` extension method to `LCE`, `UCE` and `UCT` types. 
 - Added `foldError` extension method to `LCE`, `UCE` and `UCT` types.
 - Added `fromNullable` factory method to `LCE`, `UCE`, `UCT`, `LC`, `UC` types.
+- Added `fromNullable(content) { [Type].loading() }` factory method to all types.
 
 ## [0.1.1] - January 5, 2021
 - Added UCE type.

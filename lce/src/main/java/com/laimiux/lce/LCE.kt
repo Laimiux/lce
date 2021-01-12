@@ -19,8 +19,18 @@ interface LCE<out L, out C, out E> {
          * Returns [LCE.loading] if [content] is null, otherwise returns [LCE.content].
          */
         fun <C : Any> fromNullable(content: C?): LCE<Unit, C, Nothing> {
+            return fromNullable(content) { loading() }
+        }
+
+        /**
+         * Returns [onNull] if [content] is null, otherwise returns [LCE.content].
+         */
+        inline fun <L, C : Any, E> fromNullable(
+            content: C?,
+            crossinline onNull: () -> LCE<L, C, E>
+        ): LCE<L, C, E> {
             return if (content == null) {
-                loading()
+                onNull()
             } else {
                 content(content)
             }
