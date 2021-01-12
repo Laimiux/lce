@@ -14,6 +14,17 @@ interface LCE<out L, out C, out E> {
 
         fun error(error: Throwable): LCE<Nothing, Nothing, Throwable> = Type.Error(error)
         fun <T> error(error: T): LCE<Nothing, Nothing, T> = Type.Error(error)
+
+        /**
+         * Returns [LCE.loading] if [content] is null, otherwise returns [LCE.content].
+         */
+        fun <C : Any> fromNullable(content: C?): LCE<Unit, C, Nothing> {
+            return if (content == null) {
+                loading()
+            } else {
+                content(content)
+            }
+        }
     }
 
     fun isLoading(): Boolean
