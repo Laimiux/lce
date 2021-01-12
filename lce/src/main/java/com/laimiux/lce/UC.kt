@@ -7,7 +7,7 @@ package com.laimiux.lce
 interface UC<out C> {
     companion object {
         fun loading(): UC<Nothing> = Type.Loading()
-        fun <T> content(value: T): UC<T> = Type.Content(value)
+        fun <C> content(value: C): UC<C> = Type.Content(value)
 
         /**
          * Returns [UC.loading] if [content] is null, otherwise returns [UC.content].
