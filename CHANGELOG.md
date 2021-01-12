@@ -1,5 +1,8 @@
 # Changelog
-## [0.2.0] - TBD
+## [x.x.x] - TBD
+- 
+
+## [0.2.0] - January 11, 2021 
 - Added LC type.
 - Added `foldLoading` extension method to `LCE`, `UCE` and `UCT` types. 
 - Added `foldContent` extension method to `LCE`, `UCE` and `UCT` types.
