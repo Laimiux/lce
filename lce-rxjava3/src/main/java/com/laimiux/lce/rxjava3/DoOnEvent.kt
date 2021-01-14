@@ -1,5 +1,6 @@
 package com.laimiux.lce.rxjava3
 
+import com.laimiux.lce.CE
 import com.laimiux.lce.CT
 import com.laimiux.lce.LC
 import com.laimiux.lce.LCE
@@ -50,6 +51,19 @@ inline fun <C> Observable<UCT<C>>.doOnEvent(
             onLoading = onLoading,
             onError = onError,
             onContent = onContent
+        )
+    }
+}
+
+@JvmName("doOnEventCE")
+inline fun <C, E> Observable<CE<C, E>>.doOnEvent(
+    crossinline onError: (E) -> Unit = {},
+    crossinline onContent: (C) -> Unit = {}
+): Observable<CE<C, E>> {
+    return doOnNext {
+        it.fold(
+            onContent = onContent,
+            onError = onError
         )
     }
 }

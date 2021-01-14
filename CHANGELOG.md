@@ -3,6 +3,8 @@
 - Added `UC.merge()` extension method
 - Added `LC.merge()` extension method
 - Added `UCT.asUC { throwable -> UC.loading }` extension method
+- Added `doOnEvent` extension to `Observable<CE>` type
+- Added `doOnContent` extension to `Observable<CE>` type
 
 ## [0.2.0] - January 11, 2021 
 - Added LC type.
