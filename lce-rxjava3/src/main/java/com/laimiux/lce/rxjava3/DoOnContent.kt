@@ -1,5 +1,6 @@
 package com.laimiux.lce.rxjava3
 
+import com.laimiux.lce.CE
 import com.laimiux.lce.CT
 import com.laimiux.lce.LC
 import com.laimiux.lce.LCE
@@ -30,6 +31,15 @@ inline fun <C, E> Observable<UCE<C, E>>.doOnContent(
 inline fun <C> Observable<UCT<C>>.doOnContent(
     crossinline action: (C) -> Unit
 ): Observable<UCT<C>> {
+    return doOnEvent(
+        onContent = action
+    )
+}
+
+@JvmName("doOnContentCE")
+inline fun <C, E> Observable<CE<C, E>>.doOnContent(
+    crossinline action: (C) -> Unit
+): Observable<CE<C, E>> {
     return doOnEvent(
         onContent = action
     )
