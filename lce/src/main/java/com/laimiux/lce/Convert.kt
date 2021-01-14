@@ -275,6 +275,15 @@ inline fun <C> UCT<C>.asLC(
 /**
  * Returns null on error, otherwise returns [UC].
  */
+inline fun <C> UCT<C>.asUC(
+    crossinline fold: (Throwable) -> UC<C>
+): UC<C> {
+    return asLCE().asUC(fold)
+}
+
+/**
+ * Returns null on error, otherwise returns [UC].
+ */
 fun <C> UCT<C>.asUC(): UC<C>? {
     return asLCE().asUC()
 }
