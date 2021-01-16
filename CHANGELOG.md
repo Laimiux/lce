@@ -6,6 +6,7 @@
 - Added `doOnEvent` extension to `Observable<CE>` type.
 - Added `doOnContent` extension to `Observable<CE>` type.
 - Added `flatten` extension method to `LC` and `UC` types.
+- Added `asUCT()` extension to `UCE<C, Throwable>` type.
 
 ## [0.2.0] - January 11, 2021 
 - Added LC type.
