@@ -122,6 +122,18 @@ fun <C, E> UCE<C, E>.asLCE(): LCE<Unit, C, E> {
 }
 
 /**
+ * Converts `UCE<C, Throwable>` to `UCT<C>`
+ */
+fun <C, E> UCE<C, Throwable>.asUCT(): UCT<C> {
+    return foldTypes(
+        onLoading = { it },
+        onContent = { it },
+        onError = { it.asThrowableError() }
+    )
+}
+
+
+/**
  * Returns null when current state is loading otherwise returns [CE].
  */
 fun <C, E> UCE<C, E>.asCE(): CE<C, E>? {
