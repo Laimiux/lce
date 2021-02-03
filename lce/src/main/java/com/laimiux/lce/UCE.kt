@@ -8,7 +8,6 @@ interface UCE<out C, out E> {
     companion object {
         fun loading(): UCE<Nothing, Nothing> = Type.Loading()
         fun <T> content(value: T): UCE<T, Nothing> = Type.Content(value)
-        fun error(error: Throwable): UCE<Nothing, Throwable> = Type.Error.ThrowableType(error)
         fun <T> error(error: T): UCE<Nothing, T> = Type.Error(error)
 
         /**
