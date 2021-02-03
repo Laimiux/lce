@@ -12,7 +12,6 @@ interface LCE<out L, out C, out E> {
 
         fun <T> content(content: T): LCE<Nothing, T, Nothing> = Type.Content(content)
 
-        fun error(error: Throwable): LCE<Nothing, Nothing, Throwable> = Type.Error(error)
         fun <T> error(error: T): LCE<Nothing, Nothing, T> = Type.Error(error)
 
         /**
