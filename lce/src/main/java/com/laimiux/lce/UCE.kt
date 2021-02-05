@@ -34,9 +34,11 @@ interface UCE<out C, out E> {
 
     fun isLoading(): Boolean
     fun isContent(): Boolean
+    fun isError(): Boolean
 
     fun loadingOrNull(): Any?
     fun contentOrNull(): C?
+    fun errorOrNull(): E?
 
     fun asLceType(): Type<Any?, C, E>
 }
