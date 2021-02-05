@@ -1,5 +1,5 @@
 # Changelog
-## [x.x.x] - TBD
+## [0.3.0] - February 5, 2021
 - Added `UC.merge()` extension method.
 - Added `LC.merge()` extension method.
 - Added `UCT.asUC { throwable -> UC.loading }` extension method.
