@@ -124,7 +124,7 @@ fun <C, E> UCE<C, E>.asLCE(): LCE<Unit, C, E> {
 /**
  * Converts `UCE<C, Throwable>` to `UCT<C>`
  */
-fun <C, E> UCE<C, Throwable>.asUCT(): UCT<C> {
+fun <C> UCE<C, Throwable>.asUCT(): UCT<C> {
     return foldTypes(
         onLoading = { it },
         onContent = { it },

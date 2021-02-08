@@ -1,4 +1,7 @@
 # Changelog
+## [0.3.1] - TBD
+- Fix `UCE.asUCT()` generic issue.
+
 ## [0.3.0] - February 5, 2021
 - Added `UC.merge()` extension method.
 - Added `LC.merge()` extension method.
