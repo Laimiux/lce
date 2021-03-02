@@ -1,5 +1,8 @@
 # Changelog
-## [0.3.1] - TBD
+## [0.3.2] - TBD
+- 
+
+## [0.3.1] - March 2, 2021
 - Fix `UCE.asUCT()` generic issue.
 
 ## [0.3.0] - February 5, 2021

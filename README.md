@@ -116,8 +116,8 @@ Add the library to your list of dependencies:
 
 ```groovy
 dependencies {
-    implementation 'com.laimiux.lce:lce:0.3.0'
-    implementation 'com.laimiux.lce:lce-rxjava3:0.3.0'
+    implementation 'com.laimiux.lce:lce:0.3.1'
+    implementation 'com.laimiux.lce:lce-rxjava3:0.3.1'
 }
 ```
 
