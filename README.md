@@ -14,7 +14,7 @@ concept, read the following [blog post](https://tech.instacart.com/lce-modeling-
 
 
 ## Types
-`LCE<L, C, E>` is the most flexible type. It allows you to specify the generic parameter for each state.
+`LCE<L, C, E>` is the most flexible type which stands for Loading / Content / Error. It allows you to specify the generic parameter for each state.
 ```kotlin
 val loading = LCE.loading("We are loading")
 val content = LCE.content("Hello world")
@@ -35,13 +35,13 @@ val content = UCT.content("Hello world")
 val error = UCT.error(RuntimeException("boo"))
 ```
 
-When we only care about content and error states, we can use `CE<C, E>` type.
+When we only care about content and error states, we can use `CE<C, E>` type which stands for Content / Error.
 ```kotlin
 val content = CE.content("Hello world")
 val error = CE.error("My custom error message")
 ```
 
-When we use `Throwable` for errors, we can use `CT<C>` type.
+When we use `Throwable` for errors, we can use `CT<C>` type which stands for Content / Throwable.
 ```kotlin
 val content = CT.content("Hello world")
 val error = CT.error(RuntimeException("boo"))
@@ -110,14 +110,15 @@ fun fetchData(): Observable<UCT<MyData>> {
     return Single.fromCallable { MyData() }.toUCT()
 }
 ```
+You'll need to add the `lce-rxjava3` dependency to access these features.
 
 ## Download
 Add the library to your list of dependencies:
 
 ```groovy
 dependencies {
-    implementation 'com.laimiux.lce:lce:0.3.1'
-    implementation 'com.laimiux.lce:lce-rxjava3:0.3.1'
+    implementation("com.laimiux.lce:lce:0.3.1")
+    implementation("com.laimiux.lce:lce-rxjava3:0.3.1")
 }
 ```
 
