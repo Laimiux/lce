@@ -4,6 +4,9 @@ import com.google.common.truth.Truth.assertThat
 import org.junit.Test
 
 class MergeTest {
+    companion object {
+        val ERROR = TestException("error")
+    }
 
     @Test fun `LC loading merge returns loading`() {
         val result = LC.loading().merge(LC.content(0))
@@ -33,5 +36,20 @@ class MergeTest {
     @Test fun `UC content returns merged content when other UC is content`() {
         val result = UC.content(0).merge(UC.content(""))
         assertThat(result).isEqualTo(UC.content(Pair(0, "")))
+    }
+
+    @Test fun `UCT error returns error if other UCT is loading`() {
+        val result = UCT.error(ERROR).merge(UCT.loading())
+        assertThat(result).isEqualTo(UCT.error(ERROR))
+    }
+
+    @Test fun `UCT error returns error if other UCT has content`() {
+        val result = UCT.error(ERROR).merge(UCT.content(""))
+        assertThat(result).isEqualTo(UCT.error(ERROR))
+    }
+
+    @Test fun `UCT content return merged content when other UCT has content`() {
+        val result = UCT.content(0).merge(UCT.content(""))
+        assertThat(result).isEqualTo(UCT.content(Pair(0, "")))
     }
 }

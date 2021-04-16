@@ -1,6 +1,6 @@
 # Changelog
 ## [0.3.2] - TBD
-- 
+- Added `UCT.merge` extension method.
 
 ## [0.3.1] - March 2, 2021
 - Fix `UCE.asUCT()` generic issue.
