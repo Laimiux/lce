@@ -1,2 +1,3 @@
 include ':lce'
 include ':lce-rxjava3'
+include ':lce-test'

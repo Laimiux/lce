@@ -112,6 +112,25 @@ fun fetchData(): Observable<UCT<MyData>> {
 ```
 You'll need to add the `lce-rxjava3` dependency to access these features.
 
+### Testing
+Use `lce-test` artifact in your tests to simplify making assertions on the `LCE` types.
+```kotlin
+@Test fun `my test`() {
+    val event: LCE<String, String, Throwable> = ...
+    // Loading assertions
+    event.assertLoading()
+    event.assertLoading("loading value")
+    
+    // Content assertions
+    event.assertContent()
+    event.assertContent("content value")
+
+    // Error assertions
+    event.assertError()
+    event.assertError(throwable)
+}
+```
+
 ## Download
 Add the library to your list of dependencies:
 
@@ -119,6 +138,7 @@ Add the library to your list of dependencies:
 dependencies {
     implementation("com.laimiux.lce:lce:0.3.1")
     implementation("com.laimiux.lce:lce-rxjava3:0.3.1")
+    implementation("com.laimiux.lce:lce-test:0.3.1")
 }
 ```
 
