@@ -24,3 +24,5 @@ jobs:
         run: ./gradlew :lce:test
       - name: RxJava3 Module Unit Tests
         run: ./gradlew :lce-rxjava3:test
+      - name: Test Library tests
+        run: ./gradlew :lce-test:test
