@@ -1,22 +1,46 @@
 package com.laimiux.lce.test
 
-import com.google.common.truth.Truth.assertThat
+import com.laimiux.lce.LC
 import com.laimiux.lce.LCE
 import org.junit.Test
 
 class AssertLoadingTest {
-
-    @Test fun `when LCE loading then assertLoading succeeds`() {
-        LCE.loading("").assertLoading()
+    @Test
+    fun `LCE assertLoading testSuite`() {
+        runSuite(
+            content = { LCE.content("") },
+            error = { LCE.error("error") },
+            loading = { LCE.loading() },
+            runAssertLoading = { assertLoading() }
+        )
     }
 
-    @Test fun `when LCE content then assertLoading throws assertion error`() {
-        val error = expectError { LCE.content("moo").assertLoading() }
-        assertThat(error).isInstanceOf(AssertionError::class.java)
+    @Test
+    fun `LC assertLoading testSuite`() {
+        runSuite(
+            content = { LC.content("content") },
+            loading = { LC.loading() },
+            runAssertLoading = { assertLoading() }
+        )
     }
 
-    @Test fun `when LCE error then assertLoading throws assertion error`() {
-        val error = expectError { LCE.error("moo").assertLoading() }
-        assertThat(error).isInstanceOf(AssertionError::class.java)
+    private fun <Type> runSuite(
+        loading: () -> Type,
+        content: () -> Type,
+        error: (() -> Type)? = null,
+        runAssertLoading: Type.() -> Unit,
+    ) {
+        // run - loading type - succeeds
+        loading().runAssertLoading()
+
+        // run - content type - throws assertion error
+        content.invoke().let {
+            expectError { it.runAssertLoading() }
+        }
+
+        // run - error type - throws assertion error
+        error?.invoke()?.let {
+            expectError { it.runAssertLoading() }
+        }
     }
 }
