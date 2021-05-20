@@ -1,5 +1,8 @@
 # Changelog
-## [0.3.2] - TBD
+## [0.4.0] - TBD
+-
+
+## [0.3.2] - May 20, 2021
 - Added `UCT.merge` extension method.
 - Add `lce-test` module.
 
