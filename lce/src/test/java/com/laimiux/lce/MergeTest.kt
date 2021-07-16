@@ -52,4 +52,19 @@ class MergeTest {
         val result = UCT.content(0).merge(UCT.content(""))
         assertThat(result).isEqualTo(UCT.content(Pair(0, "")))
     }
+
+    @Test fun `UCE error returns error if other UCE is loading`() {
+        val result = UCE.error(ERROR).merge(UCE.loading())
+        assertThat(result).isEqualTo(UCE.error(ERROR))
+    }
+
+    @Test fun `UCE error returns error if other UCE has content`() {
+        val result = UCE.error(ERROR).merge(UCE.content(""))
+        assertThat(result).isEqualTo(UCE.error(ERROR))
+    }
+
+    @Test fun `UCE content return merged content when other UCE has content`() {
+        val result = UCE.content(0).merge(UCE.content(""))
+        assertThat(result).isEqualTo(UCE.content(Pair(0, "")))
+    }
 }
