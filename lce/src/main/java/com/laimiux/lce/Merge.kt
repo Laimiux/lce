@@ -1,5 +1,25 @@
 package com.laimiux.lce
 
+/**
+ * Merges two [UCE] objects into one.
+ */
+inline fun <C, C2, E, T> UCE<C, E>.merge(
+    other: UCE<C2, E>,
+    crossinline merge: (C, C2) -> T
+): UCE<T, E> {
+    return takeFirstError(other) { first, second ->
+        first.merge(second, merge).asUCE()
+    }
+}
+
+/**
+ * Merges two [UCE] objects into one.
+ */
+fun <C, C2, E> UCE<C, E>.merge(other: UCE<C2, E>): UCE<Pair<C, C2>, E> {
+    return merge(other) { first, second ->
+        Pair(first, second)
+    }
+}
 
 /**
  * Merges two [UCT] objects into one.
