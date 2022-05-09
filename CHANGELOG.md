@@ -1,9 +1,12 @@
 # Changelog
-## [0.3.2] - TBD
+## [0.3.3] - TBD
+- Added `flatMerge operation for `UCE`, `UCT`, `LC`, `UC` types.
+- Added `event.merge(event2, event3)` and `event.merge(event2, event3, event4)`
+- Added `event.mapLoading(content)`
+
+## [0.3.2] - May 20, 2021
 - Added `UCT.merge` extension method.
 - Added `UCE.merge` extension method.
-- Added `flatMerge operation for `UCE`, `UCT`, `LC`, `UC` types.
-- Added `event.merge(event2, event3)` and `event.merge(event2, event3, event4)`  
 - Add `lce-test` module.
 
 ## [0.3.1] - March 2, 2021
