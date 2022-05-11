@@ -1,5 +1,5 @@
 # Changelog
-## [0.3.3] - TBD
+## [0.3.3] - May 10, 2022
 - Added `flatMerge operation for `UCE`, `UCT`, `LC`, `UC` types.
 - Added `event.merge(event2, event3)` and `event.merge(event2, event3, event4)`
 - Added `event.mapLoading(content)`
