@@ -27,12 +27,12 @@ inline fun <L, C, E, T> LCE<L, C, E>.foldTypes(
 @JvmName("foldContentType")
 inline fun <L, C, E, T> LCE<L, C, E>.foldTypes(
     crossinline onContent: (Type.Content<C>) -> T,
-    crossinline onOther: () -> T
+    crossinline onOther: (LE<L, E>) -> T
 ): T {
     return foldTypes(
-        onLoading = { onOther() },
+        onLoading = onOther,
         onContent = onContent,
-        onError = { onOther() }
+        onError = onOther,
     )
 }
 
@@ -76,12 +76,12 @@ inline fun <C, E, T> UCE<C, E>.foldTypes(
 @JvmName("foldContentType")
 inline fun <C, E, T> UCE<C, E>.foldTypes(
     crossinline onContent: (Type.Content<C>) -> T,
-    crossinline onOther: () -> T
+    crossinline onOther: (UE<E>) -> T
 ): T {
     return foldTypes(
-        onLoading = { onOther() },
+        onLoading = onOther,
         onContent = onContent,
-        onError = { onOther() }
+        onError = onOther,
     )
 }
 
@@ -125,12 +125,12 @@ inline fun <C, T> UCT<C>.foldTypes(
 @JvmName("foldContentType")
 inline fun <C, T> UCT<C>.foldTypes(
     crossinline onContent: (Type.Content<C>) -> T,
-    crossinline onOther: () -> T
+    crossinline onOther: (UT) -> T
 ): T {
     return foldTypes(
-        onLoading = { onOther() },
+        onLoading = onOther,
         onContent = onContent,
-        onError = { onOther() }
+        onError = onOther,
     )
 }
 
@@ -186,6 +186,50 @@ inline fun <C, T> UC<C>.foldTypes(
     return when (val type = asLceType()) {
         is Type.Loading.UnitType -> onLoading(type)
         is Type.Content -> onContent(type)
+        else -> throw IllegalStateException("this should not happen: $type")
+    }
+}
+
+inline fun <L, E, T> LE<L, E>.foldTypes(
+    crossinline onLoading: (Type.Loading<L>) -> T,
+    crossinline onError: (Type.Error<E>) -> T
+): T {
+    return when (val type = asLceType()) {
+        is Type.Loading -> onLoading(type)
+        is Type.Error -> onError(type)
+        else -> throw IllegalStateException("this should not happen: $type")
+    }
+}
+
+inline fun <L, T> LT<L>.foldTypes(
+    crossinline onLoading: (Type.Loading<L>) -> T,
+    crossinline onError: (Type.Error.ThrowableType) -> T
+): T {
+    return when (val type = asLceType()) {
+        is Type.Loading -> onLoading(type)
+        is Type.Error.ThrowableType -> onError(type)
+        else -> throw IllegalStateException("this should not happen: $type")
+    }
+}
+
+inline fun <E, T> UE<E>.foldTypes(
+    crossinline onLoading: (Type.Loading.UnitType) -> T,
+    crossinline onError: (Type.Error<E>) -> T
+): T {
+    return when (val type = asLceType()) {
+        is Type.Loading.UnitType -> onLoading(type)
+        is Type.Error -> onError(type)
+        else -> throw IllegalStateException("this should not happen: $type")
+    }
+}
+
+inline fun <T> UT.foldTypes(
+    crossinline onLoading: (Type.Loading.UnitType) -> T,
+    crossinline onError: (Type.Error.ThrowableType) -> T
+): T {
+    return when (val type = asLceType()) {
+        is Type.Loading.UnitType -> onLoading(type)
+        is Type.Error.ThrowableType -> onError(type)
         else -> throw IllegalStateException("this should not happen: $type")
     }
 }
