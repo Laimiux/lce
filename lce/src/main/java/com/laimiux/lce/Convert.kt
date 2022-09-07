@@ -468,3 +468,53 @@ fun <C> UC<C>.asLC(): LC<Unit, C> {
         onContent = { it }
     )
 }
+
+/**
+ * Converts `LE<L, E>` to `LCE<L, Nothing, E>`
+ */
+fun <L, E> LE<L, E>.asLCE(): LCE<L, Nothing, E> {
+    return foldTypes(
+        onLoading = { it },
+        onError = { it },
+    )
+}
+
+/**
+ * Converts `LT<L>` to `LCE<L, Nothing, Throwable>`
+ */
+fun <L> LT<L>.asLCE(): LCE<L, Nothing, Throwable> {
+    return foldTypes(
+        onLoading = { it },
+        onError = { it },
+    )
+}
+
+/**
+ * Converts `UE<E>` to `UCE<L, Nothing, E>`
+ */
+fun <E> UE<E>.asUCE(): UCE<Nothing, E> {
+    return foldTypes(
+        onLoading = { it },
+        onError = { it },
+    )
+}
+
+/**
+ * Converts `UT` to `UCT<Nothing>`
+ */
+fun UT.asUCT(): UCT<Nothing> {
+    return foldTypes(
+        onLoading = { it },
+        onError = { it },
+    )
+}
+
+/**
+ * Converts `UT` to `UCE<Nothing, Throwable>`
+ */
+fun UT.asUCE(): UCE<Nothing, Throwable> {
+    return foldTypes(
+        onLoading = { it },
+        onError = { it },
+    )
+}

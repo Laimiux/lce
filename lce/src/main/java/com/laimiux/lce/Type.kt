@@ -10,7 +10,9 @@ sealed class Type<out L, out C, out E> : LCE<L, C, E> {
     sealed class Loading<out L>() :
         Type<L, Nothing, Nothing>(),
         LCE<L, Nothing, Nothing>,
-        LC<L, Nothing> {
+        LC<L, Nothing>,
+        LE<L, Nothing>,
+        LT<L> {
 
         companion object {
             operator fun invoke() = UnitType
@@ -44,7 +46,9 @@ sealed class Type<out L, out C, out E> : LCE<L, C, E> {
             LCE<Unit, Nothing, Nothing>,
             UCE<Nothing, Nothing>,
             UCT<Nothing>,
-            UC<Nothing> {
+            UC<Nothing>,
+            UE<Nothing>,
+            UT {
 
             override val value: Unit = Unit
         }
@@ -61,7 +65,9 @@ sealed class Type<out L, out C, out E> : LCE<L, C, E> {
         Type<Nothing, Nothing, E>(),
         LCE<Nothing, Nothing, E>,
         UCE<Nothing, E>,
-        CE<Nothing, E> {
+        CE<Nothing, E>,
+        LE<Nothing, E>,
+        UE<E> {
 
         companion object {
             operator fun invoke(throwable: Throwable) = ThrowableType(throwable)
@@ -96,7 +102,9 @@ sealed class Type<out L, out C, out E> : LCE<L, C, E> {
             override val value: Throwable
         ) : Error<Throwable>(),
             UCT<Nothing>,
-            CT<Nothing> {
+            CT<Nothing>,
+            LT<Nothing>,
+            UT {
 
             override fun errorOrNull(): Throwable = value
         }

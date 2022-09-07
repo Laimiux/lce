@@ -1,20 +1,20 @@
 package com.laimiux.lce
 
-inline fun <L, C, E> LCE<L, C, E>.contentOrElse(crossinline onOther: () -> C): C {
+inline fun <L, C, E> LCE<L, C, E>.contentOrElse(crossinline onOther: (LE<L, E>) -> C): C {
     return foldContent(
         onContent = { it },
         onOther = onOther
     )
 }
 
-inline fun <C, E> UCE<C, E>.contentOrElse(crossinline onOther: () -> C): C {
+inline fun <C, E> UCE<C, E>.contentOrElse(crossinline onOther: (UE<E>) -> C): C {
     return foldContent(
         onContent = { it },
         onOther = onOther
     )
 }
 
-inline fun <C> UCT<C>.contentOrElse(crossinline onOther: () -> C): C {
+inline fun <C> UCT<C>.contentOrElse(crossinline onOther: (UT) -> C): C {
     return foldContent(
         onContent = { it },
         onOther = onOther
