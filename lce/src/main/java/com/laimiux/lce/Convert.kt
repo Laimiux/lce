@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package com.laimiux.lce
 
 /**
@@ -261,11 +263,11 @@ fun <C> UCT<C>.asCE(): CE<C, Throwable>? {
 /**
  * Converts [UCT] to a [UCE] by [mapping][map] the error state to [E].
  */
-fun <C, E> UCT<C>.asUCE(map: () -> E): UCE<C, E> {
+fun <C, E> UCT<C>.asUCE(map: (throwable: Throwable) -> E): UCE<C, E> {
     return foldTypes(
         onLoading = { it },
         onContent = { it },
-        onError = { UCE.error(map()) }
+        onError = { UCE.error(map(it.value)) }
     )
 }
 
