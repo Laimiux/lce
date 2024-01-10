@@ -259,6 +259,18 @@ fun <C> UCT<C>.asCE(): CE<C, Throwable>? {
 }
 
 /**
+ * Converts [UCT] to a [UCE] by [mapping][map] the error state to [E].
+ */
+fun <C, E> UCT<C>.asUCE(map: () -> E): UCE<C, E> {
+    return foldTypes(
+        onLoading = { it },
+        onContent = { it },
+        onError = { UCE.error(map()) }
+    )
+}
+
+
+/**
  * Converts [UCT] to a [CE] by [mapping][map] the loading state to [CE].
  */
 inline fun <C> UCT<C>.asCE(
