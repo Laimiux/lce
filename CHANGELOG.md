@@ -1,4 +1,7 @@
 # Changelog
+## [0.3.4] - January 10, 2024
+- Added `asUCE` map operation for `UCT`.
+
 ## [0.3.3] - May 10, 2022
 - Added `flatMerge operation for `UCE`, `UCT`, `LC`, `UC` types.
 - Added `event.merge(event2, event3)` and `event.merge(event2, event3, event4)`
