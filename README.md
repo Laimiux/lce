@@ -137,7 +137,11 @@ Add the library to your list of dependencies:
 ```groovy
 dependencies {
     implementation("com.laimiux.lce:lce:0.3.4")
+    // For RxJava 3 support
     implementation("com.laimiux.lce:lce-rxjava3:0.3.4")
+    // For Coroutines/Flow support
+    implementation("com.laimiux.lce:lce-coroutines:0.3.4")
+    // Helper functions for assertions in tests
     implementation("com.laimiux.lce:lce-test:0.3.4")
 }
 ```
