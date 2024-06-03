@@ -15,14 +15,14 @@ inline fun <C : Any, E> Flow<C>.toUCE(
     crossinline mapError: (Throwable) -> E
 ): Flow<UCE<C, E>> {
     return this
-        .map { UCE.content(it) as UCE<C, E> }
+        .map { UCE.content(it) }
         .onStart { UCE.loading() }
         .catch { UCE.error(mapError(it)) }
 }
 
 fun <C : Any> Flow<C>.toUCT(): Flow<UCT<C>> {
     return this
-        .map { UCT.content(it) as UCT<C> }
+        .map { UCT.content(it) }
         .onStart { UCT.loading() }
         .catch { UCT.error(it) }
 }
@@ -31,24 +31,24 @@ inline fun <C : Any, E> Flow<C>.toCE(
     crossinline mapError: (Throwable) -> E
 ): Flow<CE<C, E>> {
     return this
-        .map { CE.content(it) as CE<C, E> }
+        .map { CE.content(it) }
         .catch { CE.error(mapError(it)) }
 }
 
 fun <C : Any> Flow<C>.toCT(): Flow<CT<C>> {
     return this
-        .map { CT.content(it) as CT<C> }
+        .map { CT.content(it) }
         .catch { CT.error(it) }
 }
 
 fun <C : Any> Flow<C>.toLC(): Flow<LC<Unit, C>> {
     return this
-        .map { LC.content(it) as LC<Unit, C> }
+        .map { LC.content(it) }
         .onStart { LC.loading() }
 }
 
 fun <C : Any> Flow<C>.toUC(): Flow<UC<C>> {
     return this
-        .map { UC.content(it) as UC<C> }
+        .map { UC.content(it) }
         .onStart { UC.loading() }
 }
