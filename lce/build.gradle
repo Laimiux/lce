@@ -3,24 +3,16 @@ apply plugin: 'org.jetbrains.dokka'
 
 apply from: rootProject.file('.buildscript/configure-signing.gradle')
 
-repositories {
-    mavenCentral()
-}
-
-tasks.withType(JavaCompile) {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
-}
-
-tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
-    kotlinOptions {
-        jvmTarget = "1.8"
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(17))
     }
+}
+kotlin {
+    jvmToolchain(17)
 }
 
 dependencies {
-    implementation libraries.kotlin
-
-    testImplementation libraries.truth
-    testImplementation libraries.junit
+    testImplementation(libraries.truth)
+    testImplementation(libraries.junit)
 }
