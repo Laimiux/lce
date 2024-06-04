@@ -1,6 +1,6 @@
 # Changelog
 ## [0.4.0] - June 3, 2024
-- Added `lce-flow` module for Coroutine Flow support.
+- Added `lce-coroutines` module for Coroutine/Flow support.
 
 ## [0.3.4] - January 10, 2024
 - Added `asUCE` map operation for `UCT`.
