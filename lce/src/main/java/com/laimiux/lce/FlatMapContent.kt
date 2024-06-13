@@ -14,7 +14,7 @@ package com.laimiux.lce
  * ```
  */
 inline fun <L, C, E, NewC> LCE<L, C, E>.flatMapContent(
-    crossinline transform: (C) -> LCE<L, NewC, E>
+    transform: (C) -> LCE<L, NewC, E>
 ): LCE<L, NewC, E> {
     return foldTypes(
         onLoading = { it },
@@ -24,7 +24,7 @@ inline fun <L, C, E, NewC> LCE<L, C, E>.flatMapContent(
 }
 
 inline fun <C, E, NewC> UCE<C, E>.flatMapContent(
-    crossinline transform: (C) -> UCE<NewC, E>
+    transform: (C) -> UCE<NewC, E>
 ): UCE<NewC, E> {
     return foldTypes(
         onLoading = { it },
@@ -34,7 +34,7 @@ inline fun <C, E, NewC> UCE<C, E>.flatMapContent(
 }
 
 inline fun <C, NewC> UCT<C>.flatMapContent(
-   crossinline transform: (C) -> UCT<NewC>
+   transform: (C) -> UCT<NewC>
 ): UCT<NewC> {
     return foldTypes(
         onLoading = { it },
@@ -44,7 +44,7 @@ inline fun <C, NewC> UCT<C>.flatMapContent(
 }
 
 inline fun <C, E, NewC> CE<C, E>.flatMapContent(
-    crossinline transform: (C) -> CE<NewC, E>
+    transform: (C) -> CE<NewC, E>
 ): CE<NewC, E> {
     return foldTypes(
         onContent = { transform(it.value) },
@@ -53,7 +53,7 @@ inline fun <C, E, NewC> CE<C, E>.flatMapContent(
 }
 
 inline fun <C, NewC> CT<C>.flatMapContent(
-    crossinline transform: (C) -> CT<NewC>
+    transform: (C) -> CT<NewC>
 ): CT<NewC> {
     return foldTypes(
         onContent = { transform(it.value) },
@@ -62,7 +62,7 @@ inline fun <C, NewC> CT<C>.flatMapContent(
 }
 
 inline fun <L, C, NewC> LC<L, C>.flatMapContent(
-    crossinline transform: (C) -> LC<L, NewC>
+    transform: (C) -> LC<L, NewC>
 ): LC<L, NewC> {
     return foldTypes(
         onLoading = { it },
@@ -71,7 +71,7 @@ inline fun <L, C, NewC> LC<L, C>.flatMapContent(
 }
 
 inline fun <C, NewC> UC<C>.flatMapContent(
-    crossinline transform: (C) -> UC<NewC>
+    transform: (C) -> UC<NewC>
 ): UC<NewC> {
     return foldTypes(
         onLoading = { it },

@@ -24,7 +24,7 @@ interface LC<out L, out C> {
          */
         inline fun <L, C : Any> fromNullable(
             content: C?,
-            crossinline onNull: () -> LC<L, C>
+            onNull: () -> LC<L, C>
         ): LC<L, C> {
             return if (content == null) {
                 onNull()

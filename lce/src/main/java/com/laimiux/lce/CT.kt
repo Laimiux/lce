@@ -14,7 +14,7 @@ interface CT<out C> {
          */
         inline fun <L, C : Any, E> fromNullable(
             content: C?,
-            crossinline onNull: () -> CT<C>
+            onNull: () -> CT<C>
         ): CT<C> {
             return if (content == null) {
                 onNull()
