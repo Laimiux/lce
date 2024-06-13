@@ -6,7 +6,7 @@ package com.laimiux.lce
  *
  * Note: It's an intermediary type to enable certain APIs and should rarely be used.
  */
-interface UT {
+sealed interface UT {
 
     fun isLoading(): Boolean
     fun isError(): Boolean

@@ -4,7 +4,7 @@ package com.laimiux.lce
  * UC stands for Unit / Content. A type that represents either loading state of type [Unit]
  * or content state of type [C].
  */
-interface UC<out C> {
+sealed interface UC<out C> {
     companion object {
         fun loading(): UC<Nothing> = Type.Loading()
         fun <C> content(value: C): UC<C> = Type.Content(value)

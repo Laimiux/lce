@@ -6,7 +6,7 @@ package com.laimiux.lce
  *
  * Note: It's an intermediary type to enable certain APIs and should rarely be used.
  */
-interface UE<out E> {
+sealed interface UE<out E> {
 
     fun isLoading(): Boolean
     fun isError(): Boolean

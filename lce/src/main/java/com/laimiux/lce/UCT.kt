@@ -4,7 +4,7 @@ package com.laimiux.lce
  * UCT stands for Unit / Content / Throwable. A type that represents either loading state of
  * type Unit, content state of type [C] or error state of [Throwable] type.
  */
-interface UCT<out C> {
+sealed interface UCT<out C> {
     companion object {
         fun loading(): UCT<Nothing> = Type.Loading()
 

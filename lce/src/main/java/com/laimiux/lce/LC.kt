@@ -4,7 +4,7 @@ package com.laimiux.lce
  * LC stands for Loading / Content. A type that represents either
  * loading of type [L] or content of type [C].
  */
-interface LC<out L, out C> {
+sealed interface LC<out L, out C> {
     companion object {
         fun loading(): LC<Unit, Nothing> = Type.Loading()
         fun loading(unit: Unit): LC<Unit, Nothing> = Type.Loading(unit)

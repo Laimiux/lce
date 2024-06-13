@@ -4,7 +4,7 @@ package com.laimiux.lce
  * CE stands for Content / Error. A type that represents either content state of type [C] or
  * error state of type [E].
  */
-interface CE<out C, out E> {
+sealed interface CE<out C, out E> {
     companion object {
         fun <T> content(content: T): CE<T, Nothing> = Type.Content(content)
 
