@@ -22,7 +22,7 @@ interface UCE<out C, out E> {
          */
         inline fun <C : Any, E> fromNullable(
             content: C?,
-            crossinline onNull: () -> UCE<C, E>
+            onNull: () -> UCE<C, E>
         ): UCE<C, E> {
             return if (content == null) {
                 onNull()

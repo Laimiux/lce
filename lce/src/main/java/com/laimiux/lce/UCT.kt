@@ -24,7 +24,7 @@ interface UCT<out C> {
          */
         inline fun <C : Any> fromNullable(
             content: C?,
-            crossinline onNull: () -> UCT<C>
+            onNull: () -> UCT<C>
         ): UCT<C> {
             return if (content == null) {
                 onNull()

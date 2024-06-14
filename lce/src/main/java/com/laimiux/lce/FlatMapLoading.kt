@@ -1,7 +1,7 @@
 package com.laimiux.lce
 
 inline fun <L, C, E, NewL> LCE<L, C, E>.flatMapLoading(
-    crossinline map: (L) -> LCE<NewL, C, E>
+    map: (L) -> LCE<NewL, C, E>
 ): LCE<NewL, C, E> {
     return foldTypes(
         onLoading = { map(it.value) },
@@ -11,7 +11,7 @@ inline fun <L, C, E, NewL> LCE<L, C, E>.flatMapLoading(
 }
 
 inline fun <C, E> UCE<C, E>.flatMapLoading(
-    crossinline map: () -> UCE<C, E>
+    map: () -> UCE<C, E>
 ): UCE<C, E> {
     return foldTypes(
         onLoading = { map() },
@@ -21,7 +21,7 @@ inline fun <C, E> UCE<C, E>.flatMapLoading(
 }
 
 inline fun <C> UCT<C>.flatMapLoading(
-    crossinline map: () -> UCT<C>
+    map: () -> UCT<C>
 ): UCT<C> {
     return foldTypes(
         onLoading = { map() },
@@ -31,7 +31,7 @@ inline fun <C> UCT<C>.flatMapLoading(
 }
 
 inline fun <L, C, NewL> LC<L, C>.flatMapLoading(
-    crossinline map: () -> LC<NewL, C>
+    map: () -> LC<NewL, C>
 ): LC<NewL, C> {
     return foldTypes(
         onLoading = { map() },
@@ -40,7 +40,7 @@ inline fun <L, C, NewL> LC<L, C>.flatMapLoading(
 }
 
 inline fun <C> UC<C>.flatMapLoading(
-    crossinline map: () -> UC<C>
+    map: () -> UC<C>
 ): UC<C> {
     return foldTypes(
         onLoading = { map() },

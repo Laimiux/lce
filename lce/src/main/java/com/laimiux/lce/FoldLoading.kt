@@ -1,8 +1,8 @@
 package com.laimiux.lce
 
 inline fun <L, C, E, T> LCE<L, C, E>.foldLoading(
-    crossinline onLoading: (L) -> T,
-    crossinline onOther: (CE<C, E>) -> T
+    onLoading: (L) -> T,
+    onOther: (CE<C, E>) -> T
 ): T {
     return foldTypes(
         onLoading = { onLoading(it.value) },
@@ -11,8 +11,8 @@ inline fun <L, C, E, T> LCE<L, C, E>.foldLoading(
 }
 
 inline fun <C, E, T> UCE<C, E>.foldLoading(
-    crossinline onLoading: () -> T,
-    crossinline onOther: (CE<C, E>) -> T
+    onLoading: () -> T,
+    onOther: (CE<C, E>) -> T
 ): T {
     return foldTypes(
         onLoading = { onLoading() },
@@ -21,8 +21,8 @@ inline fun <C, E, T> UCE<C, E>.foldLoading(
 }
 
 inline fun <C, T> UCT<C>.foldLoading(
-    crossinline onLoading: () -> T,
-    crossinline onOther: (CT<C>) -> T
+    onLoading: () -> T,
+    onOther: (CT<C>) -> T
 ): T {
     return foldTypes(
         onLoading = { onLoading() },
