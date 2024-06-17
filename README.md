@@ -112,6 +112,15 @@ fun fetchData(): Observable<UCT<MyData>> {
 ```
 You'll need to add the `lce-rxjava3` dependency to access these features.
 
+### Coroutines Support
+Converting a `Flow<T>` operation into `Flow<UCT<T>>`
+```kotlin
+fun fetchData(): Flow<UCT<MyData>> = flow {
+    emit(MyData()).toUCT()
+}
+```
+You'll need to add the `lce-coroutines` dependency to access these features.
+
 ### Testing
 Use `lce-test` artifact in your tests to simplify making assertions on the `LCE` types.
 ```kotlin
@@ -136,13 +145,13 @@ Add the library to your list of dependencies:
 
 ```groovy
 dependencies {
-    implementation("com.laimiux.lce:lce:0.3.4")
+    implementation("com.laimiux.lce:lce:0.4.0")
     // For RxJava 3 support
-    implementation("com.laimiux.lce:lce-rxjava3:0.3.4")
+    implementation("com.laimiux.lce:lce-rxjava3:0.4.0")
     // For Coroutines/Flow support
-    implementation("com.laimiux.lce:lce-coroutines:0.3.4")
+    implementation("com.laimiux.lce:lce-coroutines:0.4.0")
     // Helper functions for assertions in tests
-    implementation("com.laimiux.lce:lce-test:0.3.4")
+    implementation("com.laimiux.lce:lce-test:0.4.0")
 }
 ```
 
@@ -151,6 +160,7 @@ To run tests
 ```sh
 ./gradlew :lce:test
 ./gradlew :lce-rxjava3:test
+./gradlew :lce-coroutines:test
 ```
 
 # License
