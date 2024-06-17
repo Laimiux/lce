@@ -1,7 +1,7 @@
 package com.laimiux.lce
 
 inline fun <L, C, E, NewE> LCE<L, C, E>.flatMapError(
-    crossinline map: (E) -> LCE<L, C, NewE>
+    map: (E) -> LCE<L, C, NewE>
 ): LCE<L, C, NewE> {
     return foldTypes(
         onError = { map(it.value) },
@@ -11,7 +11,7 @@ inline fun <L, C, E, NewE> LCE<L, C, E>.flatMapError(
 }
 
 inline fun <C, E, NewE> UCE<C, E>.flatMapError(
-    crossinline map: (E) -> UCE<C, NewE>
+    map: (E) -> UCE<C, NewE>
 ): UCE<C, NewE> {
     return foldTypes(
         onError = { map(it.value) },
@@ -21,7 +21,7 @@ inline fun <C, E, NewE> UCE<C, E>.flatMapError(
 }
 
 inline fun <C> UCT<C>.flatMapError(
-    crossinline map: (Throwable) -> UCT<C>
+    map: (Throwable) -> UCT<C>
 ): UCT<C> {
     return foldTypes(
         onError = { map(it.value) },
@@ -31,7 +31,7 @@ inline fun <C> UCT<C>.flatMapError(
 }
 
 inline fun <C, E, NewE> CE<C, E>.flatMapError(
-    crossinline map: (E) -> CE<C, NewE>
+    map: (E) -> CE<C, NewE>
 ): CE<C, NewE> {
     return foldTypes(
         onError = { map(it.value) },
@@ -40,7 +40,7 @@ inline fun <C, E, NewE> CE<C, E>.flatMapError(
 }
 
 inline fun <C> CT<C>.flatMapError(
-    crossinline map: (Throwable) -> CT<C>
+    map: (Throwable) -> CT<C>
 ): CT<C> {
     return foldTypes(
         onError = { map(it.value) },

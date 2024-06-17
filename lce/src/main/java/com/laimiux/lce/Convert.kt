@@ -38,7 +38,7 @@ fun <C, E> LCE<Any?, C, E>.asCE(): CE<C, E>? {
  * Converts [LCE] to a [CE] by [mapping][map] the loading state to [CE].
  */
 inline fun <L, C, E> LCE<L, C, E>.asCE(
-    crossinline map: (L) -> CE<C, E>
+    map: (L) -> CE<C, E>
 ): CE<C, E> {
     return foldTypes(
         onLoading = { map(it.value) },
@@ -60,7 +60,7 @@ fun <C> LCE<Any?, C, Throwable>.asCT(): CT<C>? {
  * Converts [LCE] to a [CT] by [mapping][map] the loading state to [CT].
  */
 inline fun <L, C> LCE<L, C, Throwable>.asCT(
-    crossinline map: (L) -> CT<C>
+    map: (L) -> CT<C>
 ): CT<C> {
     return foldTypes(
         onLoading = { map(it.value) },
@@ -82,7 +82,7 @@ fun <L, C> LCE<L, C, Any?>.asLC(): LC<L, C>? {
  * Converts [LCE] to a [LC] by [mapping][map] the error state to [LC].
  */
 inline fun <L, C, E> LCE<L, C, E>.asLC(
-    crossinline fold: (E) -> LC<L, C>
+    fold: (E) -> LC<L, C>
 ): LC<L, C> {
     return foldError(
         onError = fold,
@@ -104,7 +104,7 @@ fun <C> LCE<Unit, C, Any?>.asUC(): UC<C>? {
  * Converts [LCE] to a [UC] by [mapping][map] the error state to [UC].
  */
 inline fun <C, E> LCE<Unit, C, E>.asUC(
-    crossinline fold: (E) -> UC<C>
+    fold: (E) -> UC<C>
 ): UC<C> {
     return foldError(
         onError = fold,
@@ -146,7 +146,7 @@ fun <C, E> UCE<C, E>.asCE(): CE<C, E>? {
  * Converts [UCE] to a [CE] by [mapping][map] the loading state to [CE].
  */
 inline fun <C, E> UCE<C, E>.asCE(
-    crossinline map: () -> CE<C, E>
+    map: () -> CE<C, E>
 ): CE<C, E> {
     return asLCE().asCE { map() }
 }
@@ -162,7 +162,7 @@ fun <C> UCE<C, Throwable>.asCT(): CT<C>? {
  * Converts [UCE] to a [CT] by [mapping][map] the loading state to [CT].
  */
 inline fun <C> UCE<C, Throwable>.asCT(
-    crossinline map: () -> CT<C>
+    map: () -> CT<C>
 ): CT<C> {
     return asLCE().asCT { map() }
 }
@@ -182,7 +182,7 @@ fun <C, E> UCE<C, E>.asLC(): LC<Unit, C>? {
  * Converts [UCE] to a [LC] by [mapping][map] the error state to [LC].
  */
 inline fun <C, E> UCE<C, E>.asLC(
-    crossinline fold: (E) -> LC<Unit, C>
+    fold: (E) -> LC<Unit, C>
 ): LC<Unit, C> {
     return asLCE().asLC(fold)
 }
@@ -202,7 +202,7 @@ fun <C, E> UCE<C, E>.asUC(): UC<C>? {
  * Converts [UCE] to a [UC] by [mapping][map] the error state to [UC].
  */
 inline fun <C, E> UCE<C, E>.asUC(
-    crossinline fold: (E) -> UC<C>
+    fold: (E) -> UC<C>
 ): UC<C> {
     return asLCE().asUC(fold)
 }
@@ -244,7 +244,7 @@ fun <C> UCT<C>.asCT(): CT<C>? {
  * Converts [UCT] to a [CT] by [mapping][map] the loading state to [CT].
  */
 inline fun <C> UCT<C>.asCT(
-    crossinline map: () -> CT<C>
+    map: () -> CT<C>
 ): CT<C> {
     return asLCE().asCT { map() }
 }
@@ -276,7 +276,7 @@ fun <C, E> UCT<C>.asUCE(map: (throwable: Throwable) -> E): UCE<C, E> {
  * Converts [UCT] to a [CE] by [mapping][map] the loading state to [CE].
  */
 inline fun <C> UCT<C>.asCE(
-    crossinline map: () -> CE<C, Throwable>
+    map: () -> CE<C, Throwable>
 ): CE<C, Throwable> {
     return asLCE().asCE { map() }
 }
@@ -293,7 +293,7 @@ fun <C> UCT<C>.asLC(): LC<Unit, C>? {
  * Converts [UCT] to a [LC] by [mapping][map] the error state to [LC].
  */
 inline fun <C> UCT<C>.asLC(
-    crossinline fold: (Throwable) -> LC<Unit, C>
+    fold: (Throwable) -> LC<Unit, C>
 ): LC<Unit, C> {
     return asLCE().asLC(fold)
 }
@@ -302,7 +302,7 @@ inline fun <C> UCT<C>.asLC(
  * Returns null on error, otherwise returns [UC].
  */
 inline fun <C> UCT<C>.asUC(
-    crossinline fold: (Throwable) -> UC<C>
+    fold: (Throwable) -> UC<C>
 ): UC<C> {
     return asLCE().asUC(fold)
 }
@@ -318,7 +318,7 @@ fun <C> UCT<C>.asUC(): UC<C>? {
  * Converts [UCT] to a [UC] by [mapping][map] the error state to [UC].
  */
 inline fun <C> UCT<C>.asLC(
-    crossinline fold: (Throwable) -> UC<C>
+    fold: (Throwable) -> UC<C>
 ): UC<C> {
     return asLCE().asUC(fold)
 }

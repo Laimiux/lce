@@ -15,7 +15,7 @@ interface CE<out C, out E> {
          */
         inline fun <C : Any, E> fromNullable(
             content: C?,
-            crossinline onNull: () -> CE<C, E>
+            onNull: () -> CE<C, E>
         ): CE<C, E> {
             return if (content == null) {
                 onNull()

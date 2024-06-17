@@ -1,4 +1,0 @@
-include ':lce'
-include ':lce-coroutines'
-include ':lce-rxjava3'
-include ':lce-test'

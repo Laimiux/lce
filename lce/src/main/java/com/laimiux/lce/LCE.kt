@@ -26,7 +26,7 @@ interface LCE<out L, out C, out E> {
          */
         inline fun <L, C : Any, E> fromNullable(
             content: C?,
-            crossinline onNull: () -> LCE<L, C, E>
+            onNull: () -> LCE<L, C, E>
         ): LCE<L, C, E> {
             return if (content == null) {
                 onNull()

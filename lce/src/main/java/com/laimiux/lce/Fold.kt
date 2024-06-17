@@ -5,9 +5,9 @@ package com.laimiux.lce
  * variant [onLoading], [onError] and [onContent].
  */
 inline fun <L, C, E, T> LCE<L, C, E>.fold(
-    crossinline onLoading: (L) -> T,
-    crossinline onError: (E) -> T,
-    crossinline onContent: (C) -> T
+    onLoading: (L) -> T,
+    onError: (E) -> T,
+    onContent: (C) -> T
 ): T {
     return foldTypes(
         onLoading = { onLoading(it.value) },
@@ -21,9 +21,9 @@ inline fun <L, C, E, T> LCE<L, C, E>.fold(
  * variant [onLoading], [onError] and [onContent].
  */
 inline fun <C, E, T> UCE<C, E>.fold(
-    crossinline onLoading: () -> T,
-    crossinline onError: (E) -> T,
-    crossinline onContent: (C) -> T
+    onLoading: () -> T,
+    onError: (E) -> T,
+    onContent: (C) -> T
 ): T {
     return foldTypes(
         onLoading = { onLoading() },
@@ -37,9 +37,9 @@ inline fun <C, E, T> UCE<C, E>.fold(
  * variant [onLoading], [onError] and [onContent].
  */
 inline fun <C, T> UCT<C>.fold(
-    crossinline onLoading: () -> T,
-    crossinline onError: (Throwable) -> T,
-    crossinline onContent: (C) -> T
+    onLoading: () -> T,
+    onError: (Throwable) -> T,
+    onContent: (C) -> T
 ): T {
     return foldTypes(
         onLoading = { onLoading() },
@@ -53,8 +53,8 @@ inline fun <C, T> UCT<C>.fold(
  * variant [onError] and [onContent].
  */
 inline fun <C, E, T> CE<C, E>.fold(
-    crossinline onError: (E) -> T,
-    crossinline onContent: (C) -> T
+    onError: (E) -> T,
+    onContent: (C) -> T
 ): T {
     return foldTypes(
         onContent = { onContent(it.value) },
@@ -67,8 +67,8 @@ inline fun <C, E, T> CE<C, E>.fold(
  * variant [onError] and [onContent].
  */
 inline fun <C, T> CT<C>.fold(
-    crossinline onError: (Throwable) -> T,
-    crossinline onContent: (C) -> T
+    onError: (Throwable) -> T,
+    onContent: (C) -> T
 ): T {
     return foldTypes(
         onContent = { onContent(it.value) },
@@ -81,8 +81,8 @@ inline fun <C, T> CT<C>.fold(
  * variant [onLoading] and [onContent].
  */
 inline fun <L, C, T> LC<L, C>.fold(
-    crossinline onLoading: (L) -> T,
-    crossinline onContent: (C) -> T
+    onLoading: (L) -> T,
+    onContent: (C) -> T
 ): T {
     return foldTypes(
         onLoading = { onLoading(it.value) },
@@ -95,8 +95,8 @@ inline fun <L, C, T> LC<L, C>.fold(
  * variant [onLoading] and [onContent].
  */
 inline fun <C, T> UC<C>.fold(
-    crossinline onLoading: () -> T,
-    crossinline onContent: (C) -> T
+    onLoading: () -> T,
+    onContent: (C) -> T
 ): T {
     return foldTypes(
         onLoading = { onLoading() },

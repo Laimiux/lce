@@ -5,7 +5,7 @@ package com.laimiux.lce
  */
 inline fun <C, C2, E, T> UCE<C, E>.merge(
     other: UCE<C2, E>,
-    crossinline merge: (C, C2) -> T
+    merge: (C, C2) -> T
 ): UCE<T, E> {
     return takeFirstError(other) { first, second ->
         first.merge(second, merge).asUCE()
@@ -18,7 +18,7 @@ inline fun <C, C2, E, T> UCE<C, E>.merge(
 inline fun <C, C2, C3, E, T> UCE<C, E>.merge(
     second: UCE<C2, E>,
     third: UCE<C3, E>,
-    crossinline merge: (C, C2, C3) -> T
+    merge: (C, C2, C3) -> T
 ): UCE<T, E> {
     return takeFirstError(second, third) { firstUC, secondUC, thirdUC ->
         firstUC.merge(secondUC, thirdUC, merge).asUCE()
@@ -32,7 +32,7 @@ inline fun <C, C2, C3, C4, E, T> UCE<C, E>.merge(
     second: UCE<C2, E>,
     third: UCE<C3, E>,
     fourth: UCE<C4, E>,
-    crossinline merge: (C, C2, C3, C4) -> T
+    merge: (C, C2, C3, C4) -> T
 ): UCE<T, E> {
     return takeFirstError(second, third, fourth) { firstUC, secondUC, thirdUC, fourthUC ->
         firstUC.merge(secondUC, thirdUC, fourthUC, merge).asUCE()
@@ -53,7 +53,7 @@ fun <C, C2, E> UCE<C, E>.merge(other: UCE<C2, E>): UCE<Pair<C, C2>, E> {
  */
 inline fun <C, C2, T> UCT<C>.merge(
     second: UCT<C2>,
-    crossinline merge: (C, C2) -> T
+    merge: (C, C2) -> T
 ): UCT<T> {
     return takeFirstError(second) { firstUC, secondUC ->
         firstUC.merge(secondUC, merge).asUCT()
@@ -66,7 +66,7 @@ inline fun <C, C2, T> UCT<C>.merge(
 inline fun <C, C2, C3, T> UCT<C>.merge(
     second: UCT<C2>,
     third: UCT<C3>,
-    crossinline merge: (C, C2, C3) -> T
+    merge: (C, C2, C3) -> T
 ): UCT<T> {
     return takeFirstError(second, third) { firstUC, secondUC, thirdUC ->
         firstUC.merge(secondUC, thirdUC, merge).asUCT()
@@ -80,7 +80,7 @@ inline fun <C, C2, C3, C4, T> UCT<C>.merge(
     second: UCT<C2>,
     third: UCT<C3>,
     fourth: UCT<C4>,
-    crossinline merge: (C, C2, C3, C4) -> T
+    merge: (C, C2, C3, C4) -> T
 ): UCT<T> {
     return takeFirstError(second, third, fourth) { firstUC, secondUC, thirdUC, fourthUC ->
         firstUC.merge(secondUC, thirdUC, fourthUC, merge).asUCT()
@@ -108,7 +108,7 @@ fun <L, C, C2> LC<L, C>.merge(other: LC<L, C2>): LC<L, Pair<C, C2>> {
  */
 inline fun <L, C, C2, T> LC<L, C>.merge(
     other: LC<L, C2>,
-    crossinline merge: (C, C2) -> T
+    merge: (C, C2) -> T
 ): LC<L, T> {
     return flatMapContent { first ->
         other.flatMapContent { second ->
@@ -123,7 +123,7 @@ inline fun <L, C, C2, T> LC<L, C>.merge(
 inline fun <L, C, C2, C3, T> LC<L, C>.merge(
     second: LC<L, C2>,
     third: LC<L, C3>,
-    crossinline merge: (C, C2, C3) -> T
+    merge: (C, C2, C3) -> T
 ): LC<L, T> {
     return flatMapContent { firstContent ->
         second.flatMapContent { secondContent ->
@@ -141,7 +141,7 @@ inline fun <L, C, C2, C3, C4, T> LC<L, C>.merge(
     second: LC<L, C2>,
     third: LC<L, C3>,
     fourth: LC<L, C4>,
-    crossinline merge: (C, C2, C3, C4) -> T
+    merge: (C, C2, C3, C4) -> T
 ): LC<L, T> {
     return flatMapContent { firstContent ->
         second.flatMapContent { secondContent ->
@@ -167,7 +167,7 @@ fun <C, C2> UC<C>.merge(other: UC<C2>): UC<Pair<C, C2>> {
  */
 inline fun <C, C2, T> UC<C>.merge(
     other: UC<C2>,
-    crossinline merge: (C, C2) -> T
+    merge: (C, C2) -> T
 ): UC<T> {
     return flatMapContent { first ->
         other.flatMapContent { second ->
@@ -182,7 +182,7 @@ inline fun <C, C2, T> UC<C>.merge(
 inline fun <C, C2, C3, T> UC<C>.merge(
     second: UC<C2>,
     third: UC<C3>,
-    crossinline merge: (C, C2, C3) -> T
+    merge: (C, C2, C3) -> T
 ): UC<T> {
     return flatMapContent { firstContent ->
         second.flatMapContent { secondContent ->
@@ -200,7 +200,7 @@ inline fun <C, C2, C3, C4, T> UC<C>.merge(
     second: UC<C2>,
     third: UC<C3>,
     fourth: UC<C4>,
-    crossinline merge: (C, C2, C3, C4) -> T
+    merge: (C, C2, C3, C4) -> T
 ): UC<T> {
     return flatMapContent { firstContent ->
         second.flatMapContent { secondContent ->

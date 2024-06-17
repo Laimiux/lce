@@ -1,9 +1,9 @@
 package com.laimiux.lce
 
 inline fun <L, C, E, T> LCE<L, C, E>.foldTypes(
-    crossinline onLoading: (Type.Loading<L>) -> T,
-    crossinline onContent: (Type.Content<C>) -> T,
-    crossinline onError: (Type.Error<E>) -> T
+    onLoading: (Type.Loading<L>) -> T,
+    onContent: (Type.Content<C>) -> T,
+    onError: (Type.Error<E>) -> T
 ): T {
     return when (val type = asLceType()) {
         is Type.Loading -> onLoading(type)
@@ -14,8 +14,8 @@ inline fun <L, C, E, T> LCE<L, C, E>.foldTypes(
 
 @JvmName("foldLoadingType")
 inline fun <L, C, E, T> LCE<L, C, E>.foldTypes(
-    crossinline onLoading: (Type.Loading<L>) -> T,
-    crossinline onOther: (CE<C, E>) -> T
+    onLoading: (Type.Loading<L>) -> T,
+    onOther: (CE<C, E>) -> T
 ): T {
     return foldTypes(
         onLoading = onLoading,
@@ -26,8 +26,8 @@ inline fun <L, C, E, T> LCE<L, C, E>.foldTypes(
 
 @JvmName("foldContentType")
 inline fun <L, C, E, T> LCE<L, C, E>.foldTypes(
-    crossinline onContent: (Type.Content<C>) -> T,
-    crossinline onOther: (LE<L, E>) -> T
+    onContent: (Type.Content<C>) -> T,
+    onOther: (LE<L, E>) -> T
 ): T {
     return foldTypes(
         onLoading = onOther,
@@ -38,8 +38,8 @@ inline fun <L, C, E, T> LCE<L, C, E>.foldTypes(
 
 @JvmName("foldErrorType")
 inline fun <L, C, E, T> LCE<L, C, E>.foldTypes(
-    crossinline onError: (Type.Error<E>) -> T,
-    crossinline onOther: (LC<L, C>) -> T
+    onError: (Type.Error<E>) -> T,
+    onOther: (LC<L, C>) -> T
 ): T {
     return foldTypes(
         onLoading = onOther,
@@ -49,9 +49,9 @@ inline fun <L, C, E, T> LCE<L, C, E>.foldTypes(
 }
 
 inline fun <C, E, T> UCE<C, E>.foldTypes(
-    crossinline onLoading: (Type.Loading.UnitType) -> T,
-    crossinline onContent: (Type.Content<C>) -> T,
-    crossinline onError: (Type.Error<E>) -> T
+    onLoading: (Type.Loading.UnitType) -> T,
+    onContent: (Type.Content<C>) -> T,
+    onError: (Type.Error<E>) -> T
 ): T {
     return when (val type = asLceType()) {
         is Type.Loading.UnitType -> onLoading(type)
@@ -63,8 +63,8 @@ inline fun <C, E, T> UCE<C, E>.foldTypes(
 
 @JvmName("foldLoadingType")
 inline fun <C, E, T> UCE<C, E>.foldTypes(
-    crossinline onLoading: (Type.Loading.UnitType) -> T,
-    crossinline onOther: (CE<C, E>) -> T
+    onLoading: (Type.Loading.UnitType) -> T,
+    onOther: (CE<C, E>) -> T
 ): T {
     return foldTypes(
         onLoading = onLoading,
@@ -75,8 +75,8 @@ inline fun <C, E, T> UCE<C, E>.foldTypes(
 
 @JvmName("foldContentType")
 inline fun <C, E, T> UCE<C, E>.foldTypes(
-    crossinline onContent: (Type.Content<C>) -> T,
-    crossinline onOther: (UE<E>) -> T
+    onContent: (Type.Content<C>) -> T,
+    onOther: (UE<E>) -> T
 ): T {
     return foldTypes(
         onLoading = onOther,
@@ -87,8 +87,8 @@ inline fun <C, E, T> UCE<C, E>.foldTypes(
 
 @JvmName("foldErrorType")
 inline fun <C, E, T> UCE<C, E>.foldTypes(
-    crossinline onError: (Type.Error<E>) -> T,
-    crossinline onOther: (UC<C>) -> T
+    onError: (Type.Error<E>) -> T,
+    onOther: (UC<C>) -> T
 ): T {
     return foldTypes(
         onLoading = onOther,
@@ -98,9 +98,9 @@ inline fun <C, E, T> UCE<C, E>.foldTypes(
 }
 
 inline fun <C, T> UCT<C>.foldTypes(
-    crossinline onLoading: (Type.Loading.UnitType) -> T,
-    crossinline onContent: (Type.Content<C>) -> T,
-    crossinline onError: (Type.Error.ThrowableType) -> T
+    onLoading: (Type.Loading.UnitType) -> T,
+    onContent: (Type.Content<C>) -> T,
+    onError: (Type.Error.ThrowableType) -> T
 ): T {
     return when (val type = asLceType()) {
         is Type.Loading.UnitType -> onLoading(type)
@@ -112,8 +112,8 @@ inline fun <C, T> UCT<C>.foldTypes(
 
 @JvmName("foldLoadingType")
 inline fun <C, T> UCT<C>.foldTypes(
-    crossinline onLoading: (Type.Loading.UnitType) -> T,
-    crossinline onOther: (CT<C>) -> T
+    onLoading: (Type.Loading.UnitType) -> T,
+    onOther: (CT<C>) -> T
 ): T {
     return foldTypes(
         onLoading = onLoading,
@@ -124,8 +124,8 @@ inline fun <C, T> UCT<C>.foldTypes(
 
 @JvmName("foldContentType")
 inline fun <C, T> UCT<C>.foldTypes(
-    crossinline onContent: (Type.Content<C>) -> T,
-    crossinline onOther: (UT) -> T
+    onContent: (Type.Content<C>) -> T,
+    onOther: (UT) -> T
 ): T {
     return foldTypes(
         onLoading = onOther,
@@ -136,8 +136,8 @@ inline fun <C, T> UCT<C>.foldTypes(
 
 @JvmName("foldErrorType")
 inline fun <C, T> UCT<C>.foldTypes(
-    crossinline onError: (Type.Error.ThrowableType) -> T,
-    crossinline onOther: (UC<C>) -> T
+    onError: (Type.Error.ThrowableType) -> T,
+    onOther: (UC<C>) -> T
 ): T {
     return foldTypes(
         onLoading = onOther,
@@ -147,8 +147,8 @@ inline fun <C, T> UCT<C>.foldTypes(
 }
 
 inline fun <C, E, T> CE<C, E>.foldTypes(
-    crossinline onContent: (Type.Content<C>) -> T,
-    crossinline onError: (Type.Error<E>) -> T
+    onContent: (Type.Content<C>) -> T,
+    onError: (Type.Error<E>) -> T
 ): T {
     return when (val type = asLceType()) {
         is Type.Content -> onContent(type)
@@ -158,8 +158,8 @@ inline fun <C, E, T> CE<C, E>.foldTypes(
 }
 
 inline fun <C, T> CT<C>.foldTypes(
-    crossinline onContent: (Type.Content<C>) -> T,
-    crossinline onError: (Type.Error.ThrowableType) -> T
+    onContent: (Type.Content<C>) -> T,
+    onError: (Type.Error.ThrowableType) -> T
 ): T {
     return when (val type = asLceType()) {
         is Type.Content -> onContent(type)
@@ -169,8 +169,8 @@ inline fun <C, T> CT<C>.foldTypes(
 }
 
 inline fun <L, C, T> LC<L, C>.foldTypes(
-    crossinline onLoading: (Type.Loading<L>) -> T,
-    crossinline onContent: (Type.Content<C>) -> T
+    onLoading: (Type.Loading<L>) -> T,
+    onContent: (Type.Content<C>) -> T
 ): T {
     return when (val type = asLceType()) {
         is Type.Loading -> onLoading(type)
@@ -180,8 +180,8 @@ inline fun <L, C, T> LC<L, C>.foldTypes(
 }
 
 inline fun <C, T> UC<C>.foldTypes(
-    crossinline onLoading: (Type.Loading.UnitType) -> T,
-    crossinline onContent: (Type.Content<C>) -> T
+    onLoading: (Type.Loading.UnitType) -> T,
+    onContent: (Type.Content<C>) -> T
 ): T {
     return when (val type = asLceType()) {
         is Type.Loading.UnitType -> onLoading(type)
@@ -191,8 +191,8 @@ inline fun <C, T> UC<C>.foldTypes(
 }
 
 inline fun <L, E, T> LE<L, E>.foldTypes(
-    crossinline onLoading: (Type.Loading<L>) -> T,
-    crossinline onError: (Type.Error<E>) -> T
+    onLoading: (Type.Loading<L>) -> T,
+    onError: (Type.Error<E>) -> T
 ): T {
     return when (val type = asLceType()) {
         is Type.Loading -> onLoading(type)
@@ -202,8 +202,8 @@ inline fun <L, E, T> LE<L, E>.foldTypes(
 }
 
 inline fun <L, T> LT<L>.foldTypes(
-    crossinline onLoading: (Type.Loading<L>) -> T,
-    crossinline onError: (Type.Error.ThrowableType) -> T
+    onLoading: (Type.Loading<L>) -> T,
+    onError: (Type.Error.ThrowableType) -> T
 ): T {
     return when (val type = asLceType()) {
         is Type.Loading -> onLoading(type)
@@ -213,8 +213,8 @@ inline fun <L, T> LT<L>.foldTypes(
 }
 
 inline fun <E, T> UE<E>.foldTypes(
-    crossinline onLoading: (Type.Loading.UnitType) -> T,
-    crossinline onError: (Type.Error<E>) -> T
+    onLoading: (Type.Loading.UnitType) -> T,
+    onError: (Type.Error<E>) -> T
 ): T {
     return when (val type = asLceType()) {
         is Type.Loading.UnitType -> onLoading(type)
@@ -224,8 +224,8 @@ inline fun <E, T> UE<E>.foldTypes(
 }
 
 inline fun <T> UT.foldTypes(
-    crossinline onLoading: (Type.Loading.UnitType) -> T,
-    crossinline onError: (Type.Error.ThrowableType) -> T
+    onLoading: (Type.Loading.UnitType) -> T,
+    onError: (Type.Error.ThrowableType) -> T
 ): T {
     return when (val type = asLceType()) {
         is Type.Loading.UnitType -> onLoading(type)
