@@ -1,8 +1,6 @@
 [versions]
-kotlin = "1.9.10"
-dokka-gradle = "1.9.10"
-junit = "4.12"
-truth = "1.0.1"
+kotlin = "1.9.20"
+dokka-gradle = "1.9.20"
 
 [libraries]
 kotlin-gradle = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
@@ -11,3 +9,4 @@ maven-publish-gradle = { module = "com.vanniktech:gradle-maven-publish-plugin", 
 junit = { module = "junit:junit", version = "4.12" }
 truth = { module = "com.google.truth:truth", version = "1.0.1" }
 rxjava = { module = "io.reactivex.rxjava3:rxjava", version = "3.0.4" }
+coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version = "1.8.1" }
