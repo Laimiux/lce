@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 
-inline fun <C : Any, E> Flow<C>.toUCE(
+inline fun <C, E> Flow<C>.toUCE(
     crossinline mapError: (Throwable) -> E
 ): Flow<UCE<C, E>> {
     return this
@@ -20,14 +20,14 @@ inline fun <C : Any, E> Flow<C>.toUCE(
         .catch { UCE.error(mapError(it)) }
 }
 
-fun <C : Any> Flow<C>.toUCT(): Flow<UCT<C>> {
+fun <C> Flow<C>.toUCT(): Flow<UCT<C>> {
     return this
         .map { UCT.content(it) }
         .onStart { UCT.loading() }
         .catch { UCT.error(it) }
 }
 
-inline fun <C : Any, E> Flow<C>.toCE(
+inline fun <C, E> Flow<C>.toCE(
     crossinline mapError: (Throwable) -> E
 ): Flow<CE<C, E>> {
     return this
@@ -35,19 +35,19 @@ inline fun <C : Any, E> Flow<C>.toCE(
         .catch { CE.error(mapError(it)) }
 }
 
-fun <C : Any> Flow<C>.toCT(): Flow<CT<C>> {
+fun <C> Flow<C>.toCT(): Flow<CT<C>> {
     return this
         .map { CT.content(it) }
         .catch { CT.error(it) }
 }
 
-fun <C : Any> Flow<C>.toLC(): Flow<LC<Unit, C>> {
+fun <C> Flow<C>.toLC(): Flow<LC<Unit, C>> {
     return this
         .map { LC.content(it) }
         .onStart { LC.loading() }
 }
 
-fun <C : Any> Flow<C>.toUC(): Flow<UC<C>> {
+fun <C> Flow<C>.toUC(): Flow<UC<C>> {
     return this
         .map { UC.content(it) }
         .onStart { UC.loading() }

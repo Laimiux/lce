@@ -18,7 +18,7 @@ import kotlinx.coroutines.flow.flatMapMerge
 import kotlinx.coroutines.flow.flowOf
 
 @JvmName("onlyContentEventsUCE")
-fun <C : Any, E> Flow<UCE<C, E>>.onlyContentEvents(): Flow<C> {
+fun <C, E> Flow<UCE<C, E>>.onlyContentEvents(): Flow<C> {
     return flatMapMerge {
         it.fold(
             onLoading = { emptyFlow() },
@@ -29,7 +29,7 @@ fun <C : Any, E> Flow<UCE<C, E>>.onlyContentEvents(): Flow<C> {
 }
 
 @JvmName("onlyContentEventsUCT")
-fun <C : Any> Flow<UCT<C>>.onlyContentEvents(): Flow<C> {
+fun <C> Flow<UCT<C>>.onlyContentEvents(): Flow<C> {
     return flatMapMerge {
         it.fold(
             onLoading = { emptyFlow() },
@@ -40,7 +40,7 @@ fun <C : Any> Flow<UCT<C>>.onlyContentEvents(): Flow<C> {
 }
 
 @JvmName("onlyContentEventsCT")
-fun <C : Any> Flow<CT<C>>.onlyContentEvents(): Flow<C> {
+fun <C> Flow<CT<C>>.onlyContentEvents(): Flow<C> {
     return flatMapMerge {
         it.fold(
             onError = { emptyFlow() },
@@ -50,7 +50,7 @@ fun <C : Any> Flow<CT<C>>.onlyContentEvents(): Flow<C> {
 }
 
 @JvmName("onlyContentEventsLC")
-fun <L, C : Any> Flow<LC<L, C>>.onlyContentEvents(): Flow<C> {
+fun <L, C> Flow<LC<L, C>>.onlyContentEvents(): Flow<C> {
     return flatMapMerge {
         it.fold(
             onLoading = { emptyFlow() },
@@ -60,7 +60,7 @@ fun <L, C : Any> Flow<LC<L, C>>.onlyContentEvents(): Flow<C> {
 }
 
 @JvmName("onlyContentEventsUC")
-fun <C : Any> Flow<UC<C>>.onlyContentEvents(): Flow<C> {
+fun <C> Flow<UC<C>>.onlyContentEvents(): Flow<C> {
     return flatMapMerge {
         it.fold(
             onLoading = { emptyFlow() },
