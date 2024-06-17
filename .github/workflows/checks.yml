@@ -14,11 +14,12 @@ jobs:
       - uses: gradle/wrapper-validation-action@v1
       - uses: actions/setup-java@v1
         with:
-          java-version: 11
+          distribution: 'zulu'
+          java-version: 17
       - uses: actions/cache@v2
         with:
           path: ~/.gradle/caches
-          key: gradle--${{ hashFiles('**/build.gradle.kts') }}-${{ hashFiles('**/gradle/wrapper/gradle-wrapper.properties') }}-${{ hashFiles('**/dependencies.gradle') }}
+          key: gradle--${{ hashFiles('gradle/libs.versions.toml') }}-${{ hashFiles('**/build.gradle.kts') }}-${{ hashFiles('**/gradle/wrapper/gradle-wrapper.properties') }}
 
       - name: Core Unit tests
         run: ./gradlew :lce:test
