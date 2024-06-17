@@ -53,7 +53,7 @@ fun <C : Any> Maybe<C>.toUCT(): Observable<UCT<C>> {
 
 fun <C : Any> Observable<C>.toUCT(): Observable<UCT<C>> {
     return this
-        .map { UCT.content(it) }
+        .map { UCT.content(it) as UCT<C> }
         .startWithItem(UCT.loading())
         .onErrorReturn { UCT.error(it) }
 }
@@ -77,7 +77,6 @@ inline fun <C : Any, E> Maybe<C>.toCE(
     return toObservable().toCE(mapError)
 }
 
-@Suppress("USELESS_CAST")
 inline fun <C : Any, E> Observable<C>.toCE(
     crossinline mapError: (Throwable) -> E
 ): Observable<CE<C, E>> {
@@ -100,7 +99,7 @@ fun <C : Any> Maybe<C>.toCT(): Observable<CT<C>> {
 
 fun <C : Any> Observable<C>.toCT(): Observable<CT<C>> {
     return this
-        .map { CT.content(it) }
+        .map { CT.content(it) as CT<C> }
         .onErrorReturn { CT.error(it) }
 }
 
@@ -116,7 +115,6 @@ fun <C : Any> Maybe<C>.toLC(): Observable<LC<Unit, C>> {
     return toObservable().toLC()
 }
 
-@Suppress("USELESS_CAST")
 fun <C : Any> Observable<C>.toLC(): Observable<LC<Unit, C>> {
     return this
         .map { LC.content(it) as LC<Unit, C> }
@@ -137,6 +135,6 @@ fun <C : Any> Maybe<C>.toUC(): Observable<UC<C>> {
 
 fun <C : Any> Observable<C>.toUC(): Observable<UC<C>> {
     return this
-        .map { UC.content(it) }
+        .map { UC.content(it) as UC<C> }
         .startWithItem(UC.loading())
 }
