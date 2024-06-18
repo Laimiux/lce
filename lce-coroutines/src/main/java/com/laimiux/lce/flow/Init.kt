@@ -24,7 +24,7 @@ fun <C> Flow<C>.toUCT(): Flow<UCT<C>> {
     return this
         .map { UCT.content(it) }
         .onStart { UCT.loading() }
-        .catch { UCT.error(it) }
+        .catch { emit(UCT.error(it)) }
 }
 
 inline fun <C, E> Flow<C>.toCE(

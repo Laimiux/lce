@@ -116,8 +116,8 @@ You'll need to add the `lce-rxjava3` dependency to access these features.
 Converting a `Flow<T>` operation into `Flow<UCT<T>>`
 ```kotlin
 fun fetchData(): Flow<UCT<MyData>> = flow {
-    emit(MyData()).toUCT()
-}
+    emit(MyData())
+}.toUCT()
 ```
 You'll need to add the `lce-coroutines` dependency to access these features.
 
