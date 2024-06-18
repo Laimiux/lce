@@ -6,10 +6,20 @@ import com.laimiux.lce.UCT
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
 
 class FlowTest {
+
+    @Test
+    fun `loading from toUCT`() = runTest {
+        val flow = flow<String> {
+            // emits nothing
+        }.toUCT()
+
+        assertThat(flow.first()).isEqualTo(UCT.loading())
+    }
 
     @Test
     fun `content from toUCT`() = runTest {
@@ -17,17 +27,7 @@ class FlowTest {
             emit("Content")
         }.toUCT()
 
-        assertThat(flow.first()).isEqualTo(CT.content("Content"))
-    }
-
-    @Test
-    fun `error from toUCT`() = runTest {
-        val exception = RuntimeException("Some error")
-        val flow = flow<String> {
-            throw exception
-        }.toUCT()
-
-        assertThat(flow.first()).isEqualTo(UCT.error(exception))
+        assertThat(flow.last()).isEqualTo(CT.content("Content"))
     }
 
     @Test
@@ -38,7 +38,7 @@ class FlowTest {
             .toUCT()
             .mapContent { "$it mapped" }
 
-        assertThat(flow.first()).isEqualTo(CT.content("Content mapped"))
+        assertThat(flow.last()).isEqualTo(CT.content("Content mapped"))
     }
 
     @Test
@@ -51,6 +51,17 @@ class FlowTest {
                 flowOf("$it flatMapped").toLC()
             }
 
-        assertThat(flow.first()).isEqualTo(CT.content("Content flatMapped"))
+        assertThat(flow.last()).isEqualTo(CT.content("Content flatMapped"))
     }
+
+    @Test
+    fun `error from toUCT`() = runTest {
+        val exception = RuntimeException("Some error")
+        val flow = flow<String> {
+            throw exception
+        }.toUCT()
+
+        assertThat(flow.last()).isEqualTo(UCT.error(exception))
+    }
+
 }
