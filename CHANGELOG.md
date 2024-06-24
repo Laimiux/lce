@@ -1,5 +1,5 @@
 # Changelog
-## [0.4.0] - June 3, 2024
+## [0.4.0] - June 25, 2024
 - Added `lce-coroutines` module for Coroutine/Flow support.
 
 ## [0.3.4] - January 10, 2024
