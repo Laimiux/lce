@@ -3,6 +3,7 @@ package com.laimiux.lce.rxjava3
 import com.laimiux.lce.CE
 import com.laimiux.lce.CT
 import com.laimiux.lce.LC
+import com.laimiux.lce.LCE
 import com.laimiux.lce.UC
 import com.laimiux.lce.UCE
 import com.laimiux.lce.UCT
@@ -11,26 +12,58 @@ import io.reactivex.rxjava3.core.Maybe
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
 
-inline fun <C: Any, E> Completable.toUCE(
+inline fun <L, C : Any, E> Completable.toLCE(
+    value: C,
+    crossinline mapLoading: () -> L,
+    crossinline mapError: (Throwable) -> E
+): Observable<LCE<L, C, E>> {
+    return toSingleDefault(value).toLCE(mapLoading, mapError)
+}
+
+inline fun <L, C : Any, E> Single<C>.toLCE(
+    crossinline mapLoading: () -> L,
+    crossinline mapError: (Throwable) -> E
+): Observable<LCE<L, C, E>> {
+    return toObservable().toLCE(mapLoading, mapError)
+}
+
+inline fun <L, C : Any, E> Maybe<C>.toLCE(
+    crossinline mapLoading: () -> L,
+    crossinline mapError: (Throwable) -> E
+): Observable<LCE<L, C, E>> {
+    return toObservable().toLCE(mapLoading, mapError)
+}
+
+inline fun <L, C : Any, E> Observable<C>.toLCE(
+    crossinline mapLoading: () -> L,
+    crossinline mapError: (Throwable) -> E
+): Observable<LCE<L, C, E>> {
+    return this
+        .map { LCE.content(it) as LCE<L, C, E> }
+        .onErrorReturn { LCE.error(mapError(it)) }
+        .startWithItem(LCE.loading(mapLoading()))
+}
+
+inline fun <C : Any, E> Completable.toUCE(
     value: C,
     crossinline mapError: (Throwable) -> E
 ): Observable<UCE<C, E>> {
     return toSingleDefault(value).toUCE(mapError)
 }
 
-inline fun <C: Any, E> Single<C>.toUCE(
+inline fun <C : Any, E> Single<C>.toUCE(
     crossinline mapError: (Throwable) -> E
 ): Observable<UCE<C, E>> {
     return toObservable().toUCE(mapError)
 }
 
-inline fun <C: Any, E> Maybe<C>.toUCE(
+inline fun <C : Any, E> Maybe<C>.toUCE(
     crossinline mapError: (Throwable) -> E
 ): Observable<UCE<C, E>> {
     return toObservable().toUCE(mapError)
 }
 
-inline fun <C: Any, E> Observable<C>.toUCE(
+inline fun <C : Any, E> Observable<C>.toUCE(
     crossinline mapError: (Throwable) -> E
 ): Observable<UCE<C, E>> {
     return this
