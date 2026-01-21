@@ -8,6 +8,7 @@ import com.laimiux.lce.UCE
 import com.laimiux.lce.UCT
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
@@ -19,26 +20,14 @@ inline fun <C, E> Flow<C>.toUCE(
     return this
         .map { UCE.content(it) as UCE<C, E> }
         .onStart { emit(UCE.loading()) }
-        .catch {
-            if (it is CancellationException) {
-                throw it
-            } else {
-                emit(UCE.error(mapError(it)))
-            }
-        }
+        .catchNonCancellation { emit(UCE.error(mapError(it))) }
 }
 
 fun <C> Flow<C>.toUCT(): Flow<UCT<C>> {
     return this
         .map { UCT.content(it) }
         .onStart { emit(UCT.loading()) }
-        .catch {
-            if (it is CancellationException) {
-                throw it
-            } else {
-                emit(UCT.error(it))
-            }
-        }
+        .catchNonCancellation { emit(UCT.error(it)) }
 }
 
 @Suppress("USELESS_CAST")
@@ -47,25 +36,13 @@ inline fun <C, E> Flow<C>.toCE(
 ): Flow<CE<C, E>> {
     return this
         .map { CE.content(it) as CE<C, E> }
-        .catch {
-            if (it is CancellationException) {
-                throw it
-            } else {
-                emit(CE.error(mapError(it)))
-            }
-        }
+        .catchNonCancellation { emit(CE.error(mapError(it))) }
 }
 
 fun <C> Flow<C>.toCT(): Flow<CT<C>> {
     return this
         .map { CT.content(it) }
-        .catch {
-            if (it is CancellationException) {
-                throw it
-            } else {
-                emit(CT.error(it))
-            }
-        }
+        .catchNonCancellation { emit(CT.error(it)) }
 }
 
 fun <C> Flow<C>.toLC(): Flow<LC<Unit, C>> {
@@ -78,4 +55,16 @@ fun <C> Flow<C>.toUC(): Flow<UC<C>> {
     return this
         .map { UC.content(it) }
         .onStart { emit(UC.loading()) }
+}
+
+@PublishedApi
+internal fun <T> Flow<T>.catchNonCancellation(
+    onError: suspend FlowCollector<T>.(Throwable) -> Unit
+): Flow<T> {
+    return catch {
+        if (it is CancellationException) {
+            throw it
+        }
+        onError(it)
+    }
 }
