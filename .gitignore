@@ -17,3 +17,6 @@
 
 # Jenv
 .java-version
+
+# Claude
+.claude/settings.local.json

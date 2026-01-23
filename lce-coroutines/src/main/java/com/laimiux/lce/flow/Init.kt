@@ -6,12 +6,41 @@ import com.laimiux.lce.LC
 import com.laimiux.lce.UC
 import com.laimiux.lce.UCE
 import com.laimiux.lce.UCT
+import com.laimiux.lce.asUCT
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
+
+/**
+ * Runs the operation and returns a [CT] result.
+ */
+@Suppress("TooGenericExceptionCaught")
+suspend inline fun <Result> runCT(execute: suspend () -> Result): CT<Result> {
+    return try {
+        CT.content(execute())
+    } catch (e: CancellationException) {
+        // We need to emit cancellation errors
+        throw e
+    } catch (e: Throwable) {
+        CT.error(e)
+    }
+}
+
+/**
+ * Creates a flow that executes [operation] and emits a [UCT] for the operation [Result].
+ */
+inline fun <Result> uctFlow(crossinline operation: suspend () -> Result): Flow<UCT<Result>> {
+    return flow {
+        emit(UCT.loading())
+
+        val result = runCT(operation)
+        emit(result.asUCT())
+    }
+}
 
 @Suppress("USELESS_CAST")
 inline fun <C, E> Flow<C>.toUCE(

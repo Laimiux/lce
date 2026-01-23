@@ -99,4 +99,65 @@ class FlowTest {
             assertThat(e.message).isEqualTo("cancelled")
         }
     }
+
+    @Test
+    fun `runCT returns content on success`() = runTest {
+        val result = runCT { "Success" }
+        assertThat(result).isEqualTo(CT.content("Success"))
+    }
+
+    @Test
+    fun `runCT returns error on exception`() = runTest {
+        val exception = RuntimeException("Error")
+        val result = runCT { throw exception }
+        assertThat(result).isEqualTo(CT.error(exception))
+    }
+
+    @Test
+    fun `runCT rethrows CancellationException`() = runTest {
+        try {
+            runCT { throw CancellationException("cancelled") }
+            throw AssertionError("Expected CancellationException to be thrown")
+        } catch (e: CancellationException) {
+            assertThat(e.message).isEqualTo("cancelled")
+        }
+    }
+
+    @Test
+    fun `uctFlow emits loading first`() = runTest {
+        val flow = uctFlow { "Content" }
+        assertThat(flow.first()).isEqualTo(UCT.loading())
+    }
+
+    @Test
+    fun `uctFlow emits content on success`() = runTest {
+        val flow = uctFlow { "Success" }
+        val emissions = flow.toList()
+
+        assertThat(emissions).hasSize(2)
+        assertThat(emissions[0]).isEqualTo(UCT.loading())
+        assertThat(emissions[1]).isEqualTo(UCT.content("Success"))
+    }
+
+    @Test
+    fun `uctFlow emits error on exception`() = runTest {
+        val exception = RuntimeException("Error")
+        val flow = uctFlow<String> { throw exception }
+        val emissions = flow.toList()
+
+        assertThat(emissions).hasSize(2)
+        assertThat(emissions[0]).isEqualTo(UCT.loading())
+        assertThat(emissions[1]).isEqualTo(UCT.error(exception))
+    }
+
+    @Test
+    fun `uctFlow rethrows CancellationException`() = runTest {
+        val flow = uctFlow<String> { throw CancellationException("cancelled") }
+        try {
+            flow.collect()
+            throw AssertionError("Expected CancellationException to be thrown")
+        } catch (e: CancellationException) {
+            assertThat(e.message).isEqualTo("cancelled")
+        }
+    }
 }
