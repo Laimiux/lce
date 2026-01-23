@@ -1,34 +1,21 @@
-apply plugin: "signing"
 apply plugin: "com.vanniktech.maven.publish"
 
 if (project.hasProperty('releaseBuild')) {
     println "configuring signing key"
 
-    Properties properties = new Properties()
-    if (project.rootProject.file('local.properties').exists()) {
-        properties.load(project.rootProject.file('local.properties').newDataInputStream())
-    }
+    // Environment variables are expected to be set via export_signing.sh:
+    // - ORG_GRADLE_PROJECT_mavenCentralUsername
+    // - ORG_GRADLE_PROJECT_mavenCentralPassword
+    // - ORG_GRADLE_PROJECT_signingInMemoryKey
+    // - ORG_GRADLE_PROJECT_signingInMemoryKeyId
+    // - ORG_GRADLE_PROJECT_signingInMemoryKeyPassword
 
-    signing {
-        def signingKeyFilename = properties.signingKey
-
-        def signingKey = "${project.rootProject.file(signingKeyFilename).newDataInputStream()}"
-        def signingPassword = properties.signingPassword
-
-        useInMemoryPgpKeys(signingKey, signingPassword)
-    }
-
-    mavenPublish {
-        targets {
-            // Modify the existing uploadArchives task
-            uploadArchives {
-                repositoryUsername = properties.SONATYPE_NEXUS_USERNAME
-                repositoryPassword = properties.SONATYPE_NEXUS_PASSWORD
-            }
-        }
+    mavenPublishing {
+        publishToMavenCentral("CENTRAL_PORTAL")
+        signAllPublications()
     }
 } else {
-    mavenPublish {
-        releaseSigningEnabled = false
+    mavenPublishing {
+        publishToMavenCentral("CENTRAL_PORTAL")
     }
 }
