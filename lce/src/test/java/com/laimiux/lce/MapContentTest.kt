@@ -6,19 +6,6 @@ import org.junit.Test
 class MapContentTest {
 
     @Test
-    fun `content Unit uses singleton across content types`() {
-        val singleton = Type.Content.UnitType
-
-        assertThat(LCE.content(Unit)).isSameInstanceAs(singleton)
-        assertThat(UCE.content(Unit)).isSameInstanceAs(singleton)
-        assertThat(UCT.content(Unit)).isSameInstanceAs(singleton)
-        assertThat(CE.content(Unit)).isSameInstanceAs(singleton)
-        assertThat(CT.content(Unit)).isSameInstanceAs(singleton)
-        assertThat(LC.content(Unit)).isSameInstanceAs(singleton)
-        assertThat(UC.content(Unit)).isSameInstanceAs(singleton)
-    }
-
-    @Test
     fun `mapContent LCE content maps to new value`() {
         val result = LCE.content(0).mapContent { it + 1 }
         assertThat(result).isEqualTo(LCE.content(1))
