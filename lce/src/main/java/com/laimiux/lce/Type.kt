@@ -110,9 +110,7 @@ sealed class Type<out L, out C, out E> : LCE<L, C, E> {
         }
     }
 
-    data class Content<out C> @PublishedApi internal constructor(
-        val value: C
-    ) :
+    sealed class Content<out C> protected constructor() :
         Type<Nothing, C, Nothing>(),
         LCE<Nothing, C, Nothing>,
         UCE<C, Nothing>,
@@ -121,6 +119,16 @@ sealed class Type<out L, out C, out E> : LCE<L, C, E> {
         UC<C>,
         CE<C, Nothing>,
         CT<C> {
+
+        companion object {
+            @Suppress("UNCHECKED_CAST")
+            operator fun <C> invoke(value: C): Content<C> =
+                if (value === Unit) UnitType as Content<C> else Typed(value)
+        }
+
+        abstract val value: C
+
+        open operator fun component1(): C = value
 
         override fun isLoading(): Boolean = false
         override fun isContent(): Boolean = true
@@ -131,5 +139,13 @@ sealed class Type<out L, out C, out E> : LCE<L, C, E> {
         override fun loadingOrNull(): Nothing? = null
 
         override fun asLceType(): Type<Nothing, C, Nothing> = this
+
+        data object UnitType : Content<Unit>() {
+            override val value: Unit = Unit
+        }
+
+        data class Typed<out C> @PublishedApi internal constructor(
+            override val value: C
+        ) : Content<C>()
     }
 }
